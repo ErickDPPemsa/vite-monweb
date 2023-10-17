@@ -1,0 +1,48 @@
+@media only screen and (max-width: 1280px) {}
+
+@media only screen and (max-width: 992px) {
+    .container-top-menu {
+        .section-left {
+            .btn-icon {
+                transform: scale(1);
+            }
+        }
+    }
+
+    .container-nav {
+
+        .nav {
+            width: 0;
+            transform: translateX(-$width-nav);
+        }
+    }
+
+    .handle-show {
+        backdrop-filter: blur(1px);
+        position: absolute;
+        width: 100%;
+
+        .nav {
+            width: 280px;
+            transform: translateX(0);
+        }
+    }
+
+    .log-in-container {
+        grid-template-columns: 0px 1fr;
+
+        .banner {
+            box-shadow: none;
+
+            &-content {
+                display: none;
+            }
+
+            // transform: translateX(-450px);
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {}
+
+@media only screen and (max-width: 576px) {}

@@ -1,0 +1,81 @@
+@keyframes entryPathIcon {
+    0% {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
+}
+
+.button {
+    @extend .Title-medium;
+    border: none;
+    color: var(--surface);
+    height: 45px;
+    padding: 0 1rem;
+    border-radius: 6px;
+    background-color: var(--primary);
+    transition: all ease-in-out 200ms;
+    cursor: pointer;
+
+    &:hover {
+        box-shadow: none;
+        background-color: color-mix(in srgb, var(--primary) 70%, black);
+    }
+}
+
+.btn-icon {
+    @extend .elevation-2;
+    width: 35px;
+    height: 35px;
+    border: none;
+    background: none;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all ease-in-out 150ms;
+    border: 1px solid color-mix(in srgb, var(--surface) 85%, black);
+    background-color: color-mix(in srgb, var(--surface) 95%, black);
+    transition: background-color ease-in-out 150ms;
+
+    .icon {
+
+        path {
+            animation: entryPathIcon;
+            animation-duration: 255ms;
+            color: var(--primary)
+        }
+    }
+
+    &:hover {
+        background-color: color-mix(in srgb, var(--surface) 90%, black);
+    }
+
+}
+
+:root[data-theme="theme-dark"] {
+
+    .btn-icon {
+        background-color: color-mix(in srgb, var(--primary) 80%, white);
+
+        path {
+            color: color-mix(in srgb, var(--surface) 100%, white);
+        }
+
+        &:hover {
+            @extend .elevation-5;
+            background-color: color-mix(in srgb, var(--primary) 50%, white);
+        }
+    }
+
+    .button {
+        &:hover {
+            background-color: color-mix(in srgb, var(--primary) 60%, black);
+        }
+    }
+}

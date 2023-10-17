@@ -1,0 +1,17 @@
+export enum TypeScale {
+    display_large = 'Display-large',
+    display_medium = 'Display-medium',
+    display_small = 'Display-small',
+    headline_large = 'Headline-large',
+    headline_medium = 'Headline-medium',
+    headline_small = 'Headline-small',
+    title_large = 'Title-large',
+    title_medium = 'Title-medium',
+    title_small = 'Title-small',
+    label_large = 'Label-large',
+    label_medium = 'Label-medium',
+    label_small = 'Label-small',
+    body_large = 'Body-large',
+    body_medium = 'Body-medium',
+    body_small = 'Body-small',
+}

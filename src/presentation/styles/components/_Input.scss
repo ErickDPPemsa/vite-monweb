@@ -1,0 +1,117 @@
+.input-container {
+
+    .field-container {
+        color: var(--primary);
+        height: 50px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        flex: 1;
+        transition: color ease-in-out 150ms;
+
+        .field {
+            align-items: center;
+            background-color: var(--surface);
+            border-radius: 5px;
+            color: currentColor;
+            display: flex;
+            height: 100%;
+            outline: 1px solid color-mix(in srgb, var(--outline) 30%, white);
+            overflow: hidden;
+            padding: 8px 16px;
+            transition: all ease-in-out 150ms;
+            width: 100%;
+            border: 1px solid transparent;
+
+            &:hover {
+                cursor: text;
+                outline: 1px solid var(--outline);
+            }
+
+            &-error {
+                outline: 1px solid color-mix(in srgb, var(--error) 50%, white);
+            }
+
+            &-active {
+                outline: 1px solid currentColor;
+                border: 1px solid currentColor;
+
+                &:hover {
+                    outline: 1px solid currentColor;
+                }
+            }
+
+            .input {
+                appearance: none;
+                background: none;
+                border-radius: 0;
+                border: none;
+                color: var(--onSurface);
+                font-size: 1rem;
+                font-weight: 400;
+                min-width: 0;
+                padding: 0;
+                width: 100%;
+                transition: all ease-in-out 150ms;
+
+                &:focus {
+                    outline: none;
+                }
+
+            }
+
+            .icon-button {
+                background: none;
+                border: none;
+                border-radius: 50%;
+                display: grid;
+                place-items: center;
+                padding: 5px;
+                cursor: pointer;
+                margin-right: -8px;
+                margin-left: 8px;
+
+                svg {
+                    path {
+                        color: var(--outline);
+                    }
+                }
+            }
+
+        }
+
+        .floating-label {
+            background-color: var(--surface);
+            color: var(--outline);
+            cursor: text;
+            font-size: 1rem;
+            left: 16px;
+            line-height: 1.15rem;
+            overflow: hidden;
+            position: absolute;
+            text-align: center;
+            text-overflow: ellipsis;
+            transform-origin: left top;
+            transition-duration: 200ms;
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+            will-change: transform;
+
+            &-top {
+                padding: 0 10px;
+                height: auto;
+                color: currentColor;
+                transform: translate(-5px, -20px) scale(.7);
+                border-radius: 30%;
+            }
+        }
+    }
+
+    .text-error {
+        padding: 0 1rem;
+        margin-top: 5px;
+        color: var(--error);
+    }
+
+}

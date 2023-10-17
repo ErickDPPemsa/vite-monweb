@@ -1,0 +1,103 @@
+@import './variables';
+
+* {
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    color: var(--onSurface);
+}
+
+$up-shadow-elevation: color-mix(in srgb, var(--shadow) 14%, transparent);
+$down-shadow-eleavtion: color-mix(in srgb, var(--shadow) 12%, transparent);
+$expand-shadow-elevation: color-mix(in srgb, var(--shadow) 20%, transparent);
+
+$shadow-up: (
+    1: 0 0 1px 0 $up-shadow-elevation,
+    2: 0 0 3px 0 $up-shadow-elevation,
+    3: 0 1px 6px 0 $up-shadow-elevation,
+    4: 0 2px 4px 0 $up-shadow-elevation,
+    5: 0 4px 6px 0 $up-shadow-elevation,
+);
+
+$shadow-down: (
+    1: 0 1px 1px 0 $down-shadow-eleavtion,
+    2: 0 3px 3px 0 $down-shadow-eleavtion,
+    3: 0 3px 4px 0 $down-shadow-eleavtion,
+    4: 0 4px 5px 0 $down-shadow-eleavtion,
+    5: 0 4px 5px 0 $down-shadow-eleavtion,
+);
+
+$ambient-shadow: (
+    1: 0 0px 5px 0 $expand-shadow-elevation,
+    2: 0 1px 6px 0 $expand-shadow-elevation,
+    3: 0 1px 9px 0 $expand-shadow-elevation,
+    4: 0 1px 9px 0 $expand-shadow-elevation,
+    5: 0 1px 11px 0 $expand-shadow-elevation,
+);
+
+@mixin elevation ($elevation) {
+    box-shadow:
+        map-get($shadow-up, $elevation),
+        map-get($shadow-down, $elevation),
+        map-get($ambient-shadow, $elevation);
+}
+
+@for $elevation from 1 through 5 {
+    .elevation-#{$elevation} {
+        @include elevation($elevation);
+    }
+}
+
+@keyframes ripple {
+    0% {
+        opacity: 1;
+        transform: scale(0, 0);
+    }
+
+    20% {
+        opacity: 1;
+        transform: scale(15, 15);
+    }
+
+    100% {
+        opacity: 0;
+        transform: scale(40, 40);
+    }
+}
+
+.ripple {
+
+    &::after {
+        content: "";
+        position: absolute;
+        opacity: 0;
+        top: 50%;
+        left: 50%;
+        width: 5px;
+        height: 5px;
+        transform: translate(-50%, -50%) scale(1, 1);
+        background-color: rgba(160, 160, 160, 0.2);
+        border-radius: 100%;
+    }
+
+    &:focus:not(:active)::after {
+        animation: ripple 1s ease-out;
+    }
+
+
+}
+
+.text-color {
+    color: color-mix(in srgb, var(--primary) 50%, black);
+}
+
+:root[data-theme="theme-dark"] {
+    .text-color {
+        color: color-mix(in srgb, var(--primary) 50%, white);
+    }
+
+    .img-dark {
+        filter: grayscale(100%) contrast(1) invert(1);
+    }
+}

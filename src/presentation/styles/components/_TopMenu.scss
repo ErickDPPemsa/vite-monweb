@@ -1,0 +1,42 @@
+.container-top-menu {
+    display: flex;
+    height: 60px;
+    padding: 0 2rem;
+    position: relative;
+    width: 100%;
+
+    section {
+        align-items: center;
+        display: flex;
+        flex: 1;
+
+        img {
+            border-radius: 50%;
+            cursor: pointer;
+            height: 80%;
+            transition: box-shadow 150ms;
+            width: auto;
+
+            &:hover {
+                @extend .elevation-2;
+            }
+        }
+    }
+
+    .section-left {
+
+        .btn-icon {
+            transform: scale(0);
+            transition: transform 100ms ease-in-out 0ms;
+        }
+    }
+
+    .section-right {
+        justify-content: flex-end;
+        position: relative;
+
+        .btn-icon {
+            margin: 0 1rem;
+        }
+    }
+}
