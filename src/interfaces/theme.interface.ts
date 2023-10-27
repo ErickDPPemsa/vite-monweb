@@ -10,6 +10,7 @@ export interface ThemeColors {
 
 export interface ThemeActions {
     updateMode: (mode: ThemeMode) => void;
+    updateColor: (primary: string) => void;
 }
 
 export interface ThemeState extends ThemeActions {

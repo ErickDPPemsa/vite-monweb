@@ -1,6 +1,17 @@
+@media only screen and (width > 1280px) {
+    .main {
+        .container-user {
+            .container-table {
+                max-width: 1000px;
+            }
+        }
+    }
+}
+
 @media only screen and (max-width: 1280px) {}
 
 @media only screen and (max-width: 992px) {
+
     .container-top-menu {
         .section-left {
             .btn-icon {
@@ -10,15 +21,15 @@
     }
 
     .container-nav {
+        width: 0;
 
         .nav {
-            width: 0;
             transform: translateX(-$width-nav);
         }
     }
 
     .handle-show {
-        backdrop-filter: blur(1px);
+        background-color: rgba($color: #000000, $alpha: .3);
         position: absolute;
         width: 100%;
 
@@ -29,20 +40,144 @@
     }
 
     .log-in-container {
-        grid-template-columns: 0px 1fr;
+        display: flex;
+        flex-direction: column;
+        padding: 1rem;
 
         .banner {
-            box-shadow: none;
+            all: unset;
+            display: flex;
 
             &-content {
-                display: none;
+                padding: 0 1rem;
+
+                &_img {
+                    display: none;
+                }
             }
 
-            // transform: translateX(-450px);
+            .text {
+                font-size: $Headline-medium;
+                text-align: center;
+            }
+        }
+
+        .form-container {
+            flex: 1;
+        }
+
+    }
+
+    .container-modal {
+        .full-modal-size {
+            .add-user {
+                width: 500px;
+            }
         }
     }
+
 }
 
 @media only screen and (max-width: 768px) {}
 
-@media only screen and (max-width: 576px) {}
+@media only screen and (max-width: 576px) {
+    .log-in-container {
+        .banner {
+            .text {
+                font-size: $Title-large;
+            }
+        }
+
+        .form-container {
+            article {
+                width: 300px;
+            }
+
+            form {
+                .divide {
+                    all: unset;
+                }
+            }
+        }
+    }
+
+    .container-user {
+        overflow: auto;
+        padding: 1rem 1rem;
+
+        .container-table {
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+
+            .data {
+                display: block;
+                overflow: auto;
+                max-height: unset;
+            }
+        }
+    }
+
+    .container-table {
+
+        table {
+            border: 0;
+
+            caption {
+                font-size: 1.3em;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tr {
+                display: block;
+                margin-bottom: .625em;
+
+                .actions {
+                    display: flex;
+                    justify-content: flex-end;
+                    gap: 10px;
+                }
+
+                th,
+                td {
+                    height: auto;
+                }
+
+                td {
+                    display: block;
+                    font-size: $Body-medium;
+                    text-align: right;
+
+                    &:before {
+                        content: attr(data-label);
+                        float: left;
+                        font-weight: bold;
+                        text-transform: uppercase;
+                    }
+
+                    :last-child {
+                        border-bottom: 0;
+                    }
+                }
+            }
+        }
+    }
+
+    .container-modal {
+        .full-modal-size {
+            .add-user {
+
+                width: 90%;
+
+                form {
+                    .divide {
+                        all: unset;
+                    }
+                }
+            }
+        }
+    }
+}

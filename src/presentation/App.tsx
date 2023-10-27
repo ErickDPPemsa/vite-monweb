@@ -7,8 +7,8 @@ export const App = () => {
   useSetColors();
   const { isFetching } = useCheckAuth();
   return (
-    <main className="full-page">
-      {isFetching ? <Loader text="Verificando..." /> : <RouterProvider router={router} />}
-    </main>
+    <section className="full-page">
+      {isFetching ? <Loader text="Checking..." /> : <RouterProvider router={router} />}
+    </section>
   )
 }

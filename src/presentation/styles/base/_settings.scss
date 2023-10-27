@@ -5,7 +5,6 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    color: var(--onSurface);
 }
 
 $up-shadow-elevation: color-mix(in srgb, var(--shadow) 14%, transparent);
@@ -36,6 +35,29 @@ $ambient-shadow: (
     5: 0 1px 11px 0 $expand-shadow-elevation,
 );
 
+$margin: (
+    1:1px,
+    2:2px,
+    3:3px,
+    4:4px,
+    5:5px,
+    6:6px,
+    7:7px,
+    8:8px,
+    9:9px,
+    10:10px,
+    11:11px,
+    12:12px,
+    13:13px,
+    14:14px,
+    15:15px,
+    16:16px,
+    17:17px,
+    18:18px,
+    19:19px,
+    20:20px,
+);
+
 @mixin elevation ($elevation) {
     box-shadow:
         map-get($shadow-up, $elevation),
@@ -43,60 +65,24 @@ $ambient-shadow: (
         map-get($ambient-shadow, $elevation);
 }
 
+@mixin mt ($size) {
+    margin-top: map-get($margin, $size );
+}
+
+@for $i from 1 through 20 {
+    .mt-#{$i} {
+        @include mt($i);
+    }
+}
+
+
 @for $elevation from 1 through 5 {
     .elevation-#{$elevation} {
         @include elevation($elevation);
     }
 }
 
-@keyframes ripple {
-    0% {
-        opacity: 1;
-        transform: scale(0, 0);
-    }
-
-    20% {
-        opacity: 1;
-        transform: scale(15, 15);
-    }
-
-    100% {
-        opacity: 0;
-        transform: scale(40, 40);
-    }
-}
-
-.ripple {
-
-    &::after {
-        content: "";
-        position: absolute;
-        opacity: 0;
-        top: 50%;
-        left: 50%;
-        width: 5px;
-        height: 5px;
-        transform: translate(-50%, -50%) scale(1, 1);
-        background-color: rgba(160, 160, 160, 0.2);
-        border-radius: 100%;
-    }
-
-    &:focus:not(:active)::after {
-        animation: ripple 1s ease-out;
-    }
-
-
-}
-
-.text-color {
-    color: color-mix(in srgb, var(--primary) 50%, black);
-}
-
 :root[data-theme="theme-dark"] {
-    .text-color {
-        color: color-mix(in srgb, var(--primary) 50%, white);
-    }
-
     .img-dark {
         filter: grayscale(100%) contrast(1) invert(1);
     }

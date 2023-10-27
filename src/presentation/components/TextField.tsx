@@ -1,6 +1,6 @@
 import { Controller } from "react-hook-form"
 import { TextFieldProps } from "../interfaces/interfaces"
-import Input from "../../components/Input"
+import Input from "./Input"
 
 export const TextField = <T extends Object>({ control, name, labelText, ...props }: TextFieldProps<T>) => {
     return (

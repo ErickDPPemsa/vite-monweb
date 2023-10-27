@@ -1,0 +1,101 @@
+.container-table {
+    border: 1px solid color-mix(in srgb, var(--shadow) 30%, transparent);
+    color: var(--onSurface);
+
+    *::-webkit-scrollbar {
+        width: 1px;
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background-color: var(--primary);
+    }
+
+    .pagination {
+        display: flex;
+        width: 100%;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 1rem 1rem;
+        gap: 15px;
+
+        * {
+            text-wrap: balance;
+        }
+
+        span {
+            display: flex;
+            gap: 10px;
+
+            select {
+                border: none;
+                background: none;
+                outline: none;
+
+                * {
+                    background-color: var(--surface);
+                }
+            }
+
+            .rotate {
+                transform: rotate(180deg);
+            }
+        }
+    }
+
+    table {
+        border-collapse: collapse;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        table-layout: fixed;
+
+        thead {
+            background-color: color-mix(in srgb, var(--primary) 8%, white);
+            transition: background-color 150ms ease-in-out;
+        }
+
+        caption {
+            font-size: 1.5em;
+            margin: .5em 0 .75em;
+        }
+
+        tr {
+            padding: .35em;
+            border-bottom: 1px solid color-mix(in srgb, var(--primary) 8%, white);
+            transition: border-bottom 150ms ease-in-out;
+
+            .actions {
+                display: flex;
+                justify-content: center;
+                gap: 1px;
+            }
+
+            th,
+            td {
+                height: 2rem;
+                padding: .625em;
+                text-align: center;
+            }
+
+            th {
+                font-size: .85em;
+                letter-spacing: .1em;
+                text-transform: uppercase;
+            }
+        }
+    }
+}
+
+:root[data-theme="theme-dark"] {
+    .container-table {
+        table {
+            thead {
+                background-color: color-mix(in srgb, var(--surface) 90%, white);
+            }
+
+            tr {
+                border-bottom: 1px solid color-mix(in srgb, var(--primary) 30%, black);
+            }
+        }
+    }
+}

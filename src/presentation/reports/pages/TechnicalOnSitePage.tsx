@@ -1,8 +1,6 @@
 
-const TechnicalOnSitePage = () => {
+export const TechnicalOnSitePage = () => {
     return (
         <div>TechnicalOnSitePage</div>
     )
-}
-
-export default TechnicalOnSitePage
+};

@@ -1,2 +1,2 @@
-export { ModalUser } from "./Modal-user";
-export { Modal } from "./Modal";
+export { SettinsModalPortal } from "./SettinsModalPortal";
+export { Portal } from "./Portal";

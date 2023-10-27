@@ -6,7 +6,6 @@
 
     .nav {
         @extend .elevation-2;
-        @extend .text-color;
         background-color: var(--surface);
         width: $width-nav;
         height: 100%;
@@ -40,16 +39,10 @@
             }
 
             span {
-                color: currentColor;
+
+                color: var(--onSurface);
+
                 margin: 0 1rem;
-
-                .title {
-                    @extend .text-color;
-                }
-
-                .subtitle {
-                    @extend .text-color;
-                }
             }
         }
 
@@ -121,14 +114,6 @@
         .nav {
             .header {
                 background-color: color-mix(in srgb, var(--primary) 40%, black);
-
-                .title {
-                    color: color-mix(in srgb, var(--surface) 0%, white);
-                }
-
-                .subtitle {
-                    color: color-mix(in srgb, var(--surface) 15%, white);
-                }
             }
 
             .container-item {

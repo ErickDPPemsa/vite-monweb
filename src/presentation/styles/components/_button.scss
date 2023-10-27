@@ -10,9 +10,36 @@
     }
 }
 
+@keyframes rotating {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+.icon {
+    color: currentColor;
+    width: 25px;
+    height: 25px;
+
+    path {
+        color: currentColor;
+    }
+
+    &-rotate {
+        animation: rotating 10s linear infinite;
+    }
+}
+
 .button {
     @extend .Title-medium;
     border: none;
+    justify-content: center;
+    align-items: center;
     color: var(--surface);
     height: 45px;
     padding: 0 1rem;
@@ -21,61 +48,89 @@
     transition: all ease-in-out 200ms;
     cursor: pointer;
 
+    .icon {
+        color: currentColor;
+
+        path {
+            color: currentColor;
+        }
+    }
+
+    &-small {
+        @extend .button;
+        height: 40px;
+        display: inline-flex;
+        gap: 10px;
+    }
+
+
+
     &:hover {
         box-shadow: none;
-        background-color: color-mix(in srgb, var(--primary) 70%, black);
+        background-color: color-mix(in srgb, var(--primary) 60%, black);
     }
 }
 
 .btn-icon {
-    @extend .elevation-2;
-    width: 35px;
-    height: 35px;
-    border: none;
-    background: none;
-    border-radius: 10px;
+    all: unset;
+    padding: 5px;
     cursor: pointer;
+    border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all ease-in-out 150ms;
-    border: 1px solid color-mix(in srgb, var(--surface) 85%, black);
-    background-color: color-mix(in srgb, var(--surface) 95%, black);
-    transition: background-color ease-in-out 150ms;
+    color: var(--primary);
+    background-color: color-mix(in srgb, currentColor 3%, transparent);
 
-    .icon {
+    &-delete {
+        color: var(--error);
+    }
 
-        path {
-            animation: entryPathIcon;
-            animation-duration: 255ms;
-            color: var(--primary)
+    &-small {
+        .icon {
+            width: 22px;
+            height: 22px;
         }
     }
 
+
     &:hover {
-        background-color: color-mix(in srgb, var(--surface) 90%, black);
+        background-color: color-mix(in srgb, var(--surface) 80%, currentColor);
     }
 
 }
 
+.btn-icon-animate {
+    @extend .btn-icon;
+
+    .icon {
+        path {
+            animation: entryPathIcon;
+            animation-duration: 255ms;
+        }
+    }
+}
+
 :root[data-theme="theme-dark"] {
 
-    .btn-icon {
-        background-color: color-mix(in srgb, var(--primary) 80%, white);
-
-        path {
-            color: color-mix(in srgb, var(--surface) 100%, white);
-        }
-
-        &:hover {
-            @extend .elevation-5;
-            background-color: color-mix(in srgb, var(--primary) 50%, white);
-        }
-    }
-
     .button {
+        color: var(--surface);
+
         &:hover {
-            background-color: color-mix(in srgb, var(--primary) 60%, black);
+            background-color: color-mix(in srgb, var(--primary) 60%, white);
         }
     }
+
+    // .btn-icon {
+    //     color: var(--primary);
+
+    //     &-delete {
+    //         color: var(--error);
+    //     }
+
+    //     &:hover {
+    //         background-color: color-mix(in srgb, currentColor 40%, black);
+    //     }
+
+    // }
 }

@@ -13,14 +13,18 @@ export const useSetColors = () => {
         useEffect(() => {
             const isDarkSystem: boolean = window.matchMedia('(prefers-color-scheme: dark)').matches;
             Object.entries(colors).map(color => root.style.setProperty(`--color-${color[0]}`, `${color[1]}`));
-            (mode === ThemeMode.system) ?
+            // root.setAttribute("data-theme", "theme-light");
+            // root.setAttribute("data-theme", "theme-dark");
+            (mode === ThemeMode.system)
+                ?
                 (isDarkSystem)
                     ? root.setAttribute("data-theme", "theme-dark")
                     : root.setAttribute("data-theme", "theme-light")
-                : (mode === ThemeMode.light)
+                :
+                (mode === ThemeMode.light)
                     ? root.setAttribute("data-theme", "theme-light")
                     : root.setAttribute("data-theme", "theme-dark");
-        }, [mode])
+        }, [mode, colors])
         ,
         useEffect(() => {
             updateStatus(AuthStatus.pending);

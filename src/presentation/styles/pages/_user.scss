@@ -1,0 +1,42 @@
+.container-user {
+    @extend .full-flex;
+    padding: 1rem 2rem;
+    position: relative;
+    flex-direction: column;
+    color: var(--onSurface);
+
+    header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 0;
+
+        h1 {
+            @extend .Headline-large;
+            font-weight: 500;
+        }
+
+    }
+
+    .container-table {
+        border-radius: 10px;
+        margin: 1rem 0;
+        @extend .elevation-5;
+        margin: 1rem auto;
+
+        .search {
+            padding: .5rem 1rem;
+
+            .field {
+                width: 300px;
+                height: 40px;
+            }
+        }
+
+        .data {
+            width: 100%;
+            overflow: auto;
+            max-height: 400px;
+        }
+    }
+}

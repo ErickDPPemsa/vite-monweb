@@ -1,0 +1,98 @@
+@keyframes blur-in-expand {
+    0% {
+        transform: scale(0);
+        filter: blur(12px);
+        opacity: 0
+    }
+
+    100% {
+        transform: scale(1);
+        filter: blur(0);
+        opacity: 1
+    }
+}
+
+@keyframes blur-out-contract {
+    0% {
+        transform: scale(1);
+        filter: blur(.01px);
+    }
+
+    100% {
+        transform: scale(0);
+        filter: blur(12px);
+        opacity: 0
+    }
+}
+
+@keyframes scale-up-top-right {
+    0% {
+        transform: scale(0);
+        transform-origin: top right
+    }
+
+    100% {
+        transform: scale(1);
+        transform-origin: top right
+    }
+}
+
+@keyframes scale-down-top-right {
+    0% {
+        transform: scale(1);
+        transform-origin: right top;
+    }
+
+    100% {
+        transform: scale(0);
+        transform-origin: right top;
+    }
+}
+
+@keyframes scale-up-horizontal-right {
+    0% {
+        transform: scaleX(0);
+        transform-origin: right center
+    }
+
+    100% {
+        transform: scaleX(1);
+        transform-origin: right center
+    }
+}
+
+@keyframes scale-down-horizontal-right {
+    0% {
+        transform: scaleX(1);
+        transform-origin: center right
+    }
+
+    100% {
+        transform: scaleX(0);
+        transform-origin: center right
+    }
+}
+
+.blur-in-expand {
+    animation: blur-in-expand 0.2s linear both
+}
+
+.blur-out-contract {
+    animation: blur-out-contract 0.2s linear both
+}
+
+.scale-up-top-right {
+    animation: scale-up-top-right 0.2s;
+}
+
+.scale-down-top-right {
+    animation: scale-down-top-right 0.2s;
+}
+
+.scale-up-horizontal-right {
+    animation: scale-up-horizontal-right 0.2s
+}
+
+.scale-down-horizontal-right {
+    animation: scale-down-horizontal-right 0.4s
+}

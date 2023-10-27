@@ -1,16 +1,19 @@
 .log-in-container {
+    color: var(--onSurface);
     width: 100%;
     height: 100%;
-    padding: 0;
     display: grid;
     grid-template-columns: 450px 1fr;
-    transition: grid-template-columns 455ms cubic-bezier(0.175, 0.885, 0.32, 1.275) 0ms;
 
     .banner {
         display: flex;
         flex: 1;
         flex-direction: column;
-        padding: 2rem;
+        padding: 1rem;
+
+        .text {
+            font-weight: 500;
+        }
 
         &-logo {
             width: 4rem;
@@ -23,41 +26,41 @@
             flex-direction: column;
             justify-content: space-evenly;
 
-            &_text {
-                font-weight: 500;
-            }
-
-            &_img {
-                width: 100%;
-            }
         }
     }
 
     .form-container {
-        display: flex;
-        flex: 1;
+        @extend .full-flex;
         align-items: center;
         justify-content: center;
-        flex-direction: column;
+        position: relative;
 
-        &_text {
+        .btn-icon {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+        }
+
+        &_title {
+            @extend .Headline-large;
+            color: var(--onSurface);
             font-weight: 600;
         }
 
-        .custom-text {
-            margin: 1rem 0;
+        &_text {
+            @extend .Body-large;
+            color: var(--onSurface);
+            margin: 5px 0;
 
-            span {
+            strong {
                 color: var(--primary);
                 font-weight: 500;
                 text-decoration: underline;
-                text-transform: capitalize;
                 cursor: pointer;
             }
         }
 
         .separator {
-            width: 400px;
             display: flex;
             align-items: center;
 
@@ -70,15 +73,27 @@
                 border-top: 1px solid color-mix(in srgb, var(--outline) 30%, white);
             }
 
-            .text {
+            span {
+                @extend .Title-small;
                 color: var(--outline);
                 font-weight: lighter;
                 margin: 0 .5rem;
             }
         }
 
-        form {
+        article {
             width: 400px;
+        }
+
+        form {
+            .divide {
+                display: flex;
+                gap: 1rem;
+
+                .input-container {
+                    width: 100%;
+                }
+            }
 
             .input-container {
                 margin: 1rem 0;
@@ -89,6 +104,4 @@
             }
         }
     }
-
-
 }

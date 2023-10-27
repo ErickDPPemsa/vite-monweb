@@ -1,9 +1,6 @@
 
-const AttentionPage = () => {
+export const AttentionPage = () => {
     return (
         <div>AttentionPage</div>
     )
-}
-
-
-export default AttentionPage;
+};

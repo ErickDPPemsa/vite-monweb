@@ -1,39 +1,23 @@
 import React from "react";
 import { Text } from "./Text";
+import { useFieldChanges } from "../../hooks";
 
 export interface Props extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
     labelText?: string;
     error?: string;
+    styleContent?: React.CSSProperties;
+    styleField?: React.CSSProperties;
+    styleFloatingLabel?: React.CSSProperties;
+    leading?: React.ReactElement;
 }
 
-const Input = ({ labelText, error, ...props }: Props) => {
-    const textField = React.useRef<HTMLLabelElement>(null);
-    const floatingLabel = React.useRef<HTMLSpanElement>(null);
-    let inputRef = React.useRef<HTMLInputElement>(null);
-
-    React.useLayoutEffect(() => {
-        if (inputRef.current?.value.length !== 0) {
-            floatingLabel.current?.classList.add('floating-label-top');
-        }
-    }, [inputRef.current]);
-
-    const onFocus: React.FocusEventHandler<HTMLInputElement> = React.useCallback(() => {
-        floatingLabel.current?.classList.add('floating-label-top');
-        textField.current?.classList.add(`field-active`);
-    }, [textField.current, floatingLabel.current]);
-
-    const onBlur: React.FocusEventHandler<HTMLInputElement> = React.useCallback(
-        ({ target: { value } }) => {
-            textField.current?.classList.remove(`field-active`);
-            if (value.length === 0) {
-                floatingLabel.current?.classList.remove('floating-label-top');
-            }
-        }, [textField.current, floatingLabel.current]);
-
+const Input = ({ labelText, error, styleContent, styleField, styleFloatingLabel, leading, ...props }: Props) => {
+    const { inputRef, textField, floatingLabel, onBlur, onFocus } = useFieldChanges();
     return (
-        <div className="input-container">
-            <label className={`field-container`}>
-                <label ref={textField} className={`field ${error ? 'field-error' : ''}`}>
+        <div style={styleContent} className="input-container">
+            <label style={styleField} className={`field-container`}>
+                <label ref={textField} className={`field ${error ? 'field-error' : ''} ${leading ? 'field-leading' : ''}`}>
+                    {leading}
                     <input
                         className="input"
                         {...props}
@@ -42,9 +26,9 @@ const Input = ({ labelText, error, ...props }: Props) => {
                         onBlur={onBlur}
                     />
                 </label>
-                {labelText && <span ref={floatingLabel} className="floating-label">{labelText}</span>}
+                {labelText && <span style={styleFloatingLabel} ref={floatingLabel} className={`floating-label ${leading ? 'floating-label-leading' : ''}`}>{labelText}</span>}
             </label>
-            {error && <Text className="text-error">{error}</Text>}
+            {error && <Text variant="Body-medium" className="text-error">{error}</Text>}
         </div>
     )
 };

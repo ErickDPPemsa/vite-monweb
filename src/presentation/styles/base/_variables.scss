@@ -1,7 +1,7 @@
 :root[data-theme="theme-light"] {
     --primary: color-mix(in srgb, var(--color-primary) 100%, white);
     --surface: color-mix(in srgb, var(--color-surface) 100%, white);
-    --onSurface: color-mix(in srgb, var(--color-onSurface) 100%, white);
+    --onSurface: color-mix(in srgb, var(--primary) 50%, black);
     --outline: color-mix(in srgb, var(--color-outline) 100%, white);
     --error: color-mix(in srgb, var(--color-error) 100%, white);
     --shadow: color-mix(in srgb, var(--color-primary) 40%, white);
@@ -10,13 +10,14 @@
 :root[data-theme="theme-dark"] {
     --primary: color-mix(in srgb, var(--color-primary) 50%, white);
     --surface: color-mix(in srgb, var(--color-primary)20%, black);
-    --onSurface: color-mix(in srgb, var(--color-onSurface) 25%, white);
-    --outline: color-mix(in srgb, var(--color-outline) 50%, white);
-    --error: color-mix(in srgb, var(--color-error)50%, white);
+    --onSurface: color-mix(in srgb, var(--primary) 60%, white);
+    --outline: color-mix(in srgb, var(--color-outline) 60%, white);
+    --error: color-mix(in srgb, var(--color-error) 70%, white);
     --shadow: color-mix(in srgb, var(--color-primary) 50%, white);
 }
 
 $width-nav: 280px;
+$height-table: 280px;
 
 $Display-large: 57px;
 $Display-medium: 45px;
@@ -30,12 +31,10 @@ $Title-large: 22px;
 $Title-medium: 16px;
 $Title-small: 14px;
 
-$Label-large: 14px;
-$Label-medium: 12px;
-$Label-small: 11px;
-
 $Body-large: 16px;
 $Body-medium: 14px;
 $Body-small: 12px;
 
-$Text: 16px;
+$Label-large: 14px;
+$Label-medium: 12px;
+$Label-small: 11px;

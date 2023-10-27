@@ -1,16 +1,15 @@
 import { createBrowserRouter, Outlet } from 'react-router-dom';
-import { AuthLayout, RootLayout } from "../presentation/layouts";
-
-import LogInPage from "../presentation/auth/pages/LogInPage";
-import NotFoundPage from "../presentation/pages/not-found.page";
-import UsersPage from '../presentation/pages/UsersPage';
-import HomePage from '../presentation/pages/HomePage';
-import RegisterPage from '../presentation/auth/pages/RegisterPage';
+import { NotFoundPage } from "../presentation/pages/not-found.page";
+import { routesReports } from '../presentation/reports/routes/router';
+import { routesAuth } from '../presentation/auth/routes/router';
 
 export const router = createBrowserRouter([
     {
         path: '/',
-        element: <RootLayout />,
+        async lazy() {
+            const { RootLayout } = await import('../presentation/layouts/RootLayout');
+            return { Component: RootLayout };
+        },
         errorElement:
             <article className="content">
                 <NotFoundPage />
@@ -18,48 +17,31 @@ export const router = createBrowserRouter([
         children: [
             {
                 path: 'home',
-                element: <HomePage />
+                async lazy() {
+                    const { HomePage } = await import('../presentation/pages/HomePage');
+                    return { Component: HomePage };
+                }
             },
             {
                 path: 'users',
-                element: <UsersPage />
+                async lazy() {
+                    const { UsersPage } = await import('../presentation/pages/UsersPage');
+                    return { Component: UsersPage };
+                }
             },
             {
                 path: 'reports',
                 element: <Outlet />,
-                children: [
-                    {
-                        path: 'install-system',
-                        element: <>install-system</>
-                    },
-                    {
-                        path: 'system-request',
-                        element: <>system-request</>
-                    },
-                    {
-                        path: 'technical-on-site',
-                        element: <>technical-on-site</>
-                    },
-                    {
-                        path: 'attention',
-                        element: <>attention</>
-                    },
-                ]
+                children: routesReports
             }
         ]
     },
     {
         path: 'auth',
-        element: <AuthLayout />,
-        children: [
-            {
-                path: 'login',
-                element: <LogInPage />
-            },
-            {
-                path: 'register',
-                element: <RegisterPage />
-            }
-        ]
+        async lazy() {
+            const { AuthLayout } = await import('../presentation/layouts/AuthLayout');
+            return { Component: AuthLayout };
+        },
+        children: routesAuth,
     }
 ]);

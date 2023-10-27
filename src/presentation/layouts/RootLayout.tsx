@@ -16,12 +16,12 @@ export const RootLayout = () => {
     }
 
     return (
-        <article className="content">
+        <section className="content">
             <Nav />
-            <section className="main">
+            <main className="main">
                 <TopBar />
                 <Outlet />
-            </section>
-        </article>
+            </main>
+        </section>
     )
 }

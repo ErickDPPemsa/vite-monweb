@@ -7,8 +7,8 @@ interface Props {
     style?: React.CSSProperties | undefined;
     className?: string;
 }
-export const Text = ({ variant = TypeScale.label_medium, children, style, className }: Props) => {
+export const Text = ({ variant = 'Body-large', children, style, className }: Props) => {
     return (
-        <p style={style} className={`${variant} ${className ? className : 'text'}`}>{children}</p>
+        <p className={`text ${variant} ${className}`} style={style}>{children}</p>
     )
 }
