@@ -1,16 +1,15 @@
-import { useCallback, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { TypeUser, UsersRespose } from "../../interfaces";
 import { useAuthStore } from "../../stores";
-import { AddUser, CheveronLeft, Delete, Home, Search, X } from "../icons/icons";
+import { AddUser, CheveronLeft, Delete, Home, Search } from "../icons/icons";
 import { UserService } from "../../services";
 import { useQuery } from "@tanstack/react-query";
 import Input from "../components/Input";
 import { Text } from "../components/Text";
 import { Loader } from "../components/Loader";
 import { useHandleError } from "../../hooks";
-import { Portal } from "../components/modals";
-import { FormUserRegister } from "../components/FormRegister";
+import { CreateUserModalContent, Portal } from "../components/modals";
 
 export const UsersPage = () => {
     const user = useAuthStore(state => state.user);
@@ -19,33 +18,16 @@ export const UsersPage = () => {
     const [limit, setLimit] = useState(5);
     const [offSet, setOffSet] = useState(0);
 
-    const createUserDialog = useRef<HTMLDialogElement>(null);
+    const dialog = useRef<HTMLDialogElement>(null);
+    const createUserRef = useRef<HTMLDivElement>(null);
 
     const { data, isLoading, isFetching, error } = useQuery({
         queryKey: ['users', limit, offSet],
         queryFn: () => UserService.users(limit, offSet),
         refetchOnWindowFocus: true,
-
     });
 
     if (!isFetching && !isLoading && error) showError({ responseError: error, exit: true });
-
-    const ModalCreate = useCallback(
-        () => {
-            return (
-                <div className={`add-user blur-in-expand`}>
-                    <span>
-                        <h1>Crear nuevo usuario</h1>
-                        <button onClick={() => { }} className="btn-icon">
-                            <X />
-                        </button>
-                    </span>
-                    <FormUserRegister />
-                </div>
-            )
-        },
-        [],
-    );
 
     return (user?.role === TypeUser.user)
         ? <Navigate to="/home" />
@@ -53,14 +35,12 @@ export const UsersPage = () => {
         <article className="container-user">
             <header>
                 <h1>Users</h1>
-                <button className="button-small" onClick={() => {
-                    createUserDialog.current?.show()
-                }}>
+                <button className="button-small" onClick={() => dialog.current?.show()} >
                     <AddUser />
                     Add user
                 </button>
-                <Portal className="blur-2" onClosed={() => createUserDialog.current?.close()} refElement={createUserDialog}>
-                    <ModalCreate />
+                <Portal className="blur-2" refElement={dialog} onClosed={(close) => close && createUserRef.current?.classList.toggle('scale-down-center')} >
+                    <CreateUserModalContent dialog={dialog} reference={createUserRef} />
                 </Portal>
             </header>
             <section className="container-table">

@@ -12,3 +12,9 @@ export interface SelecFieldProps<T extends FieldValues> extends SelectProps {
     control: Control<T, any>;
     name: Path<T>;
 }
+
+export interface ModalContent {
+    dialog: React.RefObject<HTMLDialogElement>;
+    reference: React.RefObject<HTMLDivElement>;
+    rect?: DOMRect;
+}

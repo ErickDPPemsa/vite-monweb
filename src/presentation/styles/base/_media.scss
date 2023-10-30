@@ -68,11 +68,9 @@
 
     }
 
-    .container-modal {
-        .full-modal-size {
-            .add-user {
-                width: 500px;
-            }
+    .container-dialog {
+        .add-user {
+            width: 500px;
         }
     }
 
@@ -166,16 +164,13 @@
         }
     }
 
-    .container-modal {
-        .full-modal-size {
-            .add-user {
+    .container-dialog {
+        .add-user {
+            width: 90%;
 
-                width: 90%;
-
-                form {
-                    .divide {
-                        all: unset;
-                    }
+            form {
+                .divide {
+                    all: unset;
                 }
             }
         }

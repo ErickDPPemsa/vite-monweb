@@ -1,10 +1,10 @@
 :root[data-theme="theme-light"] {
     --primary: color-mix(in srgb, var(--color-primary) 100%, white);
     --surface: color-mix(in srgb, var(--color-surface) 100%, white);
-    --onSurface: color-mix(in srgb, var(--primary) 50%, black);
+    --onSurface: color-mix(in srgb, var(--primary) 10%, black);
     --outline: color-mix(in srgb, var(--color-outline) 100%, white);
     --error: color-mix(in srgb, var(--color-error) 100%, white);
-    --shadow: color-mix(in srgb, var(--color-primary) 40%, white);
+    --shadow: var(--outline);
 }
 
 :root[data-theme="theme-dark"] {
@@ -13,7 +13,7 @@
     --onSurface: color-mix(in srgb, var(--primary) 60%, white);
     --outline: color-mix(in srgb, var(--color-outline) 60%, white);
     --error: color-mix(in srgb, var(--color-error) 70%, white);
-    --shadow: color-mix(in srgb, var(--color-primary) 50%, white);
+    --shadow: var(--outline);
 }
 
 $width-nav: 280px;

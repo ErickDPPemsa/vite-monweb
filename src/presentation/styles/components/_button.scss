@@ -58,7 +58,8 @@
 
     &-small {
         @extend .button;
-        height: 40px;
+        @extend .Title-small;
+        height: 35px;
         display: inline-flex;
         gap: 10px;
     }

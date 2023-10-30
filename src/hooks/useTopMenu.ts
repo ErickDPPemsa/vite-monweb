@@ -1,4 +1,4 @@
-import React, { useRef, useState, useCallback, AnimationEvent } from 'react';
+import React, { useRef, useState, useCallback } from 'react';
 import { useAuthStore } from "../stores";
 type Dialogs = 'user' | 'config';
 export function useTopMenu() {
@@ -17,29 +17,6 @@ export function useTopMenu() {
         nav?.classList.toggle('handle-show')
     }
 
-    const onAnimationEnd = useCallback(
-        ({ currentTarget }: AnimationEvent<HTMLDivElement>) => {
-            if (currentTarget.classList.contains('scale-up-top-right')) {
-                currentTarget.classList.remove('scale-up-top-right');
-            }
-            if (currentTarget.classList.contains('scale-down-top-right')) {
-                currentTarget.classList.remove('scale-down-top-right');
-                dialog.current?.close();
-            }
-        },
-        [dialog],
-    );
-
-    const onClickExit = useCallback(
-        () => {
-            userDialog.current?.classList.add('scale-down-top-right');
-            userDialog.current?.addEventListener('animationend', () => {
-                LogOut();
-            });
-        },
-        [userDialog, LogOut],
-    );
-
     const onClickImage = useCallback(
         ({ currentTarget }: React.MouseEvent<HTMLImageElement, MouseEvent>) => {
             setSelectDialog('user');
@@ -50,8 +27,7 @@ export function useTopMenu() {
     )
 
     const onClickIconConfig = useCallback(
-        (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-            event;
+        () => {
             setSelectDialog('config');
             dialog.current?.show();
         },
@@ -60,27 +36,13 @@ export function useTopMenu() {
 
     const onClosed = useCallback(
         (close: boolean) => {
-            if (close) {
-
-                switch (selectDialog) {
-                    case 'user':
-                        userDialog.current?.classList.add('scale-down-top-right');
-                        break;
-
-                    // case 'config':
-                    //     dialog.current?.close();
-                    //     break;
-
-                    default:
-                        dialog.current?.close();
-                        break;
-                }
-            }
+            (close) &&
+                (selectDialog === 'user')
+                ? userDialog.current?.classList.add('scale-down-top-right')
+                : configDialog.current?.classList.add('scale-down-horizontal-right');
         },
         [selectDialog, dialog.current],
     )
 
-
-
-    return { rect, dialog, handleShow, user, LogOut, userDialog, onAnimationEnd, onClickExit, onClickImage, onClickIconConfig, onClosed, selectDialog, configDialog }
+    return { rect, dialog, handleShow, user, LogOut, userDialog, onClickImage, onClickIconConfig, onClosed, selectDialog, configDialog }
 }

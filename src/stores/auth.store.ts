@@ -1,5 +1,5 @@
 import { devtools, persist } from "zustand/middleware";
-import { AuthState, AuthStatus, User } from "../../interfaces";
+import { AuthState, AuthStatus, User } from "../interfaces";
 import { StateCreator, create } from "zustand";
 
 const storeApi: StateCreator<AuthState> = (set) => ({

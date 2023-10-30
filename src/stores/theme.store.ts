@@ -1,6 +1,6 @@
 import { StateCreator, create } from "zustand";
-import { ThemeMode, ThemeState } from "../../interfaces";
-import { Colors } from "../../config/colors";
+import { ThemeMode, ThemeState } from "../interfaces";
+import { Colors } from "../config/colors";
 import { devtools, persist, } from "zustand/middleware";
 
 

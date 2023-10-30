@@ -72,6 +72,7 @@
         padding: 1rem;
         border-radius: 10px;
         width: 600px;
+        color: var(--onSurface);
 
         span {
             display: flex;
@@ -143,6 +144,7 @@
                     color: currentColor;
                     min-width: 60px;
                     min-height: 60px;
+                    cursor: pointer;
 
                     .icon {
                         width: 30px;
@@ -180,6 +182,10 @@
                 padding: 1px;
             }
 
+            section {
+                margin: 1rem 0;
+            }
+
             .btn-icon {
                 .icon {
                     width: 40px;
@@ -210,6 +216,14 @@
             .details {
                 button:hover {
                     background-color: color-mix(in srgb, var(--primary) 80%, white);
+                }
+            }
+        }
+
+        .config {
+            &_colors {
+                .btn-icon {
+                    background-color: #fafafa;
                 }
             }
         }

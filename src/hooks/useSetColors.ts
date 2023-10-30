@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { AuthStatus, ThemeMode } from "../interfaces";
-import { useThemeStore } from "../stores/theme/theme.store";
+import { useThemeStore } from "../stores/theme.store";
 import { useAuthStore } from "../stores";
 
 export const useSetColors = () => {
@@ -13,8 +13,6 @@ export const useSetColors = () => {
         useEffect(() => {
             const isDarkSystem: boolean = window.matchMedia('(prefers-color-scheme: dark)').matches;
             Object.entries(colors).map(color => root.style.setProperty(`--color-${color[0]}`, `${color[1]}`));
-            // root.setAttribute("data-theme", "theme-light");
-            // root.setAttribute("data-theme", "theme-dark");
             (mode === ThemeMode.system)
                 ?
                 (isDarkSystem)
