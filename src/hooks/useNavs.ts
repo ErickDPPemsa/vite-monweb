@@ -17,14 +17,14 @@ export function useNavs() {
         path: string;
         title: string;
         icon: JSX.Element;
-        validate?: boolean;
+        validate: boolean;
     }> = [
-            { icon: Home(), title: 'Home', path: '/home' },
+            { validate: true, icon: Home(), title: 'Home', path: '/home' },
             { validate: (user?.role === TypeUser.admin), icon: Users(), title: 'Users', path: '/users' },
-            { icon: Panel(), title: 'Installed systems', path: '/reports/install-system' },
-            { icon: Ticket(), title: 'Srs - Sta', path: '/reports/system-request' },
-            { icon: InOut(), title: 'Tess - Tesse', path: '/reports/technical-on-site' },
-            { icon: Clock1(), title: 'Attention', path: '/reports/attention' },
+            { validate: true, icon: Panel(), title: 'Installed systems', path: '/reports/install-system' },
+            { validate: true, icon: Ticket(), title: 'Srs - Sta', path: '/reports/system-request' },
+            { validate: true, icon: InOut(), title: 'Tess - Tesse', path: '/reports/technical-on-site' },
+            { validate: true, icon: Clock1(), title: 'Attention', path: '/reports/attention' },
         ];
 
     return { AsideRef, Navs, user }

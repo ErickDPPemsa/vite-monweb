@@ -129,17 +129,11 @@ export const CheveronLeft = ({ classname }: { classname?: string }) => (
     </svg>
 );
 
-export const X = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+export const X = ({ classname, onClick }: { classname?: string, onClick?: React.MouseEventHandler<SVGSVGElement> }) => (
+    <svg onClick={onClick} xmlns="http://www.w3.org/2000/svg" className={`icon ${classname}`} width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-        <path d="M5 9l4 0l0 -4"></path>
-        <path d="M3 3l6 6"></path>
-        <path d="M5 15l4 0l0 4"></path>
-        <path d="M3 21l6 -6"></path>
-        <path d="M19 9l-4 0l0 -4"></path>
-        <path d="M15 9l6 -6"></path>
-        <path d="M19 15l-4 0l0 4"></path>
-        <path d="M15 15l6 6"></path>
+        <path d="M18 6l-12 12"></path>
+        <path d="M6 6l12 12"></path>
     </svg>
 )
 
@@ -155,7 +149,7 @@ export const Delete = () => (
 )
 
 export const Settings = ({ classname }: { classname?: string }) => (
-    <svg xmlns="http://www.w3.org/2000/svg" className={`icon ${classname ?? ''}`} width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+    <svg xmlns="http://www.w3.org/2000/svg" className={`icon ${classname}`} width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M10.325 4.317c.426 -1.756 2.924 -1.756 3.35 0a1.724 1.724 0 0 0 2.573 1.066c1.543 -.94 3.31 .826 2.37 2.37a1.724 1.724 0 0 0 1.065 2.572c1.756 .426 1.756 2.924 0 3.35a1.724 1.724 0 0 0 -1.066 2.573c.94 1.543 -.826 3.31 -2.37 2.37a1.724 1.724 0 0 0 -2.572 1.065c-.426 1.756 -2.924 1.756 -3.35 0a1.724 1.724 0 0 0 -2.573 -1.066c-1.543 .94 -3.31 -.826 -2.37 -2.37a1.724 1.724 0 0 0 -1.065 -2.572c-1.756 -.426 -1.756 -2.924 0 -3.35a1.724 1.724 0 0 0 1.066 -2.573c-.94 -1.543 .826 -3.31 2.37 -2.37c1 .608 2.296 .07 2.572 -1.065z"></path>
         <path d="M9 12a3 3 0 1 0 6 0a3 3 0 0 0 -6 0"></path>
@@ -169,5 +163,40 @@ export const Palette = () => (
         <path d="M8.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
         <path d="M12.5 7.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
         <path d="M16.5 10.5m-1 0a1 1 0 1 0 2 0a1 1 0 1 0 -2 0"></path>
+    </svg>
+)
+
+export const Spinner = ({ classname }: { classname?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={`icon ${classname ?? ''}`} width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M18 16v.01"></path>
+        <path d="M6 16v.01"></path>
+        <path d="M12 5v.01"></path>
+        <path d="M12 12v.01"></path>
+        <path d="M12 1a4 4 0 0 1 2.001 7.464l.001 .072a3.998 3.998 0 0 1 1.987 3.758l.22 .128a3.978 3.978 0 0 1 1.591 -.417l.2 -.005a4 4 0 1 1 -3.994 3.77l-.28 -.16c-.522 .25 -1.108 .39 -1.726 .39c-.619 0 -1.205 -.14 -1.728 -.391l-.279 .16l.007 .231a4 4 0 1 1 -2.212 -3.579l.222 -.129a3.998 3.998 0 0 1 1.988 -3.756l.002 -.071a4 4 0 0 1 -1.995 -3.265l-.005 -.2a4 4 0 0 1 4 -4z"></path>
+    </svg>
+)
+
+export const Caret = ({ classname }: { classname?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={`icon ${classname ?? ''}`} width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M6 10l6 6l6 -6h-12"></path>
+    </svg>
+)
+
+export const CloudDownload = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M19 18a3.5 3.5 0 0 0 0 -7h-1a5 4.5 0 0 0 -11 -2a4.6 4.4 0 0 0 -2.1 8.4"></path>
+        <path d="M12 13l0 9"></path>
+        <path d="M9 19l3 3l3 -3"></path>
+    </svg>
+)
+
+export const Pencil = () => (
+    <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+        <path d="M4 20h4l10.5 -10.5a2.828 2.828 0 1 0 -4 -4l-10.5 10.5v4"></path>
+        <path d="M13.5 6.5l4 4"></path>
     </svg>
 )

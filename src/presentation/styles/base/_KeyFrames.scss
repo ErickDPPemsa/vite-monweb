@@ -66,6 +66,18 @@
     }
 }
 
+@keyframes scale-up-horizontal-left {
+    0% {
+        transform: scaleX(.5);
+        transform-origin: left center
+    }
+
+    100% {
+        transform: scaleX(1);
+        transform-origin: left center
+    }
+}
+
 .scale-up-top-right {
     animation: scale-up-top-right 0.2s;
 }
@@ -88,4 +100,8 @@
 
 .scale-down-center {
     animation: scale-down-center 0.2s;
+}
+
+.scale-up-horizontal-left {
+    animation: scale-up-horizontal-left 0.4s
 }

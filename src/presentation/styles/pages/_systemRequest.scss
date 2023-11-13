@@ -1,0 +1,51 @@
+.container-app-sys {
+    padding: 1rem;
+
+    header {
+        color: var(--onSurface);
+
+        .top {
+            @extend .Title-large;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 5px;
+
+            .icon {
+                width: 30px;
+                height: 30px;
+            }
+
+            .container-buttons {
+                display: flex;
+                flex-wrap: wrap;
+                gap: .5rem;
+                align-items: center;
+                justify-content: flex-end;
+
+                .pickers {
+                    display: flex;
+                    flex-wrap: wrap;
+                    gap: 5px;
+                }
+
+                .buttons {
+                    display: flex;
+                    align-items: center;
+                    gap: 1rem;
+                }
+            }
+        }
+
+        .calendars {
+            display: flex;
+            width: 100%;
+            gap: 1rem;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+
+        }
+    }
+}

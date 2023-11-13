@@ -39,7 +39,7 @@ export const Nav = () => {
                 </div>
                 <section className="menu">
                     <ul>
-                        {Navs.map((props, idx) => <Item key={idx + 1} {...props} />)}
+                        {Navs.map(({ validate, ...props }, idx) => validate && <Item key={idx + 1} {...props} />)}
                     </ul>
                 </section>
             </nav >

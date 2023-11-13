@@ -30,6 +30,10 @@
         color: currentColor;
     }
 
+    &-spin {
+        animation: rotating 1.5s linear infinite;
+    }
+
     &-rotate {
         animation: rotating 10s linear infinite;
     }
@@ -46,6 +50,8 @@
     border-radius: 6px;
     background-color: var(--primary);
     transition: all ease-in-out 200ms;
+    display: inline-flex;
+    gap: 10px;
     cursor: pointer;
 
     .icon {
@@ -60,15 +66,16 @@
         @extend .button;
         @extend .Title-small;
         height: 35px;
-        display: inline-flex;
-        gap: 10px;
     }
-
-
 
     &:hover {
         box-shadow: none;
         background-color: color-mix(in srgb, var(--primary) 60%, black);
+    }
+
+    &:disabled {
+        color: lightgrey;
+        background-color: var(--outline);
     }
 }
 
@@ -83,6 +90,10 @@
     color: var(--primary);
     background-color: color-mix(in srgb, currentColor 3%, transparent);
 
+    .rotate {
+        transform: rotate(180deg);
+    }
+
     &-delete {
         color: var(--error);
     }
@@ -94,9 +105,12 @@
         }
     }
 
-
     &:hover {
         background-color: color-mix(in srgb, var(--surface) 80%, currentColor);
+    }
+
+    &:disabled {
+        color: var(--outline);
     }
 
 }

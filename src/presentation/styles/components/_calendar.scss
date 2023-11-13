@@ -1,0 +1,82 @@
+.container-calendar {
+    // max-width: 280px;
+    // min-width: 280px;
+    color: var(--onSurface);
+
+    .year {
+        color: currentColor;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        list-style: none;
+        text-align: center;
+        gap: 5px;
+        max-height: 400px;
+        overflow-y: auto;
+        justify-items: center;
+        padding: 1rem 0;
+
+        .value {
+            @extend .Title-small;
+            // width: max-content;
+            padding: .5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .current {
+            background-color: var(--primary);
+            color: var(--surface);
+        }
+
+    }
+
+
+    .calendar {
+        color: currentColor;
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        list-style: none;
+        text-align: center;
+        gap: 2px;
+
+        li {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px;
+            border: 1px solid transparent;
+            border-radius: 50%;
+            color: currentColor;
+        }
+
+        .day-name {
+            color: var(--onSurface);
+            font-weight: 400;
+        }
+
+        .today {
+            border-color: color-mix(in srgb, var(--primary) 40%, black);
+            border-color: var(--primary);
+        }
+
+        .selected {
+            background-color: var(--primary);
+            color: var(--surface);
+        }
+
+        .overflow {
+            color: color-mix(in srgb, var(--outline) 50%, transparent);
+        }
+
+        .Day {
+            cursor: pointer;
+
+            &:hover {
+                background-color: color-mix(in srgb, var(--primary) 30%, transparent);
+                color: var(--onSurface);
+            }
+        }
+    }
+}

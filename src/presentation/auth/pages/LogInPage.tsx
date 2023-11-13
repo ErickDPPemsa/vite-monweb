@@ -4,8 +4,9 @@ import { Link } from "react-router-dom";
 import { TextField } from "../../components/TextField";
 import { AuthService } from "../../../services/auth.service";
 import { useMutation } from "@tanstack/react-query";
-import { toast } from "sonner";
 import { useAuthStore } from "../../../stores";
+import { useHandleError } from "../../../hooks";
+import { Spinner } from "../../icons/icons";
 
 type InputsLogIn = {
   userName: string,
@@ -15,16 +16,15 @@ type InputsLogIn = {
 export const LogInPage = () => {
   const { handleSubmit, control } = useForm<InputsLogIn>({ defaultValues: { userName: '', password: '' } });
   const logIn = useAuthStore(state => state.logIn);
+  const { showError } = useHandleError();
+  const { mutate, isLoading } = useMutation(['logIn'], AuthService.login, { retry: 0 });
 
-  const { mutate } = useMutation([], AuthService.login, {
-    retry: 0,
-    onError: async err => toast.error(`${err}`),
-    onSuccess: ({ createdAt, updatedAt, token, ...rest }) => logIn(rest, token),
-  });
-
-  const onSubmit: SubmitHandler<InputsLogIn> = async (data) => {
-    mutate(data);
-  };
+  const onSubmit: SubmitHandler<InputsLogIn> = async (data) =>
+    mutate(data, {
+      onSuccess: ({ createdAt, updatedAt, token, ...rest }) => logIn(rest, token),
+      onError: error => showError({ responseError: error }),
+    });
+  ;
 
   return (
     <article>
@@ -45,7 +45,9 @@ export const LogInPage = () => {
           labelText="Password"
           type="password"
         />
-        <input className="button elevation-2" type="submit" value="Sign in" />
+        <button disabled={isLoading} className="button elevation-2" type="submit">
+          {isLoading ? <Spinner classname="icon-spin" /> : 'Sign in'}
+        </button>
       </form>
     </article>
   )

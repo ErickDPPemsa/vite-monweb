@@ -194,6 +194,108 @@
             }
         }
     }
+
+    .simple-select {
+        @extend .elevation-1;
+        position: absolute;
+        background-color: var(--surface);
+        display: flex;
+        flex-direction: column;
+        border-radius: .5rem;
+        padding: 5px;
+        gap: 5px;
+
+        button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            padding: 0 5px;
+            border-radius: 5px;
+
+            &:hover {
+                background-color: color-mix(in srgb, var(--primary) 20%, transparent);
+            }
+
+            .text {
+                @extend .Title-medium;
+            }
+        }
+    }
+
+    .calendar-picker {
+        @extend .elevation-2;
+        background-color: var(--surface);
+        color: var(--onSurface);
+        padding: 1rem;
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        border-radius: 1rem;
+
+        ::-webkit-calendar-picker-indicator {
+            display: none;
+        }
+
+        .icon {
+            width: 22px;
+            height: 22px;
+        }
+
+        header {
+            padding: .5rem;
+
+
+            p {
+                @extend .Label-large;
+            }
+
+            .edit-date {
+                margin-top: 2rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+
+                p {
+                    @extend .Headline-large;
+                    // font-weight: 500;
+                }
+            }
+        }
+
+        footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 5px;
+            padding-top: 1rem;
+        }
+
+        section {
+            max-width: 280px;
+            min-width: 280px;
+
+            .container-year {
+                display: flex;
+                justify-content: space-between;
+                padding: .5rem 0;
+
+
+                .select-year {
+                    @extend .Label-large;
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                }
+
+                .arrows {
+                    display: flex;
+                    gap: 5px;
+                }
+            }
+        }
+
+
+    }
 }
 
 .blur-1 {
@@ -202,6 +304,10 @@
 
 .blur-2 {
     backdrop-filter: blur(2px);
+}
+
+.snb {
+    background: none;
 }
 
 :root[data-theme="theme-dark"] {
@@ -225,6 +331,14 @@
                 .btn-icon {
                     background-color: #fafafa;
                 }
+            }
+        }
+
+        .simple-select {
+            background-color: color-mix(in srgb, var(--primary) 80%, white);
+
+            button:hover {
+                background-color: color-mix(in srgb, var(--primary) 10%, white);
             }
         }
     }

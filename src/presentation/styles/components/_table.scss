@@ -1,6 +1,7 @@
 .container-table {
     border: 1px solid color-mix(in srgb, var(--shadow) 30%, transparent);
     color: var(--onSurface);
+    width: 100%;
 
     *::-webkit-scrollbar {
         width: 1px;
@@ -26,13 +27,33 @@
             display: flex;
             gap: 10px;
 
-            select {
-                border: none;
-                background: none;
-                outline: none;
+            .select {
+                @extend .Title-small;
+                @extend .elevation-1;
+                padding: 3px 5px;
+                border: 1px solid color-mix(in srgb, var(--outline) 20%, transparent);
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                // gap: 2px;
+                background-color: var(--surface);
+                color: var(--onSurface);
+                cursor: pointer;
 
-                * {
-                    background-color: var(--surface);
+                .icon {
+                    width: 20px;
+                    height: 20px;
+                }
+
+                &:hover {
+                    box-shadow: none;
+
+                    .icon {
+                        path {
+                            color: var(--primary);
+                        }
+                    }
                 }
             }
 

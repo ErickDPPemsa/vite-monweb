@@ -18,6 +18,14 @@
             flex: 1;
             flex-direction: column;
             overflow: auto;
+
+            .Page {
+                @extend .full-flex;
+                padding: 1rem;
+                position: relative;
+                flex-direction: column;
+                color: var(--onSurface);
+            }
         }
     }
 }

@@ -13,8 +13,35 @@ export interface SelecFieldProps<T extends FieldValues> extends SelectProps {
     name: Path<T>;
 }
 
-export interface ModalContent {
+export interface ModalContent extends PropsForm {
     dialog: React.RefObject<HTMLDialogElement>;
     reference: React.RefObject<HTMLDivElement>;
     rect?: DOMRect;
+}
+
+export interface PropsForm {
+    onSuccess?: (exit: boolean) => void;
+}
+
+/**Data-table */
+
+export interface PropsSelect<T> {
+    label: string;
+    value: T;
+}
+
+export interface Key<T> {
+    key: keyof T;
+    key2?: string;
+    title?: string;
+    select?: boolean;
+    style?: React.CSSProperties;
+}
+
+export interface PropsDataTable<T> {
+    title: string;
+    data: Array<T>;
+    id: keyof T;
+    keys: Array<Key<T>>;
+    indices?: boolean;
 }

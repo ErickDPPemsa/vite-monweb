@@ -30,6 +30,7 @@
             border-radius: 7px;
             background-color: color-mix(in srgb, var(--surface) 96%, black);
             transition: background-color .5s;
+            gap: .5rem;
 
             img {
                 width: 50px;
@@ -39,10 +40,7 @@
             }
 
             span {
-
                 color: var(--onSurface);
-
-                margin: 0 1rem;
             }
         }
 
@@ -58,50 +56,24 @@
                 border-radius: 5px;
                 cursor: pointer;
                 border-left: 2px solid transparent;
-
-                .icon {
-                    margin-right: 1rem;
-                }
-
-                .text {
-                    color: var(--outline);
-                }
+                gap: 1rem;
+                color: var(--outline);
 
                 path {
-                    color: var(--outline);
+                    color: currentColor;
                 }
 
                 &-active {
                     @extend .elevation-1;
                     background-color: color-mix(in srgb, var(--surface) 96%, black);
-                    color: currentColor;
+                    color: var(--primary);
                     border-color: var(--primary);
-
-                    .icon {
-                        path {
-                            color: color-mix(in srgb, var(--primary) 70%, black);
-                        }
-
-                        margin-right: 1rem;
-                    }
-
-                    .text {
-                        color: color-mix(in srgb, var(--primary) 70%, black);
-                    }
                 }
 
                 &:hover {
                     @extend .elevation-1;
-
-                    .icon {
-                        path {
-                            color: color-mix(in srgb, var(--primary) 70%, black);
-                        }
-                    }
-
-                    .text {
-                        color: color-mix(in srgb, var(--primary) 70%, black);
-                    }
+                    background-color: color-mix(in srgb, var(--surface) 96%, black);
+                    color: var(--primary);
                 }
             }
 

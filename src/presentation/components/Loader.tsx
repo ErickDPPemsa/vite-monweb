@@ -1,18 +1,31 @@
 import { Text } from "./Text"
 
-export const Loader = ({ text, isFetching }: { text?: string, isFetching?: boolean }) => {
+const Loader = ({ text, isFetching }: { text?: string, isFetching?: boolean }) => {
     return (
-        <span className="full-flex content-loader">
-            {isFetching}
-            {/* <span style={{ marginBottom: '2rem' }} className="loader"></span> */}
-            <div className="packman"></div>
-            <Text children={text} />
+        <span className={`content-loader ${isFetching && 'content-loader-fetching'}`}>
+            {isFetching ? <span className="loader-spin" /> : <Radio />}
+            {text && <Text variant="Title-small" children={text} />}
         </span>
     )
 }
 
-export const Packman = () => {
-    return (
-        <div className="packman"></div>
-    )
+const Load = () => (
+    <span className="loader-dots">
+        <div className="dot" />
+        <div className="dot" />
+        <div className="dot" />
+        <div className="dot" />
+    </span>
+);
+
+const Radio = () => (
+    <span style={{ width: '50px', height: '50px' }}>
+        <div className="loader-radio" />
+    </span>
+);
+
+export {
+    Loader,
+    Load,
+    Radio
 }
