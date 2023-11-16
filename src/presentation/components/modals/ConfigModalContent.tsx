@@ -46,12 +46,16 @@ export const ConfigModalContent = ({ dialog, reference }: ModalContent) => {
                 <Text>Colors</Text>
                 <section>
                     <button onClick={() => updateColor(Colors.primary)} style={{ color: Colors.primary }} className='btn-icon' children={<Palette />} />
+                    <button onClick={() => updateColor('#002f6c')} style={{ color: '#002f6c' }} className='btn-icon' children={<Palette />} />
+                    <button onClick={() => updateColor('#097188')} style={{ color: '#097188' }} className='btn-icon' children={<Palette />} />
                     <button onClick={() => updateColor('#7c46a3')} style={{ color: '#7c46a3' }} className='btn-icon' children={<Palette />} />
-                    <button onClick={() => updateColor('#2b165c')} style={{ color: '#2b165c' }} className='btn-icon' children={<Palette />} />
-                    <button onClick={() => updateColor('#3ca3e4')} style={{ color: '#3ca3e4' }} className='btn-icon' children={<Palette />} />
-                    <button onClick={() => updateColor('#59596a')} style={{ color: '#59596a' }} className='btn-icon' children={<Palette />} />
+                    <button onClick={() => updateColor('#a87bc7')} style={{ color: '#a87bc7' }} className='btn-icon' children={<Palette />} />
+                    <button onClick={() => updateColor('#191919')} style={{ color: '#191919' }} className='btn-icon' children={<Palette />} />
+                    <button onClick={() => updateColor('#04293A')} style={{ color: '#04293A' }} className='btn-icon' children={<Palette />} />
+                    <button onClick={() => updateColor('#1E5128')} style={{ color: '#1E5128' }} className='btn-icon' children={<Palette />} />
+                    <button onClick={() => updateColor('#420516')} style={{ color: '#420516' }} className='btn-icon' children={<Palette />} />
+                    <button onClick={() => updateColor('#a29607')} style={{ color: '#a29607' }} className='btn-icon' children={<Palette />} />
                     <button onClick={() => updateColor('#000')} style={{ color: '#000' }} className='btn-icon' children={<Palette />} />
-                    <button onClick={() => updateColor('#6b9267')} style={{ color: '#6b9267' }} className='btn-icon' children={<Palette />} />
                 </section>
                 <button className='button-small'>Set default</button>
             </div>

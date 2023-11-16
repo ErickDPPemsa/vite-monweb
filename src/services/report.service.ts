@@ -1,5 +1,5 @@
 import { monwebApi } from "../api/monweb.api";
-import { ResponseApplicationSystem, ResponseInstallerSystem } from "../interfaces";
+import { ResponseApplicationSystem, ResponseAttention, ResponseInstallerSystem, ResponseTechnicalOnSite } from "../interfaces";
 
 export class ReportService {
 
@@ -10,6 +10,16 @@ export class ReportService {
 
     static applicationSystem = async ({ start, end }: { start: string, end: string }): Promise<ResponseApplicationSystem> => {
         const { data } = await monwebApi.get<ResponseApplicationSystem>(`/report/solicitud-sistema`, { params: { start, end } });
+        return data;
+    }
+
+    static technicalObSite = async ({ start, end }: { start: string, end: string }): Promise<ResponseTechnicalOnSite> => {
+        const { data } = await monwebApi.get<ResponseTechnicalOnSite>(`/report/tecnico-en-sitio`, { params: { start, end } });
+        return data;
+    }
+
+    static attention = async ({ start, end }: { start: string, end: string }): Promise<ResponseAttention> => {
+        const { data } = await monwebApi.get<ResponseAttention>(`/report/atencion`, { params: { start, end } });
         return data;
     }
 }

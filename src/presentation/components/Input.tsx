@@ -11,10 +11,11 @@ export interface Props extends React.DetailedHTMLProps<React.InputHTMLAttributes
     styleFloatingLabel?: React.CSSProperties;
     leading?: React.ReactElement;
     trailing?: React.ReactElement;
+    reference?: React.RefObject<HTMLInputElement>;
 }
 
-const Input = ({ labelText, error, styleContent, styleField, styleFloatingLabel, leading, trailing, classNameContent, ...props }: Props) => {
-    const { inputRef, textField, floatingLabel, onBlur, onFocus } = useFieldChanges();
+const Input = ({ labelText, error, styleContent, styleField, styleFloatingLabel, leading, trailing, classNameContent, reference, ...props }: Props) => {
+    const { inputRef, textField, floatingLabel, onBlur, onFocus } = useFieldChanges({ reference });
     return (
         <div style={styleContent} className={`input-container ${classNameContent}`}>
             <label style={styleField} className={`field-container`}>

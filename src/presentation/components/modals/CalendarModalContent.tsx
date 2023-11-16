@@ -7,14 +7,14 @@ import Input from "../Input";
 
 interface PropsPicker extends ModalContent {
     onChenge: (date: Date) => void;
+    locale?: 'es' | 'en';
 }
 
-export const CalendarModalContent = ({ dialog, reference, onChenge }: PropsPicker) => {
+export const CalendarModalContent = ({ dialog, reference, onChenge, locale = 'es' }: PropsPicker) => {
     const [date, setDate] = useState<Date>(new Date());
     const [isSelectYear, setIsSelectYear] = useState<boolean>(false);
     const [isCustomDate, setIsCustomDate] = useState<boolean>(false);
 
-    const locale = 'en';
     const intlForMonths = new Intl.DateTimeFormat(locale, { month: 'long' });
     const intlForShortMonths = new Intl.DateTimeFormat(locale, { month: 'short' });
     const monthName = intlForMonths.format(date);

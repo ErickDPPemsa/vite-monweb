@@ -15,12 +15,16 @@ export const CreateUserModalContent = ({ reference, dialog, onSuccess }: ModalCo
         [dialog],
     );
 
-    const Success = (exit: boolean) => {
-        if (exit) {
-            reference.current?.classList.toggle('scale-down-center');
-        }
-        onSuccess && onSuccess(exit);
-    }
+    const Success = useCallback(
+        (exit: boolean) => {
+            if (exit && reference.current) {
+                reference.current.classList.toggle('scale-down-center');
+            }
+            onSuccess && onSuccess(exit);
+        },
+        [reference.current],
+    )
+
 
     return (
         <div ref={reference} className={`add-user scale-up-center`} onAnimationEnd={onAnimationEnd}>
@@ -31,7 +35,8 @@ export const CreateUserModalContent = ({ reference, dialog, onSuccess }: ModalCo
                 </button>
             </span>
             <FormUserRegister onSuccess={Success} />
-        </div >
+        </div>
+
     )
 }
 

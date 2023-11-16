@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { modDate } from '../../../helper/functions';
 
 export const Calendar = ({ date, onChange, isSelectYear }: {
@@ -6,11 +6,10 @@ export const Calendar = ({ date, onChange, isSelectYear }: {
     onChange: (date: Date) => void;
     isSelectYear?: boolean;
 }) => {
-    const currentDate: Date = new Date();
+    const currentDate = new Date();
+    const [daysOfMonth, setDaysOfMonth] = useState<number>(0);
+    const [startsOn, setStartsOn] = useState<number>(0);
 
-    const nextMonthIndex = (date.getMonth() + 1) % 12
-    const daysOfMonth = new Date(date.getFullYear(), nextMonthIndex, 0).getDate()
-    const startsOn = new Date(date.getFullYear(), date.getMonth(), 1).getDay() + 1;
 
     const days = [...Array(daysOfMonth).keys()];
 
@@ -38,7 +37,7 @@ export const Calendar = ({ date, onChange, isSelectYear }: {
             return (
                 <>
                     <Day start={startsOn} day={1} />
-                    {days.slice(1, days.length).map(day => <Day key={day + 1} day={day + 1} />)}
+                    {days.slice(0, days.length - 1).map((_, idx) => <Day key={idx + 2} day={idx + 2} />)}
                 </>
             )
         },
@@ -58,14 +57,18 @@ export const Calendar = ({ date, onChange, isSelectYear }: {
             )
         },
         [date, onChange],
-    )
-        ;
+    );
 
     const RenderYears = useCallback(
         () => new Array(15).fill('').map((_, idx) => <RenderYear key={currentDate.getFullYear() + 3 - idx} year={currentDate.getFullYear() + 3 - idx} />).reverse(),
         [currentDate, date],
     )
 
+    useEffect(() => {
+        const { date: { year, month } } = modDate({ dateI: date });
+        setDaysOfMonth(new Date(year, month, 0).getDate());
+        setStartsOn(new Date(year, month - 1, 1).getDay() + 1);
+    }, [date]);
 
     return (
         <div className="container-calendar">

@@ -13,7 +13,7 @@ export interface Props extends PropsSelect {
 }
 
 const Select = ({ labelText, error, styleContent, styleField, styleFloatingLabel, leading, ...props }: Props) => {
-    const { textField, onBlur, onFocus } = useFieldChanges();
+    const { textField, onBlur, onFocus } = useFieldChanges({});
 
     return (
         <div style={styleContent} className="input-container">

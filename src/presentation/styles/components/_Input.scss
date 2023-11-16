@@ -179,20 +179,54 @@
     }
 
     .container-date {
+        @extend .Body-medium;
+        @extend .elevation-2;
         position: fixed;
         padding: 1rem;
-        background-color: red;
-        @extend .Body-medium;
+        background-color: var(--surface);
         margin-top: 10px;
+        border-radius: 10px;
+        z-index: 10;
 
-        .calendar {
-            background: pink;
+        header {
+            display: flex;
+            gap: 10px;
 
-            li {
-                width: 30px;
-                height: 30px;
+            .btn-icon {
+                .icon {
+                    width: 22px;
+                    height: 22px;
+                }
+            }
+
+            .select {
+                display: flex;
+                gap: 5px;
+
+                span {
+                    display: flex;
+                    align-items: center;
+                }
             }
         }
+
+        section {
+            padding: .5rem 0;
+
+            .calendar {
+                li {
+                    width: 30px;
+                    height: 30px;
+                }
+            }
+        }
+
+        footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 5px;
+        }
+
     }
 
 }

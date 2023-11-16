@@ -80,7 +80,7 @@
                 }
 
                 td {
-                    @extend .Label-large;
+                    @extend .Body-medium;
                 }
             }
 
@@ -93,9 +93,8 @@
                 }
 
                 td {
-                    font-weight: 300;
-                    padding: 0 10px;
-
+                    // font-weight: lighter;
+                    padding: 5px 10px;
                 }
 
                 &:nth-child(even) {

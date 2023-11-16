@@ -64,11 +64,21 @@ export interface Panel {
 }
 
 export interface ResponseApplicationSystem {
-    data: Event<AlarmApplicationSystem>[];
+    srs: Event<AlarmApplicationSystem>[];
+    sta: Event<AlarmApplicationSystem>[];
+    pendingSrs: Event<AlarmApplicationSystem>[];
+}
+
+export interface ResponseTechnicalOnSite {
+    tess: Event<AlarmTechnicalOnSite>[];
+    tese: Event<AlarmTechnicalOnSite>[];
+}
+
+export interface ResponseAttention {
+    events: Event<string>[];
 }
 
 export interface Event<T> {
-    CodigoCte: string;
     FechaOriginal: string;
     Hora: string;
     CodigoEvento: string;
@@ -86,9 +96,18 @@ export interface Event<T> {
     HoraPrimeraToma: string;
     FechaFinalizo: string;
     HoraFinalizo: string;
+    CodigoCte: string;
+    CodigoAbonado?: string;
+    Comment?: string;
+    Minutes?: number;
 }
 
 export enum AlarmApplicationSystem {
     Srs = "SRS",
     Sta = "STA",
+}
+
+export enum AlarmTechnicalOnSite {
+    Tese = "TESE",
+    Tess = "TESS",
 }

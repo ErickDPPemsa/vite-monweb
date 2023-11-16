@@ -12,6 +12,8 @@ import { useHandleError } from "../../hooks";
 import { CreateUserModalContent, Portal } from "../components/modals";
 import { toast } from "sonner";
 import { SimpleSelect } from "../components/SimpleSelect";
+import { Table } from "../components/Table";
+import { Key } from "../interfaces/interfaces";
 
 interface PropsSelect<T> {
     label: string;
@@ -21,6 +23,13 @@ const Rows: Array<PropsSelect<number>> = [
     { label: '10', value: 10 },
     { label: '15', value: 15 },
     { label: '100', value: 100 },
+];
+
+const Keys: Array<Key<UsersRespose>> = [
+    { key: 'fullName' },
+    { key: 'userName' },
+    { key: 'role' },
+    { key: 'isActive' },
 ];
 
 export const UsersPage = () => {
@@ -46,7 +55,7 @@ export const UsersPage = () => {
         mutationFn: UserService.delete,
     });
 
-    const deleteUser = (id: string) => (event: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+    const deleteUser = (id: string) => () => {
         const oldData = queryClient.getQueryData<Array<UsersRespose>>(['users', limit, offSet]);
         queryClient.setQueryData(['users', limit, offSet], () => oldData?.filter(user => user.id !== id));
         DeleteMutation.mutate(id, {
@@ -60,6 +69,7 @@ export const UsersPage = () => {
             }
         });
     }
+
 
     if (!isFetching && !isLoading && error) showError({ responseError: error, exit: true });
 
@@ -77,12 +87,16 @@ export const UsersPage = () => {
                     <CreateUserModalContent dialog={dialog} reference={createUserRef} onSuccess={(exit) => { exit && refetch() }} />
                 </Portal>
             </header>
+            {/* <section>
+                <Table data={data ?? []} keyId="id" keys={Keys} nameTable="Users" />
+            </section> */}
             <section className="container-table">
                 <div className="search">
                     <Input
                         leading={<Search />}
-                        labelText="Search user"
+                        // labelText="Search user"
                         name="filter"
+                        placeholder="Search user"
                         onChange={({ target: { value } }) => {
                             if (value.length > 0)
                                 setFilter(data?.filter(user => user.fullName.toLowerCase().includes(value)))
@@ -133,11 +147,6 @@ export const UsersPage = () => {
                     <span>
                         <Text>Rows per page:</Text>
                         <SimpleSelect selected={limit.label} options={Rows} onSelect={setLimit} />
-                        {/* <select disabled={(isFetching || isLoading) ? true : false} className="elevation-1 Title-medium" name="rows" onChange={({ target: { value } }) => setLimit(+value)}>
-                            <option value="5">5</option>
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                        </select> */}
                     </span>
                     <Text>{`${offSet}–${offSet + limit.value} of 24`}</Text>
                     <span>

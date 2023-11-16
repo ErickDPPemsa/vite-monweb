@@ -19,12 +19,14 @@
         @extend .elevation-1;
         margin: 1rem auto;
 
+
         .search {
-            padding: .5rem 1rem;
+            width: 300px;
+            margin: .5rem 1rem;
 
             .field {
-                width: 300px;
                 height: 40px;
+                width: 100%;
             }
         }
 

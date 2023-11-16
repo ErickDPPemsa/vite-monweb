@@ -1,9 +1,9 @@
 import React from "react";
 
-export function useFieldChanges() {
+export function useFieldChanges({ reference }: { reference?: React.RefObject<HTMLInputElement> }) {
     const textField = React.useRef<HTMLLabelElement>(null);
     const floatingLabel = React.useRef<HTMLSpanElement>(null);
-    let inputRef = React.useRef<HTMLInputElement>(null);
+    let inputRef = reference ?? React.useRef<HTMLInputElement>(null);
 
     React.useLayoutEffect(() => {
         if (inputRef.current?.value.length !== 0) {
@@ -29,6 +29,6 @@ export function useFieldChanges() {
         floatingLabel,
         inputRef,
         onFocus,
-        onBlur
+        onBlur,
     }
 }

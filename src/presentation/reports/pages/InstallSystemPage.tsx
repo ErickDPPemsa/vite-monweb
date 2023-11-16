@@ -36,6 +36,7 @@ export const InstallSystemPage = () => {
             </header>
             <section className="content-data">
                 <DataTable
+                    starFilter="Nombre"
                     indices
                     title="Installed systems"
                     data={data?.accounts.filter(account => account.panel.Modelo) ?? []}
@@ -43,6 +44,7 @@ export const InstallSystemPage = () => {
                     keys={Keys}
                 />
                 <DataTable
+                    starFilter="Nombre"
                     indices
                     title="No registered system"
                     data={data?.accounts.filter(account => !account.panel.Modelo) ?? []}

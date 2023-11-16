@@ -1,4 +1,5 @@
 .container-app-sys {
+    color: var(--onSurface);
     padding: 1rem;
 
     header {
@@ -28,6 +29,7 @@
                     display: flex;
                     flex-wrap: wrap;
                     gap: 5px;
+                    justify-content: center;
                 }
 
                 .buttons {

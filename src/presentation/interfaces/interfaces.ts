@@ -31,7 +31,7 @@ export interface PropsSelect<T> {
 }
 
 export interface Key<T> {
-    key: keyof T;
+    key: keyof T | Array<keyof T>;
     key2?: string;
     title?: string;
     select?: boolean;
@@ -44,4 +44,5 @@ export interface PropsDataTable<T> {
     id: keyof T;
     keys: Array<Key<T>>;
     indices?: boolean;
+    starFilter: keyof T;
 }

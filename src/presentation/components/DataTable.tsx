@@ -4,7 +4,6 @@ import { Text } from './Text';
 import { SimpleSelect } from './SimpleSelect';
 import Input from './Input';
 import { PropsDataTable, PropsSelect } from '../interfaces/interfaces';
-import { Loader } from './Loader';
 
 
 const Rows: Array<PropsSelect<number>> = [
@@ -13,13 +12,13 @@ const Rows: Array<PropsSelect<number>> = [
     { label: '100', value: 100 },
 ];
 
-export const DataTable = <T extends Object>({ keys, data, id, indices, title }: PropsDataTable<T>) => {
+export const DataTable = <T extends Object>({ keys, data, id, indices, title, starFilter }: PropsDataTable<T>) => {
     const className = 'container-data-table';
     const [isSearch, setIsSearch] = useState<boolean>(false);
     const [rows, setRows] = useState<PropsSelect<number>>(Rows[0]);
     const [page, setPage] = useState<number>(1);
     const [filter, setfilter] = useState<typeof data>();
-    const [keyFilter, setKeyFilter] = useState<keyof T>(keys[0].key);
+    const [keyFilter, setKeyFilter] = useState<keyof T>(starFilter);
 
 
     const start: number = page > 1 ? ((((page - 1) * rows.value) + rows.value) - rows.value) : (page - 1);
@@ -35,23 +34,26 @@ export const DataTable = <T extends Object>({ keys, data, id, indices, title }: 
 
     const Row = (row: T, idx: number) => {
         return (
-            <tr key={`${row[id]}`}>
+            <tr key={`${row[id]}${idx}`}>
                 {indices && <td data-label='#' key={`index-${(idx + 1)}`}>{idx + 1 + start}</td>}
-                {keys.map(({ key, key2, style, title }, idx) => (typeof row[key] === 'object' && key2)
-                    ? <td data-label={title ?? key.toString()} style={style} key={`${idx}-${row[key]}`}>{getValue(row[key] as Object, key2)}</td>
-                    : <td data-label={title ?? key.toString()} style={style} key={`${row[key]}`}>{String(row[key])}</td>
+                {keys.map(({ key, key2, style, title }, idx) =>
+                    Array.isArray(key) ?
+                        <td data-label={title ?? key.toString()} style={style} key={`${idx}-${Array.isArray(key) && row[key[0]]}`}>{key.map(key => String(row[key])).join(' ')}</td>
+                        : (typeof row[key] === 'object' && key2)
+                            ? <td data-label={title ?? key.toString()} style={style} key={`${idx}-${row[key]}`}>{getValue(row[key] as Object, key2)}</td>
+                            : <td data-label={title ?? key.toString()} style={style} key={`${row[key]}`}>{String(row[key])}</td>
                 )}
             </tr>
         )
     }
 
-    const Next = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const Next = () => {
         if (page < maxPages) {
             setPage(page + 1);
         }
     }
 
-    const Previous = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    const Previous = () => {
         if (page > 1) {
             setPage(page - 1);
         }
@@ -68,7 +70,7 @@ export const DataTable = <T extends Object>({ keys, data, id, indices, title }: 
             setfilter(undefined);
         } else {
             setfilter(data.filter(element => {
-                if (`${element[keyFilter]}`.toLowerCase().includes(value)) {
+                if (!Array.isArray(keyFilter) && `${element[keyFilter]}`.toLowerCase().includes(value)) {
                     return element
                 }
             }));
@@ -77,7 +79,8 @@ export const DataTable = <T extends Object>({ keys, data, id, indices, title }: 
 
     useEffect(() => {
         if (page > maxPages) setPage(maxPages);
-    }, [rows])
+        else setPage(1);
+    }, [rows, data]);
 
 
     return (
@@ -113,7 +116,7 @@ export const DataTable = <T extends Object>({ keys, data, id, indices, title }: 
                     <thead>
                         <tr>
                             {indices && <th>#</th>}
-                            {keys.map(({ key, title, select }) => <th onClick={() => select && setKeyFilter(key)} className={`${keyFilter === key && 'selected'}`} key={key.toString()}>{title ?? key.toString()}</th>)}
+                            {keys.map(({ key, title, select }) => <th onClick={() => select && !Array.isArray(key) && setKeyFilter(key)} className={`${keyFilter === key && 'selected'}`} key={key.toString()}>{title ?? key.toString()}</th>)}
                         </tr>
                     </thead>
                     <tbody>
