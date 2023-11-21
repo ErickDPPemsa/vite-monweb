@@ -12,13 +12,13 @@ import { ReportService } from "../../../services";
 import { useQuery } from "@tanstack/react-query";
 
 const Keys: Array<Key<Event<string>>> = [
-    { key: 'DescripcionAlarm', title: 'Alarm description', style: { textAlign: 'center' }, select: true },
-    { key: 'CodigoCte', title: 'Client', style: { textAlign: 'center' }, select: true },
-    { key: 'CodigoAlarma', title: 'Alarm', style: { textAlign: 'center' }, select: true },
-    { key: ['FechaOriginal', 'Hora'], title: 'Date Hour', select: true, style: { textAlign: 'center', minWidth: '170px' } },
-    { key: ['FechaPrimeraToma', 'HoraPrimeraToma'], title: 'Firts take', select: true, style: { textAlign: 'center', minWidth: '170px' } },
-    { key: 'Minutes', title: 'Minutes', select: true, style: { textAlign: 'center', minWidth: '170px' } },
-    { key: 'ClaveMonitorista', title: 'Operator', select: true, style: { textAlign: 'center', minWidth: '170px' } },
+    { wildcard: '--', key: 'DescripcionAlarm', title: 'Alarm description', style: { textAlign: 'center' } },
+    { wildcard: '--', key: 'CodigoCte', title: 'Client', style: { textAlign: 'center' } },
+    { wildcard: '--', key: 'CodigoAlarma', title: 'Alarm', style: { textAlign: 'center' } },
+    { wildcard: '--', key: ['FechaOriginal', 'Hora'], title: 'Date Hour', style: { textAlign: 'center', minWidth: '170px' } },
+    { wildcard: '--', key: ['FechaPrimeraToma', 'HoraPrimeraToma'], title: 'Firts take', style: { textAlign: 'center', minWidth: '170px' } },
+    { wildcard: '--', key: 'Minutes', title: 'Minutes', style: { textAlign: 'center', minWidth: '170px' } },
+    { wildcard: '--', key: 'ClaveMonitorista', title: 'Operator', style: { textAlign: 'center', minWidth: '170px' } },
 ];
 
 export const AttentionPage = () => {
@@ -64,8 +64,7 @@ export const AttentionPage = () => {
             </header>
             <section className="content-data" style={{ display: 'flex', gap: '1rem', padding: '1rem 0' }}>
                 <DataTable
-                    starFilter="CodigoAlarma"
-                    title="Tese"
+                    title="Alarm attention"
                     data={data?.events ?? []}
                     id='CodigoCte'
                     keys={Keys}

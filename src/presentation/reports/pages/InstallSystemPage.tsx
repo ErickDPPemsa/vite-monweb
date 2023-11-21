@@ -8,10 +8,10 @@ import { Account } from "../../../interfaces";
 import { Spinner } from "../../icons/icons";
 
 const Keys: Array<Key<Account>> = [
-    { key: 'Nombre', title: 'Name', select: true, style: { fontWeight: '400' } },
-    { key: 'CodigoAbonado', title: 'Subscriber', style: { textAlign: 'center' }, select: true },
-    { key: 'CodigoCte', title: 'Client', style: { textAlign: 'center' }, select: true },
-    { key: 'panel', 'key2': 'Modelo', style: { textAlign: 'center' } }
+    { wildcard: '--', key: 'Nombre', title: 'Name', style: { fontWeight: '400' } },
+    { wildcard: '--', key: 'CodigoAbonado', title: 'Subscriber', style: { textAlign: 'center' } },
+    { wildcard: '--', key: 'CodigoCte', title: 'Client', style: { textAlign: 'center' } },
+    { wildcard: '--', key: 'panel', 'key2': 'Modelo', style: { textAlign: 'center' } }
 ];
 
 export const InstallSystemPage = () => {
@@ -36,7 +36,6 @@ export const InstallSystemPage = () => {
             </header>
             <section className="content-data">
                 <DataTable
-                    starFilter="Nombre"
                     indices
                     title="Installed systems"
                     data={data?.accounts.filter(account => account.panel.Modelo) ?? []}
@@ -44,7 +43,6 @@ export const InstallSystemPage = () => {
                     keys={Keys}
                 />
                 <DataTable
-                    starFilter="Nombre"
                     indices
                     title="No registered system"
                     data={data?.accounts.filter(account => !account.panel.Modelo) ?? []}

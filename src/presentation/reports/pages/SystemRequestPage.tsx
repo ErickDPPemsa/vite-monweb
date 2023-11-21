@@ -12,10 +12,10 @@ import { AlarmApplicationSystem, Event } from "../../../interfaces";
 import { useHandleError } from "../../../hooks";
 
 const Keys: Array<Key<Event<AlarmApplicationSystem>>> = [
-    { key: ['FechaOriginal', 'Hora'], title: 'Date Hour', select: true, style: { textAlign: 'center', fontWeight: '400' } },
-    { key: 'CodigoAlarma', title: 'Alarm', style: { textAlign: 'center' }, select: true },
-    { key: 'CodigoAbonado', title: 'Subscriber', style: { textAlign: 'center' }, select: true },
-    { key: 'CodigoCte', title: 'Client', style: { textAlign: 'center' }, select: true },
+    { wildcard: '--', key: ['FechaOriginal', 'Hora'], title: 'Date Hour', style: { textAlign: 'center', fontWeight: '400' } },
+    { wildcard: '--', key: 'CodigoAlarma', title: 'Alarm', style: { textAlign: 'center' } },
+    { wildcard: '--', key: 'CodigoAbonado', title: 'Subscriber', style: { textAlign: 'center' } },
+    { wildcard: '--', key: 'CodigoCte', title: 'Client', style: { textAlign: 'center' } },
 ];
 
 export const SystemRequestPage = () => {
@@ -61,21 +61,18 @@ export const SystemRequestPage = () => {
             </header>
             <section className="content-data" style={{ display: 'flex', gap: '1rem', padding: '1rem 0' }}>
                 <DataTable
-                    starFilter="CodigoAlarma"
                     title="Srs"
                     data={data?.srs ?? []}
                     id='CodigoCte'
                     keys={Keys}
                 />
                 <DataTable
-                    starFilter="CodigoAlarma"
                     title="Sta"
                     data={data?.sta ?? []}
                     id='CodigoCte'
                     keys={Keys}
                 />
                 <DataTable
-                    starFilter="CodigoAlarma"
                     title="Pending srs"
                     data={data?.pendingSrs ?? []}
                     id='CodigoCte'

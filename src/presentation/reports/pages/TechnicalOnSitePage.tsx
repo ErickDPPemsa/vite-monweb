@@ -12,11 +12,11 @@ import { AlarmTechnicalOnSite, Event } from "../../../interfaces";
 import { useHandleError } from "../../../hooks";
 
 const Keys: Array<Key<Event<AlarmTechnicalOnSite>>> = [
-    { key: ['FechaOriginal', 'Hora'], title: 'Date Hour', select: true, style: { minWidth: '170px' } },
-    { key: 'CodigoAlarma', title: 'Alarm', style: { textAlign: 'center' }, select: true },
-    { key: 'CodigoAbonado', title: 'Subscriber', style: { textAlign: 'center' }, select: true },
-    { key: 'CodigoCte', title: 'Client', style: { textAlign: 'center' }, select: true },
-    { key: 'Comment', title: 'Client', style: { fontSize: '12px' }, select: true, },
+    { wildcard: '--', key: ['FechaOriginal', 'Hora'], title: 'Date Hour', style: { minWidth: '170px' } },
+    { wildcard: '--', key: 'CodigoAlarma', title: 'Alarm', style: { textAlign: 'center' } },
+    { wildcard: '--', key: 'CodigoAbonado', title: 'Subscriber', style: { textAlign: 'center' } },
+    { wildcard: '--', key: 'CodigoCte', title: 'Client', style: { textAlign: 'center' } },
+    { wildcard: '--', key: 'Comment', title: 'Client', style: { fontSize: '12px' }, },
 ];
 
 export const TechnicalOnSitePage = () => {
@@ -64,14 +64,12 @@ export const TechnicalOnSitePage = () => {
             </header>
             <section className="content-data" style={{ display: 'flex', gap: '1rem', padding: '1rem 0' }}>
                 <DataTable
-                    starFilter="CodigoAlarma"
                     title="Tese"
                     data={data?.tese ?? []}
                     id='CodigoCte'
                     keys={Keys}
                 />
                 <DataTable
-                    starFilter="CodigoAlarma"
                     title="Tess"
                     data={data?.tess ?? []}
                     id='CodigoCte'

@@ -32,9 +32,9 @@ export interface PropsSelect<T> {
 
 export interface Key<T> {
     key: keyof T | Array<keyof T>;
+    wildcard: string;
     key2?: string;
     title?: string;
-    select?: boolean;
     style?: React.CSSProperties;
 }
 
@@ -43,6 +43,6 @@ export interface PropsDataTable<T> {
     data: Array<T>;
     id: keyof T;
     keys: Array<Key<T>>;
+    filters?: Array<keyof T>;
     indices?: boolean;
-    starFilter: keyof T;
 }

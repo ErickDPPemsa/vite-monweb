@@ -13,24 +13,7 @@
         background-color: var(--primary);
     }
 
-    .color-table {
-        // background-color: color-mix(in srgb, var(--primary) 50%, black);
-        background-color: color-mix(in srgb, var(--primary) 10%, white);
-        // color: color-mix(in srgb, var(--surface) 90%, black);
-    }
-
-    // .btn-icon {
-    //     .icon {
-    //         color: color-mix(in srgb, var(--surface) 90%, black);
-    //     }
-
-    //     &:hover {
-    //         background-color: color-mix(in srgb, var(--surface) 20%, transparent);
-    //     }
-    // }
-
     &_header {
-        @extend .color-table;
         display: flex;
         justify-content: space-between;
         padding: 1rem;
@@ -41,12 +24,6 @@
         .actions {
             display: inline-flex;
             gap: 5px;
-
-            // .fetch {
-            //     background-color: red;
-            //     width: 50px;
-            //     height: 50px;
-            // }
         }
     }
 
@@ -59,7 +36,6 @@
             width: 100%;
 
             .selected {
-                // color: color-mix(in srgb, var(--error) 60%, white);
                 color: var(--primary);
                 background-color: color-mix(in srgb, var(--primary) 10%, transparent);
             }
@@ -69,9 +45,9 @@
             }
 
             thead {
-                @extend .color-table;
                 position: sticky;
                 top: 0px;
+                background-color: color-mix(in srgb, var(--primary) 7%, white);
             }
 
             tbody {
@@ -93,7 +69,6 @@
                 }
 
                 td {
-                    // font-weight: lighter;
                     padding: 5px 10px;
                 }
 
@@ -106,7 +81,6 @@
     }
 
     footer {
-        @extend .color-table;
         display: flex;
         justify-content: flex-end;
         align-items: center;
@@ -126,7 +100,6 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            // gap: 2px;
             background-color: var(--surface);
             color: var(--onSurface);
             cursor: pointer;
@@ -168,16 +141,15 @@
 :root[data-theme="theme-dark"] {
 
     .container-data-table {
-
-        .color-table {
-            background-color: color-mix(in srgb, var(--primary) 50%, black);
-        }
-
         section {
             table {
                 .selected {
                     color: var(--surface);
                     background-color: color-mix(in srgb, var(--primary) 50%, transparent);
+                }
+
+                thead {
+                    background-color: color-mix(in srgb, var(--primary) 50%, black);
                 }
 
                 tr {

@@ -116,6 +116,7 @@
 
         .text {
             @extend .Title-medium;
+            font-weight: bolder;
         }
 
         section {
@@ -177,21 +178,6 @@
 
         &_colors {
             margin: 2rem 0;
-
-            div {
-                padding: 1px;
-            }
-
-            section {
-                margin: 1rem 0;
-            }
-
-            .btn-icon {
-                .icon {
-                    width: 40px;
-                    height: 40px;
-                }
-            }
         }
     }
 
@@ -329,7 +315,7 @@
         .config {
             &_colors {
                 .btn-icon {
-                    background-color: #fafafa;
+                    background-color: color-mix(in srgb, currentColor 10%, white);
                 }
             }
         }

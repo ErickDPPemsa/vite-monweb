@@ -12,19 +12,18 @@ const Rows: Array<PropsSelect<number>> = [
     { label: '100', value: 100 },
 ];
 
-export const DataTable = <T extends Object>({ keys, data, id, indices, title, starFilter }: PropsDataTable<T>) => {
+export const DataTable = <T extends Object>({ keys, data, id, indices, title, filters = [] }: PropsDataTable<T>) => {
     const className = 'container-data-table';
     const [isSearch, setIsSearch] = useState<boolean>(false);
     const [rows, setRows] = useState<PropsSelect<number>>(Rows[0]);
     const [page, setPage] = useState<number>(1);
     const [filter, setfilter] = useState<typeof data>();
-    const [keyFilter, setKeyFilter] = useState<keyof T>(starFilter);
-
+    const [keyFilter, setKeyFilter] = useState<Array<keyof T>>(filters);
 
     const start: number = page > 1 ? ((((page - 1) * rows.value) + rows.value) - rows.value) : (page - 1);
     const end: number = ((page - 1) * rows.value) + rows.value;
 
-    const maxPages = Math.ceil(data.length / rows.value);
+    const maxPages = Math.ceil((filter ?? data).length / rows.value);
 
     const getValue = (object: Object, key: string) => {
         const value = Object.entries(object).find(a => a[0] === key);
@@ -70,7 +69,7 @@ export const DataTable = <T extends Object>({ keys, data, id, indices, title, st
             setfilter(undefined);
         } else {
             setfilter(data.filter(element => {
-                if (!Array.isArray(keyFilter) && `${element[keyFilter]}`.toLowerCase().includes(value)) {
+                if (!Array.isArray(keyFilter) && `${element[keyFilter]}`.toLowerCase().includes(value.toLowerCase())) {
                     return element
                 }
             }));
@@ -103,7 +102,7 @@ export const DataTable = <T extends Object>({ keys, data, id, indices, title, st
                     }
                 </div>
                 <div className='actions'>
-                    {!isSearch && <button className='btn-icon' onClick={() => setIsSearch(true)}>
+                    {filters.length > 0 && !isSearch && <button className='btn-icon' onClick={() => setIsSearch(true)}>
                         <Search />
                     </button>}
                     <button className='btn-icon'>
@@ -116,13 +115,11 @@ export const DataTable = <T extends Object>({ keys, data, id, indices, title, st
                     <thead>
                         <tr>
                             {indices && <th>#</th>}
-                            {keys.map(({ key, title, select }) => <th onClick={() => select && !Array.isArray(key) && setKeyFilter(key)} className={`${keyFilter === key && 'selected'}`} key={key.toString()}>{title ?? key.toString()}</th>)}
+                            {keys.map(({ key, title }) => <th key={key.toString()}>{title ?? key.toString()}</th>)}
                         </tr>
                     </thead>
                     <tbody>
-                        {filter
-                            ? filter.slice(start, end).map((element, idx) => Row(element, idx))
-                            : data.slice(start, end).map((element, idx) => Row(element, idx))}
+                        {(filter ?? data).slice(start, end).map((element, idx) => Row(element, idx))}
                     </tbody>
                 </table>
             </section>
@@ -131,7 +128,7 @@ export const DataTable = <T extends Object>({ keys, data, id, indices, title, st
                     <Text>Rows per page:</Text>
                     <SimpleSelect selected={rows.label} options={Rows} onSelect={setRows} />
                 </span>
-                <Text>{`${page} - ${maxPages} of ${data.length}`}</Text>
+                <Text>{`${page} - ${maxPages} of ${(filter ?? data).length}`}</Text>
                 <span className='arrows'>
                     <button className='btn-icon' onClick={Previous}>
                         <CheveronLeft />

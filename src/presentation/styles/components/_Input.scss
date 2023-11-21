@@ -168,6 +168,8 @@
 }
 
 .input-date-picker {
+    color: var(--primary);
+
     ::-webkit-calendar-picker-indicator {
         display: none;
     }

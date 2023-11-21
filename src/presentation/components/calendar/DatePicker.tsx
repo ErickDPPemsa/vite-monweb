@@ -18,9 +18,10 @@ interface DatePicker {
     locale?: 'es' | 'en',
     label?: string;
     error?: string;
+    type?: 'date' | 'datetime-local';
 }
 
-export const DatePicker = ({ start, label = 'Date', onChange, locale = 'es', error }: DatePicker) => {
+export const DatePicker = ({ start, label = 'Date', onChange, locale = 'es', error, type = 'date' }: DatePicker) => {
     const [isView, setIsView] = useState<boolean>(false);
     const [isSelectYear, setIsSelectYear] = useState<boolean>(false);
     const [isSelectedMonth, setIsSelectedMonth] = useState<boolean>(false);
@@ -68,7 +69,7 @@ export const DatePicker = ({ start, label = 'Date', onChange, locale = 'es', err
                 labelText={label}
                 defaultValue={modDate({ dateI: start }).date.date}
                 onChange={({ target: { value } }) => onChange(modDate({ dateI: new Date(value) }).DATE)}
-                type="date"
+                type={type}
                 error={error}
                 trailing={
                     <button
