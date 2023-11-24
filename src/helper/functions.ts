@@ -1,56 +1,56 @@
-export interface date {
-    date: string;
-    day: number;
-    month: number;
-    year: number;
-};
+import { formatDate } from "../interfaces";
 
-export interface time {
-    time: string;
-    hour: number;
-    minute: number;
-    second: number;
-};
-
-export interface formatDate {
-    DATE: Date;
-    date: date;
-    time: time;
-    weekday: number;
+interface ModDate {
+    dateI: Date;
+    addDay?: number;
+    addHour?: number;
+    addMinute?: number;
+    addMonth?: number;
+    addSecond?: number;
+    Day?: number;
+    Hours?: number;
+    Minutes?: number;
+    Month?: number;
+    Seconds?: number;
+    Year?: number;
 }
 
-export const getDate = (): formatDate => {
-    const newDate: Date = new Date();
-    const [day, month, year]: Array<string> = newDate.toLocaleDateString().split('/');
-    const date: string = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
-    const time: string = `${newDate.toTimeString().slice(0, 8)}`;
-    const [hour, minute, second]: Array<number> = time.split(':').map(m => parseInt(m));
-    const json: string = `${date}T${time}.000Z`;
-    const dateGenerated: Date = new Date(json);
-    const weekday = dateGenerated.getDay();
-    return {
-        DATE: dateGenerated,
-        date: { date, day: parseInt(day), month: parseInt(month), year: parseInt(year) },
-        time: { time, hour, minute, second },
-        weekday
-    };
+export const getDate = (dateIn?: Date): formatDate => {
+    try {
+        const newDate = dateIn ?? new Date();
+        let date = newDate.toLocaleDateString();
+        let time = newDate.toLocaleTimeString();
+        const [day, month, year]: Array<number> = date.split('/').map(value => +value);
+        date = `${year}-${`${month}`.padStart(2, '0')}-${`${day}`.padStart(2, '0')}`;
+        const [hour, minute, second]: Array<number> = time.split(':').map(value => +value);
+        const daysInMonth = new Date(year, month, 0).getDate();
+        const startDay = new Date(newDate.getFullYear(), newDate.getMonth(), 1).getDay();
+
+        return {
+            DATE: newDate,
+            daysInMonth,
+            startDay,
+            date: { date, day, month, year },
+            time: { time, hour, minute, second },
+        };
+    } catch (error) {
+        console.log(error);
+        return getDate();
+    }
 }
 
-export const modDate = ({ hours, minutes, seconds, dateI, days, months }: { dateI?: Date, seconds?: number, minutes?: number, hours?: number, days?: number, months?: number }): formatDate => {
-    const newDate = (dateI) ? new Date(dateI.toJSON()) : getDate().DATE;
-    (hours) && newDate.setHours(newDate.getHours() + hours);
-    (minutes) && newDate.setMinutes(newDate.getMinutes() + minutes);
-    (seconds) && newDate.setSeconds(newDate.getSeconds() + seconds);
-    (days) && newDate.setDate(newDate.getDate() + days);
-    (months) && newDate.setMonth(newDate.getMonth() + months);
-    const [date, time] = newDate.toJSON().split('.')[0].split('T');
-    const [year, month, day]: Array<number> = date.split('-').map(m => parseInt(m));
-    const [hour, minute, second]: Array<number> = time.split(':').map(m => parseInt(m));
-    const weekday = newDate.getDay();
-    return {
-        DATE: newDate,
-        date: { date, day, month, year },
-        time: { time, hour, minute, second },
-        weekday
-    };
+export const modDate = ({ dateI, Day, Month, Year, Seconds, Minutes, Hours, addMonth, addDay, addSecond, addMinute, addHour }: ModDate): formatDate => {
+    const newDate = dateI;
+    (addDay !== undefined) && newDate.setMonth(newDate.getDate() + addDay);
+    (addHour !== undefined) && newDate.setMonth(newDate.getHours() + addHour);
+    (addMinute !== undefined) && newDate.setMonth(newDate.getMinutes() + addMinute);
+    (addMonth !== undefined) && newDate.setMonth(newDate.getMonth() + addMonth);
+    (addSecond !== undefined) && newDate.setMonth(newDate.getSeconds() + addSecond);
+    (Day !== undefined) && newDate.setDate(Day);
+    (Hours !== undefined) && newDate.setHours(Hours);
+    (Minutes !== undefined) && newDate.setMinutes(Minutes);
+    (Month !== undefined) && newDate.setMonth(Month);
+    (Seconds !== undefined) && newDate.setSeconds(Seconds);
+    (Year !== undefined) && newDate.setFullYear(Year);
+    return getDate(newDate);
 }

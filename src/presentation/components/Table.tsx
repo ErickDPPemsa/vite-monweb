@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import Input from './Input';
 import { Search } from '../icons/icons';
 import { Key } from '../interfaces/interfaces';
@@ -28,6 +28,10 @@ export const Table = <T extends Object>({ data, keys, nameTable, keyId }: PropsT
         },
         [],
     );
+
+    useEffect(() => {
+    }, [setFilter])
+
 
     return (
         <section>

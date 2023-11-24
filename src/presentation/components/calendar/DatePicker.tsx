@@ -1,8 +1,9 @@
 import { useCallback, useState, useRef, useEffect } from 'react';
-import { CalendarStart, Caret, CheveronLeft } from "../../icons/icons"
+import { CalendarStart, CalendarTime, Caret, CheveronLeft } from "../../icons/icons"
 import Input from "../Input"
 import { modDate } from "../../../helper/functions";
 import { Calendar } from "./Calendar";
+import { formatDate } from '../../../interfaces';
 
 interface Select {
     label: string | number;
@@ -13,37 +14,57 @@ interface Select {
 }
 
 interface DatePicker {
-    start: Date;
-    onChange: (date: Date) => void;
+    date: formatDate;
+    onChange: (date: formatDate) => void;
     locale?: 'es' | 'en',
     label?: string;
-    error?: string;
     type?: 'date' | 'datetime-local';
+    showIcon?: boolean;
 }
 
-export const DatePicker = ({ start, label = 'Date', onChange, locale = 'es', error, type = 'date' }: DatePicker) => {
+export const DatePicker = ({ date, label = 'Date', onChange, locale = 'es', type = 'date', showIcon = false }: DatePicker) => {
     const [isView, setIsView] = useState<boolean>(false);
     const [isSelectYear, setIsSelectYear] = useState<boolean>(false);
     const [isSelectedMonth, setIsSelectedMonth] = useState<boolean>(false);
+    const [error, setError] = useState<string>();
     const InputRef = useRef<HTMLInputElement>(null);
 
     const intlForShortMonths = new Intl.DateTimeFormat(locale, { month: 'short' });
-    const monthShortName = intlForShortMonths.format(new Date(start.getFullYear(), start.getMonth()));
+    const monthShortName = intlForShortMonths.format(new Date(date.DATE.getFullYear(), date.DATE.getMonth()));
 
     const close = () => {
         setIsView(false);
         setIsSelectYear(false);
+        setIsSelectedMonth(false);
     }
 
-    const setDate = (date: Date) => () => {
-        onChange(date);
+    const inputChange = ({ target: { value } }: React.ChangeEvent<HTMLInputElement>) => {
+        if (type === 'date') {
+            const [Year, Month, Day] = value.split('-').map(value => +value);
+            if (Year >= 1900 && Year <= 2099) {
+                onChange(modDate({ dateI: date.DATE, Year, Month: Month - 1, Day }));
+            }
+        } else {
+            const [Date, Time] = value.split('T');
+            const [Year, Month, Day] = Date.split('-').map(value => +value);
+            const [Hours, Minutes] = Time.split(':').map(value => +value);
+            if (Year >= 1900 && Year <= 2099) {
+                onChange(modDate({ dateI: date.DATE, Year, Month: Month - 1, Day, Hours, Minutes }));
+            }
+        }
+    }
+
+    const onChangeMonth = (value: number) => () => {
+        onChange(modDate({ dateI: date.DATE, addMonth: value }));
     }
 
     useEffect(() => {
-        if (InputRef.current) {
-            InputRef.current.value = modDate({ dateI: start }).date.date;
-        }
-    }, [start]);
+        if (InputRef.current)
+            if (type === 'date') InputRef.current.value = date.date.date;
+            else InputRef.current.value = `${date.date.date}T${date.time.time}`;
+        setIsSelectedMonth(false);
+        setIsSelectYear(false);
+    }, [date, type, InputRef.current]);
 
     const Select = useCallback(
         ({ label, onClick, isShow, next, previous }: Select) => {
@@ -58,54 +79,55 @@ export const DatePicker = ({ start, label = 'Date', onChange, locale = 'es', err
                 </div>
             )
         },
-        [setIsSelectedMonth],
-    )
-
+        [],
+    );
 
     return (
         <div className="input-date-picker">
             <Input
                 reference={InputRef}
                 labelText={label}
-                defaultValue={modDate({ dateI: start }).date.date}
-                onChange={({ target: { value } }) => onChange(modDate({ dateI: new Date(value) }).DATE)}
+                defaultValue={(type === 'date') ? date.date.date : `${date.date.date}T${date.time.time}`}
+                onChange={inputChange}
                 type={type}
                 error={error}
-                trailing={
-                    <button
-                        className="btn-icon"
-                        children={<CalendarStart />}
-                        onClick={() => setIsView(!isView)}
-                    />
-                }
+                trailing={showIcon ? <button className="btn-icon" children={(type === 'date') ? <CalendarStart /> : <CalendarTime />} onClick={() => setIsView(!isView)} /> : undefined}
             />
             {
                 isView &&
-                <div className="container-date">
-                    <header>
-                        <Select
-                            next={setDate(modDate({ dateI: start, months: 1 }).DATE)}
-                            previous={setDate(modDate({ dateI: start, months: -1 }).DATE)}
-                            isShow={isSelectedMonth}
-                            label={monthShortName}
-                            onClick={() => setIsSelectedMonth(!isSelectedMonth)} />
-                        <Select
-                            next={setDate(modDate({ dateI: start, months: 12 }).DATE)}
-                            previous={setDate(modDate({ dateI: start, months: -12 }).DATE)}
-                            isShow={isSelectYear}
-                            label={start.getFullYear()}
-                            onClick={() => setIsSelectYear(!isSelectYear)} />
+                <section className='content'>
+                    <div className="container-date">
 
-                    </header>
-                    <section>
-                        <Calendar date={start} onChange={onChange} isSelectYear={isSelectYear} />
-                    </section>
-                    <footer>
-                        <button className="button-small" onClick={() => setIsView(false)}>Cancel</button>
-                        <button className="button-small" onClick={close}>OK</button>
-                    </footer>
-                </div>
+                        <header>
+                            <Select
+                                next={onChangeMonth(1)}
+                                previous={onChangeMonth(-1)}
+                                isShow={isSelectedMonth}
+                                label={monthShortName}
+                                onClick={() => setIsSelectedMonth(!isSelectedMonth)} />
+                            <Select
+                                next={onChangeMonth(12)}
+                                previous={onChangeMonth(-12)}
+                                isShow={isSelectYear}
+                                label={date.DATE.getFullYear()}
+                                onClick={() => setIsSelectYear(!isSelectYear)} />
+
+                        </header>
+                        <section>
+                            <Calendar date={date} onChange={onChange} isSelectYear={isSelectYear} isSelectMonth={isSelectedMonth} />
+                        </section>
+                        <footer>
+                            <button className="button-small" onClick={close}>Ok</button>
+                        </footer>
+                    </div>
+                    {
+                        type === 'datetime-local' &&
+                        <div className='container-time'>
+                            pjdjdjdjd
+                        </div>
+                    }
+                </section>
             }
         </div>
-    )
+    );
 }

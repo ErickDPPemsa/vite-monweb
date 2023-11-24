@@ -2,7 +2,7 @@ import { useCallback } from "react";
 import { Colors } from "../../../config/colors";
 import { ThemeMode } from "../../../interfaces";
 import { useThemeStore } from "../../../stores";
-import { Home, Moon, Palette, Sun, AddUser, CalendarStart, Caret, CheveronLeft, Clock1, CloudDownload, Delete, InOut, Menu, Panel, Pencil, Search, Settings, Spinner, Ticket, Users, X, Circle } from "../../icons/icons";
+import { Home, Moon, Palette, Sun, AddUser, CalendarStart, Caret, CheveronLeft, Clock1, CloudDownload, Delete, InOut, Menu, Panel, Pencil, Search, Settings, Spinner, Ticket, Users, X, Circle, CalendarTime } from "../../icons/icons";
 import { ModalContent } from "../../interfaces/interfaces"
 import { Text } from "../Text";
 
@@ -70,6 +70,7 @@ export const ConfigModalContent = ({ dialog, reference }: ModalContent) => {
                     <Menu />
                     <Users />
                     <CalendarStart />
+                    <CalendarTime />
                     <Search />
                     <AddUser />
                     <CheveronLeft />

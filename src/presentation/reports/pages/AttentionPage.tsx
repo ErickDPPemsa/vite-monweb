@@ -7,7 +7,7 @@ import { Portal } from "../../components/modals";
 import { CalendarModalContent } from "../../components/modals/CalendarModalContent";
 import { CalendarStart, Spinner } from "../../icons/icons";
 import { Key } from "../../interfaces/interfaces";
-import { modDate } from "../../../helper/functions";
+import { getDate } from "../../../helper/functions";
 import { ReportService } from "../../../services";
 import { useQuery } from "@tanstack/react-query";
 
@@ -24,8 +24,8 @@ const Keys: Array<Key<Event<string>>> = [
 export const AttentionPage = () => {
 
     const { showError } = useHandleError();
-    const [start, setStart] = useState(modDate({}));
-    const [end, setEnd] = useState(modDate({}));
+    const [start, setStart] = useState(getDate());
+    const [end, setEnd] = useState(getDate());
     const dialog = useRef<HTMLDialogElement>(null);
     const CalendarPicker = useRef<HTMLDivElement>(null);
 
@@ -43,8 +43,8 @@ export const AttentionPage = () => {
                     <h1>Installed systems</h1>
                     <span className="container-buttons">
                         <div className="pickers">
-                            <DatePicker start={start.DATE} onChange={(date) => setStart(modDate({ dateI: date }))} label="Start" />
-                            <DatePicker start={end.DATE} onChange={(date) => setEnd(modDate({ dateI: date }))} label="End" />
+                            <DatePicker showIcon date={start} onChange={setStart} label="Start" />
+                            <DatePicker showIcon date={end} onChange={setEnd} label="End" />
                         </div>
                         <div className="buttons" >
                             <button className="button-small" onClick={() => refetch()}>

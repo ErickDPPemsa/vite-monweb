@@ -31,6 +31,10 @@ export const DataTable = <T extends Object>({ keys, data, id, indices, title, fi
         return '----';
     }
 
+    useEffect(() => {
+    }, [setKeyFilter])
+
+
     const Row = (row: T, idx: number) => {
         return (
             <tr key={`${row[id]}${idx}`}>

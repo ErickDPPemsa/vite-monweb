@@ -1,19 +1,38 @@
-import { modDate } from "../../helper/functions";
-import Input from "../components/Input"
+import { useState } from "react";
+import { getDate } from "../../helper/functions";
 import { DatePicker } from "../components/calendar/DatePicker"
+import { CheveronLeft } from "../icons/icons";
+import { formatDate } from "../../interfaces";
 
 export const HomePage = () => {
-
-    console.log(modDate({}));
+    const [date, setDate] = useState<formatDate>(getDate());
 
     return (
-        <div>
+        <div style={{ color: 'var(--primary)' }}>
             Home-Page
 
-            <div style={{ width: '500px' }}>
-                <Input type="datetime-local" onChange={({ target: { value } }) => console.log(value)} />
-            </div>
-            <DatePicker onChange={() => { }} start={new Date()} />
+            <DatePicker showIcon type="datetime-local" onChange={setDate} date={date} />
+            <DatePicker showIcon onChange={setDate} date={date} />
+
+            <section>
+                <div>
+                    <div>
+                        <button className="btn-icon"><CheveronLeft /></button>
+                        <span>00</span>
+                        <button className="btn-icon"><CheveronLeft /></button>
+                    </div>
+                    <span>:</span>
+                    <div>
+                        <button className="btn-icon"><CheveronLeft /></button>
+                        <span>00</span>
+                        <button className="btn-icon"><CheveronLeft /></button>
+                    </div>
+                </div>
+                <div>
+                    <button className="button-small Body-small">AM</button>
+                    <button className="button-small Body-small">PM</button>
+                </div>
+            </section>
         </div>
     )
 }

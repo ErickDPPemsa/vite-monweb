@@ -231,9 +231,9 @@
         header {
             padding: .5rem;
 
-
             p {
                 @extend .Label-large;
+                text-transform: capitalize;
             }
 
             .edit-date {
@@ -259,6 +259,21 @@
         section {
             max-width: 280px;
             min-width: 280px;
+
+            .custom-date {
+
+                // display: flex;
+                // justify-content: center;
+                .input-date-picker {
+
+                    .field-container {
+                        .field {
+                            width: 100%;
+                        }
+                    }
+                }
+
+            }
 
             .container-year {
                 display: flex;

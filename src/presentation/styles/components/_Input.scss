@@ -169,6 +169,7 @@
 
 .input-date-picker {
     color: var(--primary);
+    // margin: 10px 0;
 
     ::-webkit-calendar-picker-indicator {
         display: none;
@@ -180,56 +181,65 @@
         }
     }
 
-    .container-date {
-        @extend .Body-medium;
+    .content {
         @extend .elevation-2;
-        position: fixed;
-        padding: 1rem;
         background-color: var(--surface);
         margin-top: 10px;
-        border-radius: 10px;
+        position: fixed;
+        width: auto;
+        height: auto;
         z-index: 10;
+        border-radius: 10px;
+        padding: 1rem;
+        gap: 2rem;
+        @extend .Body-medium;
 
-        header {
-            display: flex;
-            gap: 10px;
+        .container-date {
 
-            .btn-icon {
-                .icon {
-                    width: 22px;
-                    height: 22px;
-                }
-            }
-
-            .select {
+            header {
                 display: flex;
-                gap: 5px;
+                gap: 10px;
 
-                span {
+                .btn-icon {
+                    .icon {
+                        width: 22px;
+                        height: 22px;
+                    }
+                }
+
+                .select {
                     display: flex;
-                    align-items: center;
+                    gap: 5px;
+
+                    span {
+                        display: flex;
+                        align-items: center;
+                    }
                 }
             }
-        }
 
-        section {
-            padding: .5rem 0;
+            section {
+                padding: .5rem 0;
 
-            .calendar {
-                li {
-                    width: 30px;
-                    height: 30px;
+                .calendar {
+                    li {
+                        width: 30px;
+                        height: 30px;
+                    }
                 }
             }
+
+            footer {
+                display: flex;
+                justify-content: flex-end;
+                gap: 5px;
+            }
+
         }
 
-        footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 5px;
-        }
-
+        .container-time {}
     }
+
 
 }
 

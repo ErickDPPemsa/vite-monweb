@@ -3,16 +3,23 @@
     // min-width: 280px;
     color: var(--onSurface);
 
-    .year {
+    *::-webkit-scrollbar {
+        width: 1px;
+    }
+
+    *::-webkit-scrollbar-thumb {
+        background-color: var(--primary);
+    }
+
+    .values {
+
         color: currentColor;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         list-style: none;
-        text-align: center;
         gap: 5px;
         max-height: 400px;
         overflow-y: auto;
-        justify-items: center;
         padding: 1rem 0;
 
         .value {
@@ -27,7 +34,17 @@
             background-color: var(--primary);
             color: var(--surface);
         }
+    }
 
+    .year {
+        justify-items: center;
+        text-align: center;
+        @extend .values;
+    }
+
+    .month {
+        text-transform: capitalize;
+        @extend .values;
     }
 
 

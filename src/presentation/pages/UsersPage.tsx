@@ -12,8 +12,6 @@ import { useHandleError } from "../../hooks";
 import { CreateUserModalContent, Portal } from "../components/modals";
 import { toast } from "sonner";
 import { SimpleSelect } from "../components/SimpleSelect";
-import { Table } from "../components/Table";
-import { Key } from "../interfaces/interfaces";
 
 interface PropsSelect<T> {
     label: string;
@@ -25,12 +23,12 @@ const Rows: Array<PropsSelect<number>> = [
     { label: '100', value: 100 },
 ];
 
-const Keys: Array<Key<UsersRespose>> = [
-    { key: 'fullName' },
-    { key: 'userName' },
-    { key: 'role' },
-    { key: 'isActive' },
-];
+// const Keys: Array<Key<UsersRespose>> = [
+//     { wildcard: '', key: 'fullName' },
+//     { wildcard: '', key: 'userName' },
+//     { wildcard: '', key: 'role' },
+//     { wildcard: '', key: 'isActive' },
+// ];
 
 export const UsersPage = () => {
     const user = useAuthStore(state => state.user);

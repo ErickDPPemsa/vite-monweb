@@ -3,7 +3,7 @@ import { CalendarStart, Spinner } from "../../icons/icons";
 import { Portal } from "../../components/modals";
 import { CalendarModalContent } from "../../components/modals/CalendarModalContent";
 import { DatePicker } from "../../components/calendar/DatePicker";
-import { modDate } from "../../../helper/functions";
+import { getDate } from "../../../helper/functions";
 import { useQuery } from "@tanstack/react-query";
 import { ReportService } from "../../../services";
 import { DataTable } from "../../components/DataTable";
@@ -20,8 +20,8 @@ const Keys: Array<Key<Event<AlarmApplicationSystem>>> = [
 
 export const SystemRequestPage = () => {
     const { showError } = useHandleError();
-    const [start, setStart] = useState(modDate({}));
-    const [end, setEnd] = useState(modDate({}));
+    const [start, setStart] = useState(getDate());
+    const [end, setEnd] = useState(getDate());
     const dialog = useRef<HTMLDialogElement>(null);
     const CalendarPicker = useRef<HTMLDivElement>(null);
 
@@ -40,8 +40,8 @@ export const SystemRequestPage = () => {
 
                     <span className="container-buttons">
                         <div className="pickers">
-                            <DatePicker start={start.DATE} onChange={(date) => setStart(modDate({ dateI: date }))} label="Start" />
-                            <DatePicker start={end.DATE} onChange={(date) => setEnd(modDate({ dateI: date }))} label="End" />
+                            <DatePicker showIcon date={start} onChange={setStart} label="Start" />
+                            <DatePicker showIcon date={end} onChange={setEnd} label="End" />
                         </div>
                         <div className="buttons" >
                             <button className="button-small" onClick={() => refetch()}>
@@ -52,7 +52,7 @@ export const SystemRequestPage = () => {
                                 <Portal className="blur-1" refElement={dialog}
                                     onClosed={(close) => close && CalendarPicker.current?.classList.toggle('scale-down-center')}
                                 >
-                                    <CalendarModalContent dialog={dialog} reference={CalendarPicker} onChenge={date => console.log(date)} />
+                                    <CalendarModalContent dialog={dialog} reference={CalendarPicker} onChenge={date => console.log(date)} title="Select the first day of the month." />
                                 </Portal>
                             </button>
                         </div>
