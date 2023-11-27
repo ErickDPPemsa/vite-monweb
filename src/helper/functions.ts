@@ -41,11 +41,11 @@ export const getDate = (dateIn?: Date): formatDate => {
 
 export const modDate = ({ dateI, Day, Month, Year, Seconds, Minutes, Hours, addMonth, addDay, addSecond, addMinute, addHour }: ModDate): formatDate => {
     const newDate = dateI;
-    (addDay !== undefined) && newDate.setMonth(newDate.getDate() + addDay);
-    (addHour !== undefined) && newDate.setMonth(newDate.getHours() + addHour);
-    (addMinute !== undefined) && newDate.setMonth(newDate.getMinutes() + addMinute);
+    (addDay !== undefined) && newDate.setDate(newDate.getDate() + addDay);
+    (addHour !== undefined) && newDate.setHours(newDate.getHours() + addHour);
+    (addMinute !== undefined) && newDate.setMinutes(newDate.getMinutes() + addMinute);
     (addMonth !== undefined) && newDate.setMonth(newDate.getMonth() + addMonth);
-    (addSecond !== undefined) && newDate.setMonth(newDate.getSeconds() + addSecond);
+    (addSecond !== undefined) && newDate.setSeconds(newDate.getSeconds() + addSecond);
     (Day !== undefined) && newDate.setDate(Day);
     (Hours !== undefined) && newDate.setHours(Hours);
     (Minutes !== undefined) && newDate.setMinutes(Minutes);

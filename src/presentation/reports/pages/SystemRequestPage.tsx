@@ -33,7 +33,7 @@ export const SystemRequestPage = () => {
     if (!isFetching && !isLoading && error) showError({ responseError: error, exit: true });
 
     return (
-        <article className="container-app-sys">
+        <article className="container-page-report">
             <header>
                 <div className="top">
                     <h1>Installed systems</h1>

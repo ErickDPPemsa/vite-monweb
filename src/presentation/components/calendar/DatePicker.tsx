@@ -13,6 +13,13 @@ interface Select {
     previous: () => void;
 }
 
+interface Digit {
+    value: number;
+    plus: () => void;
+    minus: () => void;
+}
+
+
 interface DatePicker {
     date: formatDate;
     onChange: (date: formatDate) => void;
@@ -20,13 +27,13 @@ interface DatePicker {
     label?: string;
     type?: 'date' | 'datetime-local';
     showIcon?: boolean;
+    error?: string;
 }
 
-export const DatePicker = ({ date, label = 'Date', onChange, locale = 'es', type = 'date', showIcon = false }: DatePicker) => {
+export const DatePicker = ({ date, label = 'Date', onChange, locale = 'es', type = 'date', showIcon = false, error }: DatePicker) => {
     const [isView, setIsView] = useState<boolean>(false);
     const [isSelectYear, setIsSelectYear] = useState<boolean>(false);
     const [isSelectedMonth, setIsSelectedMonth] = useState<boolean>(false);
-    const [error, setError] = useState<string>();
     const InputRef = useRef<HTMLInputElement>(null);
 
     const intlForShortMonths = new Intl.DateTimeFormat(locale, { month: 'short' });
@@ -58,6 +65,8 @@ export const DatePicker = ({ date, label = 'Date', onChange, locale = 'es', type
         onChange(modDate({ dateI: date.DATE, addMonth: value }));
     }
 
+    const onChangeTime = (value: number, type: 'hour' | 'minute') => () => type === 'hour' ? onChange(modDate({ dateI: date.DATE, addHour: value })) : onChange(modDate({ dateI: date.DATE, addMinute: value }));
+
     useEffect(() => {
         if (InputRef.current)
             if (type === 'date') InputRef.current.value = date.date.date;
@@ -73,9 +82,22 @@ export const DatePicker = ({ date, label = 'Date', onChange, locale = 'es', type
                     <button className='btn-icon' onClick={previous} children={<CheveronLeft />} />
                     <span>
                         <p>{label}</p>
-                        <button className='btn-icon' onClick={onClick} children={<Caret classname={isShow ? "rotate" : ''} />} />
+                        <button className='btn-icon dropdown' onClick={onClick} children={<Caret classname={isShow ? "rotate" : ''} />} />
                     </span>
                     <button className='btn-icon' onClick={next} children={<CheveronLeft classname='rotate' />} />
+                </div>
+            )
+        },
+        [],
+    );
+
+    const Digit = useCallback(
+        ({ minus, plus, value }: Digit) => {
+            return (
+                <div className='digit'>
+                    <button onClick={plus} className="btn-icon up"><CheveronLeft /></button>
+                    <span>{`${value}`.padStart(2, '0')}</span>
+                    <button onClick={minus} className="btn-icon down"><CheveronLeft /></button>
                 </div>
             )
         },
@@ -95,38 +117,39 @@ export const DatePicker = ({ date, label = 'Date', onChange, locale = 'es', type
             />
             {
                 isView &&
-                <section className='content'>
-                    <div className="container-date">
+                <div className='content'>
+                    <section className='top'>
+                        <div className="container-date">
+                            <nav className='navigation'>
+                                <Select
+                                    next={onChangeMonth(1)}
+                                    previous={onChangeMonth(-1)}
+                                    isShow={isSelectedMonth}
+                                    label={monthShortName}
+                                    onClick={() => setIsSelectedMonth(!isSelectedMonth)} />
+                                <Select
+                                    next={onChangeMonth(12)}
+                                    previous={onChangeMonth(-12)}
+                                    isShow={isSelectYear}
+                                    label={date.DATE.getFullYear()}
+                                    onClick={() => setIsSelectYear(!isSelectYear)} />
 
-                        <header>
-                            <Select
-                                next={onChangeMonth(1)}
-                                previous={onChangeMonth(-1)}
-                                isShow={isSelectedMonth}
-                                label={monthShortName}
-                                onClick={() => setIsSelectedMonth(!isSelectedMonth)} />
-                            <Select
-                                next={onChangeMonth(12)}
-                                previous={onChangeMonth(-12)}
-                                isShow={isSelectYear}
-                                label={date.DATE.getFullYear()}
-                                onClick={() => setIsSelectYear(!isSelectYear)} />
-
-                        </header>
-                        <section>
+                            </nav>
                             <Calendar date={date} onChange={onChange} isSelectYear={isSelectYear} isSelectMonth={isSelectedMonth} />
-                        </section>
-                        <footer>
-                            <button className="button-small" onClick={close}>Ok</button>
-                        </footer>
-                    </div>
-                    {
-                        type === 'datetime-local' &&
-                        <div className='container-time'>
-                            pjdjdjdjd
                         </div>
-                    }
-                </section>
+                        {
+                            type === 'datetime-local' &&
+                            <div className='container-time'>
+                                <Digit value={date.time.hour} plus={onChangeTime(1, 'hour')} minus={onChangeTime(-1, 'hour')} />
+                                <span>:</span>
+                                <Digit value={date.time.minute} plus={onChangeTime(1, 'minute')} minus={onChangeTime(-1, 'minute')} />
+                            </div>
+                        }
+                    </section>
+                    <section className='bottom'>
+                        <button className="button-small" onClick={close}>Ok</button>
+                    </section>
+                </div>
             }
         </div>
     );

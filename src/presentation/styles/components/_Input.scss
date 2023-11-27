@@ -183,61 +183,92 @@
 
     .content {
         @extend .elevation-2;
+        @extend .Body-medium;
         background-color: var(--surface);
-        margin-top: 10px;
+        margin: 10px;
         position: fixed;
         width: auto;
         height: auto;
         z-index: 10;
         border-radius: 10px;
         padding: 1rem;
-        gap: 2rem;
-        @extend .Body-medium;
+        display: block;
 
-        .container-date {
+        .top {
+            display: flex;
+            gap: 1rem;
 
-            header {
-                display: flex;
-                gap: 10px;
+            .container-date {
+                max-width: 300px;
 
-                .btn-icon {
-                    .icon {
-                        width: 22px;
-                        height: 22px;
-                    }
-                }
-
-                .select {
+                .navigation {
                     display: flex;
-                    gap: 5px;
+                    gap: 10px;
 
-                    span {
+                    .btn-icon {
+                        .icon {
+                            width: 20px;
+                            height: 20px;
+                        }
+                    }
+
+                    .select {
+                        text-transform: capitalize;
                         display: flex;
-                        align-items: center;
+                        gap: 2px;
+
+                        span {
+                            display: flex;
+                            align-items: center;
+                            padding: 0 5px;
+
+                            .dropdown {
+
+                                .icon {
+                                    width: 15px;
+                                    height: 15px;
+                                }
+
+                            }
+                        }
                     }
                 }
-            }
 
-            section {
-                padding: .5rem 0;
+                .container-calendar {
+                    padding: .5rem 0;
 
-                .calendar {
-                    li {
-                        width: 30px;
-                        height: 30px;
+                    .calendar {
+                        li {
+                            width: 30px;
+                            height: 30px;
+                        }
                     }
                 }
+
             }
 
-            footer {
-                display: flex;
-                justify-content: flex-end;
+            .container-time {
+                @extend .Headline-large;
+                font-weight: 500;
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
                 gap: 5px;
-            }
 
+                .up {
+                    transform: rotate(90deg);
+                }
+
+                .down {
+                    transform: rotate(-90deg);
+                }
+            }
         }
 
-        .container-time {}
+        .bottom {
+            display: flex;
+            justify-content: flex-end;
+        }
     }
 
 

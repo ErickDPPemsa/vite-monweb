@@ -1,4 +1,4 @@
-.container-app-sys {
+.container-page-report {
     color: var(--onSurface);
     padding: 1rem;
 
@@ -6,7 +6,6 @@
         color: var(--onSurface);
 
         .top {
-            @extend .Title-large;
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -16,6 +15,11 @@
             .icon {
                 width: 30px;
                 height: 30px;
+            }
+
+            h1 {
+                @extend .Title-large;
+
             }
 
             .container-buttons {
@@ -38,16 +42,6 @@
                     gap: 1rem;
                 }
             }
-        }
-
-        .calendars {
-            display: flex;
-            width: 100%;
-            gap: 1rem;
-            align-items: center;
-            flex-wrap: wrap;
-            justify-content: flex-end;
-
         }
     }
 }

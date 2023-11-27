@@ -1,6 +1,4 @@
 .container-calendar {
-    // max-width: 280px;
-    // min-width: 280px;
     color: var(--onSurface);
 
     *::-webkit-scrollbar {
@@ -12,7 +10,6 @@
     }
 
     .values {
-
         color: currentColor;
         display: grid;
         grid-template-columns: repeat(3, 1fr);
