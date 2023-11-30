@@ -43,6 +43,5 @@ export interface PropsDataTable<T> {
     data: Array<T>;
     id: keyof T;
     keys: Array<Key<T>>;
-    filters?: Array<keyof T>;
     indices?: boolean;
 }

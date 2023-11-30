@@ -70,7 +70,7 @@ export const DatePicker = ({ date, label = 'Date', onChange, locale = 'es', type
     useEffect(() => {
         if (InputRef.current)
             if (type === 'date') InputRef.current.value = date.date.date;
-            else InputRef.current.value = `${date.date.date}T${date.time.time}`;
+            else InputRef.current.value = `${date.date.date}T${`${date.time.hour}`.padStart(2, '0')}:${`${date.time.minute}`.padStart(2, '0')}`;
         setIsSelectedMonth(false);
         setIsSelectYear(false);
     }, [date, type, InputRef.current]);
@@ -109,7 +109,7 @@ export const DatePicker = ({ date, label = 'Date', onChange, locale = 'es', type
             <Input
                 reference={InputRef}
                 labelText={label}
-                defaultValue={(type === 'date') ? date.date.date : `${date.date.date}T${date.time.time}`}
+                defaultValue={(type === 'date') ? date.date.date : `${date.date.date}T${`${date.time.hour}`.padStart(2, '0')}:${`${date.time.minute}`.padStart(2, '0')}`}
                 onChange={inputChange}
                 type={type}
                 error={error}

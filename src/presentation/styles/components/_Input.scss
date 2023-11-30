@@ -86,8 +86,8 @@
 
 
             &-active {
+                @extend .elevation-1;
                 outline: 1px solid currentColor;
-                border: 1px solid currentColor;
 
                 svg {
                     color: currentColor;
@@ -197,6 +197,7 @@
         .top {
             display: flex;
             gap: 1rem;
+            justify-content: center;
 
             .container-date {
                 max-width: 300px;

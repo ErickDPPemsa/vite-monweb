@@ -1,9 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { CheveronLeft, CloudDownload, Search, X } from "../icons/icons";
 import { Text } from './Text';
 import { SimpleSelect } from './SimpleSelect';
 import Input from './Input';
 import { PropsDataTable, PropsSelect } from '../interfaces/interfaces';
+import { utils, writeFile } from 'xlsx';
 
 
 const Rows: Array<PropsSelect<number>> = [
@@ -12,13 +13,12 @@ const Rows: Array<PropsSelect<number>> = [
     { label: '100', value: 100 },
 ];
 
-export const DataTable = <T extends Object>({ keys, data, id, indices, title, filters = [] }: PropsDataTable<T>) => {
+export const DataTable = <T extends Object>({ keys, data, id, indices, title }: PropsDataTable<T>) => {
     const className = 'container-data-table';
     const [isSearch, setIsSearch] = useState<boolean>(false);
     const [rows, setRows] = useState<PropsSelect<number>>(Rows[0]);
     const [page, setPage] = useState<number>(1);
     const [filter, setfilter] = useState<typeof data>();
-    const [keyFilter, setKeyFilter] = useState<Array<keyof T>>(filters);
 
     const start: number = page > 1 ? ((((page - 1) * rows.value) + rows.value) - rows.value) : (page - 1);
     const end: number = ((page - 1) * rows.value) + rows.value;
@@ -31,9 +31,16 @@ export const DataTable = <T extends Object>({ keys, data, id, indices, title, fi
         return '----';
     }
 
-    useEffect(() => {
-    }, [setKeyFilter])
-
+    const download = useCallback(
+        () => {
+            const sanityData = (filter ?? data).slice().map(element => keys.map(({ key }) => key).flatMap(a => a).reduce((acc, current) => ({ ...acc, [current]: element[current] }), {}));
+            const ws = utils.json_to_sheet(sanityData);
+            const wb = utils.book_new();
+            utils.book_append_sheet(wb, ws, "Data");
+            writeFile(wb, `${title}.xlsx`);
+        },
+        [data, filter],
+    );
 
     const Row = (row: T, idx: number) => {
         return (
@@ -73,7 +80,7 @@ export const DataTable = <T extends Object>({ keys, data, id, indices, title, fi
             setfilter(undefined);
         } else {
             setfilter(data.filter(element => {
-                if (!Array.isArray(keyFilter) && `${element[keyFilter]}`.toLowerCase().includes(value.toLowerCase())) {
+                if (JSON.stringify(element).toLowerCase().includes(value.toLowerCase())) {
                     return element
                 }
             }));
@@ -106,10 +113,10 @@ export const DataTable = <T extends Object>({ keys, data, id, indices, title, fi
                     }
                 </div>
                 <div className='actions'>
-                    {filters.length > 0 && !isSearch && <button className='btn-icon' onClick={() => setIsSearch(true)}>
+                    {!isSearch && <button className='btn-icon' onClick={() => setIsSearch(true)}>
                         <Search />
                     </button>}
-                    <button className='btn-icon'>
+                    <button className='btn-icon' onClick={download}>
                         <CloudDownload />
                     </button>
                 </div>

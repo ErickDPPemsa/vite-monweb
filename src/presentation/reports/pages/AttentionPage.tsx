@@ -11,10 +11,6 @@ import { getDate } from "../../../helper/functions";
 import { ReportService } from "../../../services";
 import { useQuery } from "@tanstack/react-query";
 
-
-import { read, utils, writeFile } from 'xlsx';
-
-
 const Keys: Array<Key<Event<string>>> = [
     { wildcard: '--', key: 'DescripcionAlarm', title: 'Alarm description', style: { textAlign: 'center' } },
     { wildcard: '--', key: 'CodigoCte', title: 'Client', style: { textAlign: 'center' } },

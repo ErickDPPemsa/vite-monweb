@@ -78,6 +78,16 @@ export interface ResponseAttention {
     events: Event<string>[];
 }
 
+export interface ResponseAttentionOper {
+    totalEvents: number;
+    operators: Operator[];
+}
+
+export interface Operator {
+    name: string;
+    events: Event<string>[];
+}
+
 export interface Event<T> {
     FechaOriginal: string;
     Hora: string;
