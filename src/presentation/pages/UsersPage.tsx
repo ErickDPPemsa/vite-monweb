@@ -1,8 +1,8 @@
-import { useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { TypeUser, UsersRespose } from "../../interfaces";
 import { useAuthStore } from "../../stores";
-import { AddUser, CheveronLeft, Delete, Home, Search } from "../icons/icons";
+import { AddUser, CheveronLeft, Delete, Search } from "../icons/icons";
 import { UserService } from "../../services";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import Input from "../components/Input";
@@ -12,6 +12,7 @@ import { useHandleError } from "../../hooks";
 import { CreateUserModalContent, Portal } from "../components/modals";
 import { toast } from "sonner";
 import { SimpleSelect } from "../components/SimpleSelect";
+import { DeleteUserModalContent } from "../components/modals/DeleteUserModalContent";
 
 interface PropsSelect<T> {
     label: string;
@@ -23,22 +24,19 @@ const Rows: Array<PropsSelect<number>> = [
     { label: '100', value: 100 },
 ];
 
-// const Keys: Array<Key<UsersRespose>> = [
-//     { wildcard: '', key: 'fullName' },
-//     { wildcard: '', key: 'userName' },
-//     { wildcard: '', key: 'role' },
-//     { wildcard: '', key: 'isActive' },
-// ];
-
 export const UsersPage = () => {
     const user = useAuthStore(state => state.user);
     const { showError } = useHandleError();
     const [filter, setFilter] = useState<Array<UsersRespose>>();
     const [limit, setLimit] = useState<PropsSelect<number>>(Rows[0]);
     const [offSet, setOffSet] = useState(0);
+    const [value, setValue] = useState<UsersRespose>();
 
     const dialog = useRef<HTMLDialogElement>(null);
     const createUserRef = useRef<HTMLDivElement>(null);
+
+    const dialogDelete = useRef<HTMLDialogElement>(null);
+    const deleteUserRef = useRef<HTMLDivElement>(null);
 
     const queryClient = useQueryClient();
 
@@ -53,41 +51,56 @@ export const UsersPage = () => {
         mutationFn: UserService.delete,
     });
 
-    const deleteUser = (id: string) => () => {
-        const oldData = queryClient.getQueryData<Array<UsersRespose>>(['users', limit, offSet]);
-        queryClient.setQueryData(['users', limit, offSet], () => oldData?.filter(user => user.id !== id));
-        DeleteMutation.mutate(id, {
-            onSuccess: () => {
-                toast.success('Usuario eliminado');
-                queryClient.invalidateQueries({ queryKey: ['users', limit.value, offSet] });
-            },
-            onError: error => {
-                showError({ responseError: error })
-                queryClient.setQueryData(['users', limit.value, offSet], () => oldData);
-            }
-        });
+    const AlertDelete = useCallback(
+        () =>
+            <Portal className="blur-2" refElement={dialogDelete}>
+                <DeleteUserModalContent onSuccess={onDelete} dialog={dialogDelete} setValue={setValue} value={value} fullName='fullName' reference={deleteUserRef} userName='userName' />
+            </Portal>
+        ,
+        [value],
+    )
+
+
+    const onDelete = ({ exit }: { exit: boolean; value?: Object | undefined; }) => {
+        if (exit && value) {
+            const oldData = queryClient.getQueryData<Array<UsersRespose>>(['users', limit, offSet]);
+            queryClient.setQueryData(['users', limit, offSet], () => oldData?.filter(user => user.id !== value.id));
+            DeleteMutation.mutate(value.id, {
+                onSuccess: () => {
+                    toast.success('Usuario eliminado');
+                    queryClient.invalidateQueries({ queryKey: ['users', limit.value, offSet] });
+                },
+                onError: error => {
+                    showError({ responseError: error })
+                    queryClient.setQueryData(['users', limit.value, offSet], () => oldData);
+                }
+            });
+        }
     }
 
 
     if (!isFetching && !isLoading && error) showError({ responseError: error, exit: true });
 
+    useEffect(() => {
+        value && dialogDelete.current?.show();
+    }, [value]);
+
+
     return (user?.role === TypeUser.user)
         ? <Navigate to="/home" />
         :
         <article className="container-user">
+            <Portal className="blur-2" refElement={dialog} onClosed={(close) => close && createUserRef.current?.classList.toggle('scale-down-center')} >
+                <CreateUserModalContent dialog={dialog} reference={createUserRef} onSuccess={({ exit }) => { exit && refetch() }} />
+            </Portal>
+            <AlertDelete />
             <header>
                 <h1>Users</h1>
                 <button className="button-small" onClick={() => dialog.current?.show()} >
                     <AddUser />
                     Add user
                 </button>
-                <Portal className="blur-2" refElement={dialog} onClosed={(close) => close && createUserRef.current?.classList.toggle('scale-down-center')} >
-                    <CreateUserModalContent dialog={dialog} reference={createUserRef} onSuccess={(exit) => { exit && refetch() }} />
-                </Portal>
             </header>
-            {/* <section>
-                <Table data={data ?? []} keyId="id" keys={Keys} nameTable="Users" />
-            </section> */}
             <section className="container-table">
                 <div className="search">
                     <Input
@@ -121,22 +134,24 @@ export const UsersPage = () => {
                     <table>
                         <tbody>
                             {
-                                (filter ?? data)?.map(({ id, fullName, userName, role, isActive }) => (
-                                    <tr key={id}>
-                                        <td data-label='Full name'>{fullName}</td>
-                                        <td data-label='User'>{userName}</td>
-                                        <td data-label='Role'>{role}</td>
-                                        <td data-label='Status'>{JSON.stringify(isActive)}</td>
-                                        <td data-label='Actions'>
-                                            {
-                                                <span className="actions">
-                                                    <button disabled={id === user?.id} className="btn-icon btn-icon-small"><Home /></button>
-                                                    <button disabled={id === user?.id} className="btn-icon btn-icon-delete btn-icon-small" onClick={deleteUser(id)}><Delete /></button>
-                                                </span>
-                                            }
-                                        </td>
-                                    </tr>
-                                ))
+                                (filter ?? data)?.map(userList => {
+                                    const { id, fullName, userName, role, isActive } = userList;
+                                    return (
+                                        <tr key={id}>
+                                            <td data-label='Full name'>{fullName}</td>
+                                            <td data-label='User'>{userName}</td>
+                                            <td data-label='Role'>{role}</td>
+                                            <td data-label='Status'>{JSON.stringify(isActive)}</td>
+                                            <td data-label='Actions'>
+                                                {
+                                                    <span className="actions">
+                                                        <button disabled={id === user?.id} className="btn-icon btn-icon-delete btn-icon-small" onClick={() => setValue(userList)}><Delete /></button>
+                                                    </span>
+                                                }
+                                            </td>
+                                        </tr>
+                                    )
+                                })
                             }
                         </tbody>
                     </table>

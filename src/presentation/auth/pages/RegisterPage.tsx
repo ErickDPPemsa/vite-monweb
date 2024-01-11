@@ -3,7 +3,10 @@ import { Link } from "react-router-dom";
 import { FormUserRegister } from "../../components/FormRegister";
 
 export const RegisterPage = () => {
-    const onSuccess = (created: boolean) => {
+    const onSuccess = ({ exit: created }: {
+        exit: boolean;
+        value?: Object | undefined;
+    }) => {
         if (created) {
             console.log('CREATED...');
         }

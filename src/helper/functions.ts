@@ -19,13 +19,13 @@ export const getDate = (dateIn?: Date): formatDate => {
     try {
         const newDate = dateIn ?? new Date();
         let date = newDate.toLocaleDateString();
-        let time = newDate.toLocaleTimeString();
+        let time = newDate.toTimeString().slice(0, 8);
         const [day, month, year]: Array<number> = date.split('/').map(value => +value);
         date = `${year}-${`${month}`.padStart(2, '0')}-${`${day}`.padStart(2, '0')}`;
         const [hour, minute, second]: Array<number> = time.split(':').map(value => +value);
+        time = `${`${hour}`.padStart(2, '0')}:${`${minute}`.padStart(2, '0')}:${`${second}`.padStart(2, '0')}`;
         const daysInMonth = new Date(year, month, 0).getDate();
         const startDay = new Date(newDate.getFullYear(), newDate.getMonth(), 1).getDay();
-
         return {
             DATE: newDate,
             daysInMonth,
@@ -34,7 +34,6 @@ export const getDate = (dateIn?: Date): formatDate => {
             time: { time, hour, minute, second },
         };
     } catch (error) {
-        console.log(error);
         return getDate();
     }
 }

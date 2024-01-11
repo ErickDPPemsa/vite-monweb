@@ -3,7 +3,7 @@ import { X } from "../../icons/icons";
 import { ModalContent } from "../../interfaces/interfaces";
 import { FormUserRegister } from "../FormRegister";
 
-export const CreateUserModalContent = ({ reference, dialog, onSuccess }: ModalContent) => {
+export const CreateUserModalContent = <T extends Object>({ reference, dialog, onSuccess }: ModalContent<T>) => {
 
     const onAnimationEnd = useCallback(
         ({ currentTarget }: React.AnimationEvent<HTMLDivElement>) => {
@@ -20,23 +20,21 @@ export const CreateUserModalContent = ({ reference, dialog, onSuccess }: ModalCo
             if (exit && reference.current) {
                 reference.current.classList.toggle('scale-down-center');
             }
-            onSuccess && onSuccess(exit);
+            onSuccess && onSuccess({ exit });
         },
         [reference.current],
     )
 
-
     return (
         <div ref={reference} className={`add-user scale-up-center`} onAnimationEnd={onAnimationEnd}>
             <span>
-                <h1>Crear nuevo usuario</h1>
+                <h1>Create user</h1>
                 <button onClick={() => Success(true)} className="btn-icon">
                     <X />
                 </button>
             </span>
-            <FormUserRegister onSuccess={Success} />
+            <FormUserRegister onSuccess={({ exit }) => Success(exit)} />
         </div>
-
     )
 }
 

@@ -10,6 +10,7 @@ import { DataTable } from "../../components/DataTable";
 import { Key } from "../../interfaces/interfaces";
 import { AlarmApplicationSystem, Event } from "../../../interfaces";
 import { useHandleError } from "../../../hooks";
+import { Loader } from "../../components/Loader";
 
 const Keys: Array<Key<Event<AlarmApplicationSystem>>> = [
     { wildcard: '--', key: ['FechaOriginal', 'Hora'], title: 'Date Hour', style: { textAlign: 'center', fontWeight: '400' } },
@@ -36,7 +37,7 @@ export const SystemRequestPage = () => {
         <article className="container-page-report">
             <header>
                 <div className="top">
-                    <h1>Installed systems</h1>
+                    <h1>System request</h1>
 
                     <span className="container-buttons">
                         <div className="pickers">
@@ -59,26 +60,31 @@ export const SystemRequestPage = () => {
                     </span>
                 </div>
             </header>
-            <section className="content-data" style={{ display: 'flex', gap: '1rem', padding: '1rem 0' }}>
-                <DataTable
-                    title="Srs"
-                    data={data?.srs ?? []}
-                    id='CodigoCte'
-                    keys={Keys}
-                />
-                <DataTable
-                    title="Sta"
-                    data={data?.sta ?? []}
-                    id='CodigoCte'
-                    keys={Keys}
-                />
-                <DataTable
-                    title="Pending srs"
-                    data={data?.pendingSrs ?? []}
-                    id='CodigoCte'
-                    keys={Keys}
-                />
-            </section>
+            {
+                (isLoading)
+                    ? <Loader text="Loading ..." />
+                    :
+                    <section className="content-data" style={{ display: 'flex', gap: '1rem', padding: '1rem 0' }}>
+                        <DataTable
+                            title="Srs"
+                            data={data?.srs ?? []}
+                            id='CodigoCte'
+                            keys={Keys}
+                        />
+                        <DataTable
+                            title="Sta"
+                            data={data?.sta ?? []}
+                            id='CodigoCte'
+                            keys={Keys}
+                        />
+                        <DataTable
+                            title="Pending srs"
+                            data={data?.pendingSrs ?? []}
+                            id='CodigoCte'
+                            keys={Keys}
+                        />
+                    </section>
+            }
         </article >
     )
 };

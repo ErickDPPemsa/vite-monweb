@@ -10,6 +10,7 @@ import { ReportService } from "../../../services";
 import { Key } from "../../interfaces/interfaces";
 import { AlarmTechnicalOnSite, Event } from "../../../interfaces";
 import { useHandleError } from "../../../hooks";
+import { Loader } from "../../components/Loader";
 
 const Keys: Array<Key<Event<AlarmTechnicalOnSite>>> = [
     { wildcard: '--', key: ['FechaOriginal', 'Hora'], title: 'Date Hour', style: { minWidth: '170px' } },
@@ -40,7 +41,7 @@ export const TechnicalOnSitePage = () => {
         <article className="container-page-report">
             <header>
                 <div className="top">
-                    <h1>Installed systems</h1>
+                    <h1>Technical on site</h1>
                     <span className="container-buttons">
                         <div className="pickers">
                             <DatePicker showIcon date={start} onChange={setStart} label="Start" />
@@ -62,20 +63,25 @@ export const TechnicalOnSitePage = () => {
                     </span>
                 </div>
             </header>
-            <section className="content-data" style={{ display: 'flex', gap: '1rem', padding: '1rem 0' }}>
-                <DataTable
-                    title="Tese"
-                    data={data?.tese ?? []}
-                    id='CodigoCte'
-                    keys={Keys}
-                />
-                <DataTable
-                    title="Tess"
-                    data={data?.tess ?? []}
-                    id='CodigoCte'
-                    keys={Keys}
-                />
-            </section>
+            {
+                (isLoading)
+                    ? <Loader text="Loading ..." />
+                    :
+                    <section className="content-data" style={{ display: 'flex', gap: '1rem', padding: '1rem 0' }}>
+                        <DataTable
+                            title="Tese"
+                            data={data?.tese ?? []}
+                            id='CodigoCte'
+                            keys={Keys}
+                        />
+                        <DataTable
+                            title="Tess"
+                            data={data?.tess ?? []}
+                            id='CodigoCte'
+                            keys={Keys}
+                        />
+                    </section>
+            }
         </article >
     )
 };

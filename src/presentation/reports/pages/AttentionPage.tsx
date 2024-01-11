@@ -10,6 +10,7 @@ import { Key } from "../../interfaces/interfaces";
 import { getDate } from "../../../helper/functions";
 import { ReportService } from "../../../services";
 import { useQuery } from "@tanstack/react-query";
+import { Loader } from "../../components/Loader";
 
 const Keys: Array<Key<Event<string>>> = [
     { wildcard: '--', key: 'DescripcionAlarm', title: 'Alarm description', style: { textAlign: 'center' } },
@@ -40,7 +41,7 @@ export const AttentionPage = () => {
         <article className="container-page-report">
             <header>
                 <div className="top">
-                    <h1>Installed systems</h1>
+                    <h1>Alarm attention</h1>
                     <span className="container-buttons">
                         <div className="pickers">
                             <DatePicker showIcon date={start} onChange={setStart} label="Start" />
@@ -62,14 +63,20 @@ export const AttentionPage = () => {
                     </span>
                 </div>
             </header>
-            <section className="content-data" style={{ display: 'flex', gap: '1rem', padding: '1rem 0' }}>
-                <DataTable
-                    title="Alarm attention"
-                    data={data?.events ?? []}
-                    id='CodigoCte'
-                    keys={Keys}
-                />
-            </section>
+            {
+                (isLoading)
+                    ? <Loader text="Loading ..." />
+                    :
+                    <section className="content-data" style={{ display: 'flex', gap: '1rem', padding: '1rem 0' }}>
+                        <DataTable
+                            title="Alarm attention"
+                            data={data?.events ?? []}
+                            id='CodigoCte'
+                            keys={Keys}
+                        />
+                    </section>
+            }
+
         </article >
     )
 };

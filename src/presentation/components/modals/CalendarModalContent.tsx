@@ -8,13 +8,13 @@ import { formatDate } from "../../../interfaces";
 import { DatePicker } from "../calendar/DatePicker";
 import { Calendar } from "../calendar/Calendar";
 
-interface PropsPicker extends ModalContent {
+interface PropsPicker<T> extends ModalContent<T> {
     onChenge: (date: formatDate) => void;
     locale?: 'es' | 'en';
     title?: string;
 }
 
-export const CalendarModalContent = ({ dialog, reference, onChenge, locale = 'es', title }: PropsPicker) => {
+export const CalendarModalContent = <T extends Object>({ dialog, reference, onChenge, locale = 'es', title }: PropsPicker<T>) => {
     const [date, setDate] = useState<formatDate>(getDate());
     const [isCustomDate, setIsCustomDate] = useState<boolean>(false);
     const [isSelectYear, setIsSelectYear] = useState<boolean>(false);

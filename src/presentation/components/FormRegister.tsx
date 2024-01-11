@@ -21,7 +21,7 @@ const options: Array<{ value: TypeUser, label: string }> = [
     { label: 'User', value: TypeUser.user }
 ];
 
-export const FormUserRegister = ({ onSuccess }: PropsForm) => {
+export const FormUserRegister = <T extends Object>({ onSuccess }: PropsForm<T>) => {
     const user = useAuthStore(store => store.user);
     const { handleSubmit, control, reset, setError } = useForm<Inputs>({ defaultValues: { fullName: '', userName: '', password: '', validPassword: '', role: options[1] } });
 
@@ -35,7 +35,7 @@ export const FormUserRegister = ({ onSuccess }: PropsForm) => {
             mutate({ ...rest, role: role?.value, isActive: true }, {
                 onSuccess: user => {
                     reset();
-                    onSuccess && onSuccess(true);
+                    onSuccess && onSuccess({ exit: true });
                     toast.success(`User ${user.fullName} with username: ${user.userName} was created`)
                 },
                 onError: error => {

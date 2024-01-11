@@ -22,8 +22,6 @@ export const InstallSystemPage = () => {
         queryFn: ReportService.installerSystems
     });
 
-    if (isLoading) return <Loader text="Loading ..." />
-
     if (!isFetching && !isLoading && error) showError({ responseError: error });
 
     return (
@@ -34,22 +32,27 @@ export const InstallSystemPage = () => {
                     {(isFetching) ? <Spinner classname="icon-spin" /> : 'Refresh'}
                 </button>
             </header>
-            <section className="content-data">
-                <DataTable
-                    indices
-                    title="Installed systems"
-                    data={data?.accounts.filter(account => account.panel.Modelo) ?? []}
-                    id='CodigoCte'
-                    keys={Keys}
-                />
-                <DataTable
-                    indices
-                    title="No registered system"
-                    data={data?.accounts.filter(account => !account.panel.Modelo) ?? []}
-                    id='CodigoCte'
-                    keys={Keys}
-                />
-            </section>
+            {
+                (isLoading)
+                    ? <Loader text="Loading ..." />
+                    :
+                    <section className="content-data">
+                        <DataTable
+                            indices
+                            title="Installed systems"
+                            data={data?.accounts.filter(account => account.panel.Modelo) ?? []}
+                            id='CodigoCte'
+                            keys={Keys}
+                        />
+                        <DataTable
+                            indices
+                            title="No registered system"
+                            data={data?.accounts.filter(account => !account.panel.Modelo) ?? []}
+                            id='CodigoCte'
+                            keys={Keys}
+                        />
+                    </section>
+            }
         </article >
     )
 };

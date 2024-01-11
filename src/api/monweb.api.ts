@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { useAuthStore } from '../stores';
-
 const monwebApi = axios.create({
-  baseURL: 'http://localhost:3000'
+  baseURL: import.meta.env.VITE_REACT_API_URL
 });
 
 monwebApi.interceptors.request.use(

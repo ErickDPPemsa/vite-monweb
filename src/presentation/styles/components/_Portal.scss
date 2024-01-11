@@ -31,6 +31,25 @@
         padding: .5rem;
         min-width: 150px;
 
+        .change-password {
+            padding: .5rem;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+            max-width: 300px;
+            min-width: 300px;
+
+            .buttons {
+                display: flex;
+                gap: 5px;
+                justify-content: flex-end;
+
+                .cancel {
+                    background-color: var(--error);
+                }
+            }
+        }
+
         .details {
             padding: .5rem;
             position: relative;
@@ -99,6 +118,29 @@
 
             .input-container {
                 margin-bottom: 10px;
+            }
+        }
+    }
+
+    .delete-user {
+        @extend .add-user;
+        width: auto;
+
+        .content-alert {
+            margin: 1rem 0;
+
+            span {
+                justify-content: flex-end;
+                gap: .5rem;
+                margin-top: 1rem;
+
+                .button-small {
+                    text-transform: uppercase;
+                }
+
+                .cancel {
+                    background-color: var(--error)
+                }
             }
         }
     }

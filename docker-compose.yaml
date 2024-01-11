@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  iso_front:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: iso_front
+    container_name: iso_front
+    restart: always
+    ports:
+      - 5000:80

@@ -1,11 +1,14 @@
 import { useCallback, useState } from "react";
 import { getDate, modDate } from "../../helper/functions";
 import { DatePicker } from "../components/calendar/DatePicker"
-import { Operator, formatDate } from "../../interfaces";
+import { Event, Operator, formatDate } from "../../interfaces";
 import { useQuery } from "@tanstack/react-query";
 import { ReportService } from "../../services";
 import { useHandleError } from "../../hooks";
-import { Circle, Spinner } from "../icons/icons";
+import { CloudDownload, Spinner } from "../icons/icons";
+import { Text } from "../components/Text";
+import { Loader } from "../components/Loader";
+import { utils, writeFile } from "xlsx";
 
 export const HomePage = () => {
     const { showError } = useHandleError();
@@ -19,24 +22,44 @@ export const HomePage = () => {
 
     if (!isFetching && !isLoading && error) showError({ responseError: error, exit: true });
 
-    // const getAlarms = () => {
-    //     return [...new Set(events.map(event => event.CodigoAlarma))]
-    //         .map(alarm => alarm)
-    //         .reduce((acc, current) => [...acc, current], []);
-    // }
+    const consult = () => {
+        setEnd(getDate());
+        refetch()
+    }
+
+    const download = useCallback(
+        ({ events, keys, title, percentaje }: { events: Array<Event<string>>, keys: Array<keyof Event<string>>, title: string, percentaje: number }) => () => {
+            const sanityData = events.map(element => keys.map(key => key).reduce((acc, current) => ({ ...acc, [current]: element[current] }), {}));
+            const wb = utils.book_new();
+            const ws = utils.json_to_sheet([[]]);
+            utils.sheet_add_json(ws, sanityData);
+            utils.sheet_add_aoa(ws, [["Operator", "#Events", "Percentaje"], [title, events.length, percentaje]], { origin: `${String.fromCharCode(65 + keys.length + 2)}1` });
+
+            utils.book_append_sheet(wb, ws, title);
+            writeFile(wb, `${title}.xlsx`);
+        },
+        [data],
+    );
 
     const RenderOperator = useCallback(
         ({ name, events }: Operator) => {
             const alarms = [...new Set(events.map(event => event.CodigoAlarma))].reduce((acc, current) => ({ ...acc, [current]: events.filter(a => a.CodigoAlarma === current).length }), {});
             const entries = Object.entries(alarms) as Array<[string, number]>;
+            const keys: Array<keyof Event<string>> = ['FechaOriginal', 'Hora', 'FechaPrimeraToma', 'HoraPrimeraToma', 'CodigoCte', 'Minutes', 'CodigoAlarma', 'CodigoEvento'];
+            const percentaje: number = data?.totalEvents ? +Math.ceil((events.length * 100) / data.totalEvents) : 0;
             return (
                 <div className="operator">
                     <div className="top">
                         <h3>{name === '' ? 'Pendings events...' : name}</h3>
-                        <h4>Events: {events.length}</h4>
+                        <span className="actions">
+                            <h4>Events: {events.length}</h4>
+                            <button className="btn-icon" onClick={download({ events, keys, title: name, percentaje })}>
+                                <CloudDownload />
+                            </button>
+                        </span>
                     </div>
                     <div>
-                        <p>Percentaje: {data && Math.round((events.length * 100) / data.totalEvents)}%</p>
+                        <Text>Percentaje: {percentaje}%</Text>
                     </div>
                     <div className="alarms">
                         {entries.map(value => <p className="value" key={`${name}-${value[0]}`}>{value[0]}: {value[1]}</p>)}
@@ -59,20 +82,27 @@ export const HomePage = () => {
                             <DatePicker type="datetime-local" showIcon date={end} onChange={setEnd} label="End" />
                         </div>
                         <div className="buttons" >
-                            <button className="button-small" onClick={() => refetch()}>
+                            <button className="button-small" onClick={consult}>
                                 {(isFetching) ? <Spinner classname="icon-spin" /> : 'Consult'}
                             </button>
+                            {/* <button className="btn-icon">
+                                <CloudDownload />
+                            </button> */}
                         </div>
                     </span>
                 </div>
             </header>
-            <section className="content-data">
-                <h2>Total Events: {data?.totalEvents}</h2>
-
-                <div className="container-operators">
-                    {data?.operators.map((props) => <RenderOperator key={`Name:${props.name}`} {...props} />)}
-                </div>
-            </section>
+            {
+                isLoading
+                    ? <Loader text="Loading" />
+                    :
+                    <section className="content-data">
+                        <h2>Total Events: {data?.totalEvents}</h2>
+                        <div className="container-operators">
+                            {(data && data.operators) && data.operators.map((props) => <RenderOperator key={`Name:${props.name}`} {...props} />)}
+                        </div>
+                    </section>
+            }
         </article >
     )
 }

@@ -36,6 +36,10 @@ export interface propsUserCreate {
     role?: string;
 }
 
+export type UpdateUser<T> = {
+    [P in keyof T]?: T[P];
+}
+
 export interface ResponseInstallerSystem {
     accounts: Account[];
 }
