@@ -38,8 +38,6 @@ export const DataTable = <T extends Object>({ keys, data, id, indices, title }: 
             const sanityData = (filter ?? data).slice().map(element => keys.map(({ key }) => key).flatMap(a => a).reduce((acc, current) => ({
                 ...acc, [current]: typeof element[current] === 'object' ? getElemnt(element[current]) : element[current]
             }), {}));
-            console.log(sanityData);
-
             const ws = utils.json_to_sheet(sanityData);
             const wb = utils.book_new();
             utils.book_append_sheet(wb, ws, "Data");
