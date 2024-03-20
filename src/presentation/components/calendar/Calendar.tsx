@@ -89,7 +89,7 @@ export const Calendar = ({ date, onChange, isSelectYear, isSelectMonth, locale =
     );
 
     return (
-        <div className="bg-red-200">
+        <div className="bg-red-200 ">
             <ol className="grid">
                 <li translate='no' className="day-name">S</li>
                 <li translate='no' className="day-name">M</li>
