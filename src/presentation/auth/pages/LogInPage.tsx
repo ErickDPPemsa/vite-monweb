@@ -6,7 +6,8 @@ import { AuthService } from "../../../services/auth.service";
 import { useMutation } from "@tanstack/react-query";
 import { useAuthStore } from "../../../stores";
 import { useHandleError } from "../../../hooks";
-import { Spinner } from "../../icons/icons";
+import { Button } from "../../components/Button";
+import { Divide } from "../../components/Divide";
 
 type InputsLogIn = {
   userName: string,
@@ -17,23 +18,18 @@ export const LogInPage = () => {
   const { handleSubmit, control } = useForm<InputsLogIn>({ defaultValues: { userName: '', password: '' } });
   const logIn = useAuthStore(state => state.logIn);
   const { showError } = useHandleError();
-  const { mutate, isLoading } = useMutation(['logIn'], AuthService.login, { retry: 0 });
+  const { mutate, isPending } = useMutation({ mutationKey: ['logIn'], mutationFn: AuthService.login, retry: 0 });
 
   const onSubmit: SubmitHandler<InputsLogIn> = async (data) =>
     mutate(data, {
-      onSuccess: ({ createdAt, updatedAt, token, ...rest }) => logIn(rest, token),
+      onSuccess: ({ token, ...rest }) => logIn(rest, token),
       onError: error => showError({ responseError: error }),
     });
-  ;
 
   return (
-    <article>
-      <h1 className={`form-container_title`}>Sign in</h1>
-      <Text className="form-container_text">Don't have an account ? <Link to={'/auth/register'}><strong>Sign up</strong></Link></Text>
-      <div className="separator">
-        <span children="or" />
-      </div>
-      <form onSubmit={handleSubmit(onSubmit)}>
+    <article className="w-max h-max min-w-[400px] bg-slate-50 dark:bg-slate-900 p-[2rem] rounded-3xl flex flex-col gap-3 shadow-md dark:shadow-slate-700">
+      <h1 className={'text-3xl font-semibold text-slate-600 dark:text-slate-300'}>Sign in</h1>
+      <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
         <TextField
           control={control}
           name="userName"
@@ -45,9 +41,9 @@ export const LogInPage = () => {
           labelText="Password"
           type="password"
         />
-        <button disabled={isLoading} className="button elevation-2" type="submit">
-          {isLoading ? <Spinner classname="icon-spin" /> : 'Sign in'}
-        </button>
+        <Button loading={isPending} children="Sign in" />
+        <Divide label="or" />
+        <Text variant="text-lg" className="sform-container_text">Don't have an account? <Link to={'/auth/register'}><strong>Sign up</strong></Link></Text>
       </form>
     </article>
   )

@@ -10,19 +10,23 @@ export function useCheckAuth() {
     const status = useAuthStore(state => state.status);
     const logOut = useAuthStore(state => state.logOut);
     const logIn = useAuthStore(state => state.logIn);
-    const req = useQuery(['checkStatus'], AuthService.checkStatus, {
+    const req = useQuery({
+        queryKey: ['checkStatus'],
+        queryFn: AuthService.checkStatus,
         enabled: (!!token && status === AuthStatus.pending),
         retry: 1,
     });
+
     useEffect(() => {
         if (req.error) {
             toast.error(`${req.error}`);
             logOut();
         }
         if (req.data) {
-            const { createdAt, updatedAt, token, ...rest } = req.data;
+            const { token, ...rest } = req.data;
             logIn(rest, token);
         }
-    }, [req.error, req.data])
+    }, [req.error, req.data, logOut, logIn]);
+
     return req;
-};
+}

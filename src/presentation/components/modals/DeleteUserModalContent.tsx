@@ -3,7 +3,7 @@ import { ModalContent } from '../../interfaces/interfaces';
 import { X } from '../../icons/icons';
 import { Text } from '../Text';
 
-export const DeleteUserModalContent = <T extends Object>({ reference, dialog, onSuccess, fullName, userName, value, setValue }: ModalContent<T> & {
+export const DeleteUserModalContent = <T extends object>({ reference, dialog, onSuccess, fullName, userName, value, setValue }: ModalContent<T> & {
     fullName: keyof T;
     userName: keyof T;
     value: T | undefined;
@@ -38,7 +38,7 @@ export const DeleteUserModalContent = <T extends Object>({ reference, dialog, on
                 </button>
             </span>
             <div className='content-alert'>
-                <Text variant='Title-medium'>Are you sure to delete this user?</Text>
+                <Text>Are you sure to delete this user?</Text>
                 <Text><b>Name:</b> {value && String(value[fullName])}</Text>
                 <Text><b>Username:</b> {value && String(value[userName])}</Text>
                 <span>

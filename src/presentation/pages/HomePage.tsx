@@ -38,7 +38,7 @@ export const HomePage = () => {
             utils.book_append_sheet(wb, ws, title);
             writeFile(wb, `${title}.xlsx`);
         },
-        [data],
+        [],
     );
 
     const RenderOperator = useCallback(
@@ -72,35 +72,28 @@ export const HomePage = () => {
 
 
     return (
-        <article className="container-page-report">
-            <header>
-                <div className="top">
-                    <h1>Dashboard</h1>
-                    <span className="container-buttons">
-                        <div className="pickers">
-                            <DatePicker type="datetime-local" showIcon date={start} onChange={setStart} label="Start" />
-                            <DatePicker type="datetime-local" showIcon date={end} onChange={setEnd} label="End" />
-                        </div>
-                        <div className="buttons" >
-                            <button className="button-small" onClick={consult}>
-                                {(isFetching) ? <Spinner classname="icon-spin" /> : 'Consult'}
-                            </button>
-                            {/* <button className="btn-icon">
-                                <CloudDownload />
-                            </button> */}
-                        </div>
-                    </span>
-                </div>
+        <article className="">
+            <header className="flex w-full m-1 h-16 items-center justify-between">
+                <h1>Dashboard</h1>
+                <span className="flex gap-4 items-center justify-center h-full">
+                    <div className="flex gap-4">
+                        <DatePicker type="datetime-local" showIcon date={start} onChange={setStart} label="Start" />
+                        <DatePicker type="datetime-local" showIcon date={end} onChange={setEnd} label="End" />
+                    </div>
+                    <button className="min-w-[100px] h-11 bg-slate-600 dark:bg-slate-500 text-slate-200 px-[1rem] py-[.5rem] rounded-lg text-lg font-semibold shadow-sm flex items-center justify-center" onClick={consult}>
+                        {(isFetching) ? <Spinner classname="animate-spin" /> : 'Consult'}
+                    </button>
+                </span>
             </header>
             {
                 isLoading
                     ? <Loader text="Loading" />
                     :
-                    <section className="content-data">
-                        <h2>Total Events: {data?.totalEvents}</h2>
+                    <section className="bg-blue-400">
+                        {/* <h2>Total Events: {data?.totalEvents}</h2>
                         <div className="container-operators">
                             {(data && data.operators) && data.operators.map((props) => <RenderOperator key={`Name:${props.name}`} {...props} />)}
-                        </div>
+                        </div> */}
                     </section>
             }
         </article >

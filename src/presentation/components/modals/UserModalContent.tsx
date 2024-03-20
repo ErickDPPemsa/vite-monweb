@@ -7,9 +7,9 @@ import { TextField } from "../TextField";
 import { toast } from "sonner";
 import { useHandleError, useUpdateUser } from "../../../hooks";
 
-interface Inputs { newPassword: string; confirm: string; };
+interface Inputs { newPassword: string; confirm: string; }
 
-export const UserModalContent = <T extends Object>({ dialog, reference, rect }: ModalContent<T>) => {
+export const UserModalContent = <T extends object>({ dialog, reference, rect }: ModalContent<T>) => {
     const user = useAuthStore(state => state.user);
     const logOut = useAuthStore(state => state.logOut);
     const [isChangePassword, setIsChangePassword] = useState(false);
@@ -66,7 +66,7 @@ export const UserModalContent = <T extends Object>({ dialog, reference, rect }: 
     const FormChangePassword = () => {
         return (
             <form onSubmit={handleSubmit(onSubmit)} className="change-password">
-                <Text variant="Body-medium">Enter your new password</Text>
+                <Text>Enter your new password</Text>
                 <TextField
                     control={control}
                     name="newPassword"
@@ -94,8 +94,8 @@ export const UserModalContent = <T extends Object>({ dialog, reference, rect }: 
     return (
         <div onAnimationEnd={onAnimationEnd} ref={reference} className='user-modal scale-up-top-right' style={rect && { top: rect.bottom, right: rect.width }} >
             <section className='details'>
-                <Text variant="Title-large" children={user?.userName} />
-                <Text variant="Title-small" children={user?.fullName} />
+                <Text children={user?.userName} />
+                <Text children={user?.fullName} />
             </section>
             <div className='separator' />
             {

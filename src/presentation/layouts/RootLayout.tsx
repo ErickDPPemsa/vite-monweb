@@ -1,8 +1,8 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
-import { Nav } from "../components/Nav";
-import { TopBar } from "../components/TopBar";
+import { SideBar } from "../components/SideBar";
 import { useAuthStore } from "../../stores";
 import { AuthStatus } from "../../interfaces";
+import { NavBar } from "../components/NavBar";
 
 export const RootLayout = () => {
     const authStatus = useAuthStore(state => state.status);
@@ -16,12 +16,12 @@ export const RootLayout = () => {
     }
 
     return (
-        <section className="content">
-            <Nav />
-            <main className="main">
-                <TopBar />
+        <>
+            <NavBar />
+            <SideBar />
+            <main className="p-4 md:ml-64 h-auto pt-20">
                 <Outlet />
             </main>
-        </section>
+        </>
     )
 }

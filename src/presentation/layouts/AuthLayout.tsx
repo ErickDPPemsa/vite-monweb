@@ -12,17 +12,17 @@ export const AuthLayout = () => {
   }
 
   return (
-    <main className="log-in-container">
-      <aside className="banner elevation-2">
-        <img className="banner-logo img-dark" src={logo} alt="logo" />
-        <section className="banner-content">
-          <Text variant="Headline-large">Hello, wellcome back...</Text>
-          <img className="banner-content_img img-dark" src={logoIso} alt="logoIso" />
+    <main className="flex h-screen">
+      <aside className="w-96 flex flex-col shadow-lg dark:shadow-slate-600 px-2 bg-slate-50 dark:bg-slate-900">
+        <img className="size-16 dark:grayscale dark:invert drop-shadow-lg" src={logo} alt="logo" />
+        <section className="flex-1 flex flex-col justify-evenly pb-20">
+          <Text className="font-semibold" variant="text-3xl">Hello, wellcome back...</Text>
+          <img className="w-full dark:grayscale dark:invert drop-shadow-lg" src={logoIso} alt="logoIso" />
         </section>
       </aside>
-      <section style={{ gap: '3rem' }} className="form-container">
+      <section className="flex-1 flex items-center justify-center">
         <Outlet />
       </section>
-    </main>
+    </main >
   );
 };

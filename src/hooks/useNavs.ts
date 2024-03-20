@@ -9,9 +9,9 @@ export function useNavs() {
 
     useEffect(() => {
         AsideRef.current?.addEventListener('click', () => {
-            AsideRef.current?.classList.remove('handle-show');
+            AsideRef.current?.classList.remove('-translate-x-0');
         })
-    }, [AsideRef.current]);
+    }, []);
 
     const Navs: Array<{
         path: string;

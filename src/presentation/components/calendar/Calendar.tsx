@@ -10,6 +10,7 @@ export const Calendar = ({ date, onChange, isSelectYear, isSelectMonth, locale =
     locale?: 'es' | 'en';
 }) => {
     const currentDate = new Date();
+
     const days = [...Array(date.daysInMonth).keys()];
 
     const Day = useCallback(
@@ -22,7 +23,7 @@ export const Calendar = ({ date, onChange, isSelectYear, isSelectMonth, locale =
             const selected = date.date.day === day;
             return (<li translate='no' style={start ? { gridColumnStart: start } : {}} className={`Day ${isCurrentDay ? 'today' : ''} ${selected ? 'selected' : ''}`} onClick={onClick(day)}>{String(day).padStart(2, '0')}</li>)
         },
-        [date, modDate],
+        [currentDate, date.DATE, date.date.day, onChange],
     );
 
     const RenderDays = useCallback(
@@ -88,8 +89,8 @@ export const Calendar = ({ date, onChange, isSelectYear, isSelectMonth, locale =
     );
 
     return (
-        <div className="container-calendar">
-            <ol className="calendar">
+        <div className="bg-red-200">
+            <ol className="grid">
                 <li translate='no' className="day-name">S</li>
                 <li translate='no' className="day-name">M</li>
                 <li translate='no' className="day-name">T</li>

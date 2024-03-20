@@ -2,9 +2,9 @@ import { useMutation } from "@tanstack/react-query";
 import { UserService } from '../services';
 
 export function useNewUser() {
-    return useMutation(['createUser'], UserService.create);
+    return useMutation({ mutationKey: ['createUser'], mutationFn: UserService.create });
 }
 
 export function useUpdateUser() {
-    return useMutation(['updateUser'], UserService.update);
+    return useMutation({ mutationKey: ['updateUser'], mutationFn: UserService.update });
 }

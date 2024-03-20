@@ -113,7 +113,7 @@ export const DataTable = <T extends Object>({ keys, data, id, indices, title }: 
                                 trailing={<X classname='icon-btn' onClick={clear} />}
                                 onChange={onChange}
                             />
-                            : <Text style={{ fontWeight: '500' }} variant='Title-large'>{title}</Text>
+                            : <Text style={{ fontWeight: '500' }}>{title}</Text>
                     }
                 </div>
                 <div className='actions'>

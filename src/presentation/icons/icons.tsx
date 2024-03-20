@@ -52,8 +52,8 @@ export const Clock1 = () => (
     </svg>
 );
 
-export const Sun = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+export const Sun = ({ clasName }: { clasName?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={`icon ${clasName}`} width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M14.828 14.828a4 4 0 1 0 -5.656 -5.656a4 4 0 0 0 5.656 5.656z"></path>
         <path d="M6.343 17.657l-1.414 1.414"></path>
@@ -67,8 +67,8 @@ export const Sun = () => (
     </svg>
 );
 
-export const Moon = () => (
-    <svg xmlns="http://www.w3.org/2000/svg" className="icon" width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
+export const Moon = ({ clasName }: { clasName?: string }) => (
+    <svg xmlns="http://www.w3.org/2000/svg" className={`icon ${clasName}`} width="24" height="24" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
         <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
         <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z"></path>
     </svg>

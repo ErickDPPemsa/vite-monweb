@@ -4,15 +4,16 @@ import { useAuthStore } from "../../stores";
 import { TypeUser } from "../../interfaces";
 import { SelectField } from "./SelectField";
 import { useHandleError, useNewUser } from "../../hooks";
-import { Spinner } from "../icons/icons";
 import { PropsForm } from "../interfaces/interfaces";
 import { toast } from "sonner";
+import { Button } from "./Button";
 
 type Inputs = {
     fullName: string,
     userName: string,
     password: string,
     validPassword: string,
+    token: string,
     role: typeof options[0] | undefined,
 }
 
@@ -21,11 +22,11 @@ const options: Array<{ value: TypeUser, label: string }> = [
     { label: 'User', value: TypeUser.user }
 ];
 
-export const FormUserRegister = <T extends Object>({ onSuccess }: PropsForm<T>) => {
+export const FormUserRegister = <T extends object>({ onSuccess }: PropsForm<T>) => {
     const user = useAuthStore(store => store.user);
     const { handleSubmit, control, reset, setError } = useForm<Inputs>({ defaultValues: { fullName: '', userName: '', password: '', validPassword: '', role: options[1] } });
 
-    const { mutate, isLoading } = useNewUser();
+    const { mutate, isPending } = useNewUser();
     const { showError, Message } = useHandleError();
 
     const onSubmit: SubmitHandler<Inputs> = async ({ validPassword, role, ...rest }) => {
@@ -51,54 +52,60 @@ export const FormUserRegister = <T extends Object>({ onSuccess }: PropsForm<T>) 
 
 
     return (
-        <>
-            <form onSubmit={handleSubmit(onSubmit)}>
+        <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
+            <TextField
+                control={control}
+                name="fullName"
+                labelText="Full name"
+                autoCapitalize="none"
+            />
+            <span className="flex">
                 <TextField
                     control={control}
-                    name="fullName"
-                    labelText="Full name"
-                    autoCapitalize="none"
+                    name="userName"
+                    autoComplete="username"
+                    labelText="User"
                 />
-                <span className="divide">
-                    <TextField
+                {
+                    (user && user.role === TypeUser.admin) &&
+                    <SelectField
                         control={control}
-                        name="userName"
-                        autoComplete="username"
-                        labelText="User"
+                        name="role"
+                        // labelText="User type"
+                        options={options}
                     />
-                    {
-                        (user && user.role === TypeUser.admin) &&
-                        <SelectField
-                            control={control}
-                            name="role"
-                            labelText="User type"
-                            options={options}
-                        />
-                    }
-                </span>
-                <span className="divide">
-                    <TextField
-                        control={control}
-                        name="password"
-                        labelText="Password"
-                        autoComplete="current-password"
-                        autoCapitalize="none"
-                        type="password"
-                    />
-                    <TextField
-                        control={control}
-                        name="validPassword"
-                        autoCapitalize="none"
-                        labelText="Confirm password"
-                        autoComplete="new-password"
-                        type="password"
-                    />
-                </span>
-                <button disabled={isLoading} className="button elevation-2" type="submit">
-                    {isLoading && <Spinner classname="icon-spin" />}
-                    {user ? 'Add user' : 'Create your account'}
-                </button>
-            </form>
-        </>
+                }
+            </span>
+            <span className="flex gap-3">
+                <TextField
+                    control={control}
+                    name="password"
+                    labelText="Password"
+                    autoComplete="current-password"
+                    autoCapitalize="none"
+                    type="password"
+                />
+                <TextField
+                    control={control}
+                    name="validPassword"
+                    autoCapitalize="none"
+                    labelText="Confirm password"
+                    autoComplete="new-password"
+                    type="password"
+                />
+            </span>
+
+            <TextField
+                control={control}
+                name="token"
+                autoCapitalize="none"
+                labelText="Access token"
+                autoComplete="xxxx-xxxx-xxxx-xxxx"
+                type="text"
+            />
+            <div className="flex justify-center">
+                <Button className="px-6" full={false} loading={isPending} children={user ? 'Add user' : 'Create your account'} />
+            </div>
+        </form>
     )
 }

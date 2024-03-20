@@ -6,7 +6,7 @@ import { Moon, Palette, Sun, Circle } from "../../icons/icons";
 import { ModalContent } from "../../interfaces/interfaces"
 import { Text } from "../Text";
 
-export const ConfigModalContent = <T extends Object>({ dialog, reference }: ModalContent<T>) => {
+export const ConfigModalContent = <T extends object>({ dialog, reference }: ModalContent<T>) => {
 
     const mode = useThemeStore(state => state.mode);
     const updateMode = useThemeStore.getState().updateMode;

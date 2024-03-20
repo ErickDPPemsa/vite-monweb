@@ -12,21 +12,17 @@ export const useSetColors = () => {
     return (
         useEffect(() => {
             const isDarkSystem: boolean = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            Object.entries(colors).map(color => root.style.setProperty(`--color-${color[0]}`, `${color[1]}`));
+            // Object.entries(colors).map(color => root.style.setProperty(`--color-${color[0]}`, `${color[1]}`));
             (mode === ThemeMode.system)
                 ?
-                (isDarkSystem)
-                    ? root.setAttribute("data-theme", "theme-dark")
-                    : root.setAttribute("data-theme", "theme-light")
+                (isDarkSystem) ? root.classList.add('dark') : root.classList.remove('dark')
                 :
-                (mode === ThemeMode.light)
-                    ? root.setAttribute("data-theme", "theme-light")
-                    : root.setAttribute("data-theme", "theme-dark");
-        }, [mode, colors])
+                (mode === ThemeMode.light) ? root.classList.remove('dark') : root.classList.add('dark');
+        }, [mode, colors, root.classList])
         ,
         useEffect(() => {
             updateStatus(AuthStatus.pending);
-        }, [])
+        }, [updateStatus])
 
     )
 }

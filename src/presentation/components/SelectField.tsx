@@ -1,7 +1,7 @@
 import { Controller } from "react-hook-form"
 import { SelecFieldProps } from '../interfaces/interfaces'; import Select from "./Select";
 
-export const SelectField = <T extends Object>({ control, name, labelText, ...props }: SelecFieldProps<T>) => {
+export const SelectField = <T extends object>({ control, name, ...props }: SelecFieldProps<T>) => {
     return (
         <Controller
             control={control}
@@ -16,13 +16,12 @@ export const SelectField = <T extends Object>({ control, name, labelText, ...pro
                         onBlur={onBlur}
                         onChange={onChange}
                         value={value ?? ''}
-                        labelText={labelText}
                         error={error ? error.message : undefined}
                         name={name}
                         defaultValue={undefined}
                         className="react-select-container"
                         classNamePrefix="react-select"
-                        placeholder={labelText}
+                        // placeholder={labelText}
                         hideSelectedOptions
                         isClearable
                     />

@@ -73,7 +73,7 @@ export const DatePicker = ({ date, label = 'Date', onChange, locale = 'es', type
             else InputRef.current.value = `${date.date.date}T${`${date.time.hour}`.padStart(2, '0')}:${`${date.time.minute}`.padStart(2, '0')}`;
         setIsSelectedMonth(false);
         setIsSelectYear(false);
-    }, [date, type, InputRef.current]);
+    }, [date, type]);
 
     const Select = useCallback(
         ({ label, onClick, isShow, next, previous }: Select) => {

@@ -1,39 +1,36 @@
 import React from "react";
-import { Text } from "./Text";
 import { useFieldChanges } from "../../hooks";
 
 export interface Props extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
     labelText?: string;
     error?: string;
-    styleContent?: React.CSSProperties;
     classNameContent?: string;
     styleField?: React.CSSProperties;
-    styleFloatingLabel?: React.CSSProperties;
     leading?: React.ReactElement;
     trailing?: React.ReactElement;
     reference?: React.RefObject<HTMLInputElement>;
 }
 
-const Input = ({ labelText, error, styleContent, styleField, styleFloatingLabel, leading, trailing, classNameContent, reference, ...props }: Props) => {
-    const { inputRef, textField, floatingLabel, onBlur, onFocus } = useFieldChanges({ reference });
+const Input = ({ labelText, error, styleField, leading, trailing, classNameContent, reference, ...props }: Props) => {
+    const { inputRef, floatingLabel, onBlur, onFocus } = useFieldChanges({ reference });
     return (
-        <div style={styleContent} className={`input-container ${classNameContent}`}>
-            <label style={styleField} className={`field-container`}>
-                <label ref={textField} className={`field ${error ? 'field-error' : ''} ${leading ? 'field-leading' : ''} ${trailing ? 'field-trailing' : ''}`}>
+        <div className={`realtive ${classNameContent}`}>
+            <div style={styleField} className={`relative h-[50px] w-full rounded-xl border border-slate-400`}>
+                <label className={`flex h-full ${error ? 'field-error' : ''} ${leading ? 'bg-red-200' : ''} ${trailing ? 'mr-2' : ''}`}>
                     {leading}
                     <input
-                        className="input"
+                        className={`input text-slate-500 dark:text-slate-400 w-full h-full outline-none bg-transparent rounded-xl px-4 text-lg mt-1 ${trailing ? '-mr-7' : ''}`}
                         {...props}
                         ref={inputRef}
                         onFocus={onFocus}
                         onBlur={onBlur}
-                        style={{ color: error ? 'var(--error)' : 'currentcolor' }}
+                        style={{ color: error ? 'var(--error)' : undefined }}
                     />
                     {trailing}
                 </label>
-                {labelText && <span style={styleFloatingLabel} ref={floatingLabel} className={`floating-label ${leading ? 'floating-label-leading' : ''}`}>{labelText}</span>}
-            </label>
-            {error && <Text variant="Label-medium" className="text-error">{error}</Text>}
+                {labelText && <span onClick={() => inputRef.current?.focus()} ref={floatingLabel} className={`text-slate-600 dark:text-slate-300 text-lg absolute left-4 top-[10px] ${leading ? '' : ''}`}>{labelText}</span>}
+            </div>
+            {error && <p className="text-red-500 dark:text-red-400 ml-3 font-medium text-sm">{error}</p>}
         </div>
     )
 };
