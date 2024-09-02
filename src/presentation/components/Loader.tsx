@@ -2,7 +2,7 @@ import { Text } from "./Text"
 
 const Loader = ({ text, isFetching }: { text?: string, isFetching?: boolean }) => {
     return (
-        <span className={`flex h-screen flex-col justify-center items-center ${isFetching && 'bg-[red]'}`}>
+        <span className={`flex h-full flex-col justify-center items-center ${isFetching && 'bg-[red]'}`}>
             {isFetching ? <Radio /> : <Radio />}
             {text && <Text variant="text-lg" children={text} />}
         </span>

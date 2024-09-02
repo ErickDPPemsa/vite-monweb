@@ -9,7 +9,7 @@ export default {
     extend: {},
   },
   plugins: [
-    'prettier-plugin-tailwindcss',
+    'prettier-plugin-tailwindcss'
   ],
 }
 

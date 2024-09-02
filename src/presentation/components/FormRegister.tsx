@@ -50,7 +50,6 @@ export const FormUserRegister = <T extends object>({ onSuccess }: PropsForm<T>) 
         }
     };
 
-
     return (
         <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
             <TextField
@@ -59,7 +58,7 @@ export const FormUserRegister = <T extends object>({ onSuccess }: PropsForm<T>) 
                 labelText="Full name"
                 autoCapitalize="none"
             />
-            <span className="flex">
+            <span className="flex  items-center gap-3">
                 <TextField
                     control={control}
                     name="userName"
@@ -71,7 +70,7 @@ export const FormUserRegister = <T extends object>({ onSuccess }: PropsForm<T>) 
                     <SelectField
                         control={control}
                         name="role"
-                        // labelText="User type"
+                        placeholder="Select user type... "
                         options={options}
                     />
                 }
@@ -94,15 +93,17 @@ export const FormUserRegister = <T extends object>({ onSuccess }: PropsForm<T>) 
                     type="password"
                 />
             </span>
-
-            <TextField
-                control={control}
-                name="token"
-                autoCapitalize="none"
-                labelText="Access token"
-                autoComplete="xxxx-xxxx-xxxx-xxxx"
-                type="text"
-            />
+            {
+                !user &&
+                <TextField
+                    control={control}
+                    name="token"
+                    autoCapitalize="none"
+                    labelText="Access token"
+                    autoComplete="xxxx-xxxx-xxxx-xxxx"
+                    type="text"
+                />
+            }
             <div className="flex justify-center">
                 <Button className="px-6" full={false} loading={isPending} children={user ? 'Add user' : 'Create your account'} />
             </div>

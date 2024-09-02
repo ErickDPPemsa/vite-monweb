@@ -7,6 +7,8 @@ import { getDate, modDate } from "../../../helper/functions";
 import { formatDate } from "../../../interfaces";
 import { DatePicker } from "../calendar/DatePicker";
 import { Calendar } from "../calendar/Calendar";
+import { IconBtn } from "../IconBtn";
+import { Button } from "../Button";
 
 interface PropsPicker<T> extends ModalContent<T> {
     onChenge: (date: formatDate) => void;
@@ -14,7 +16,7 @@ interface PropsPicker<T> extends ModalContent<T> {
     title?: string;
 }
 
-export const CalendarModalContent = <T extends Object>({ dialog, reference, onChenge, locale = 'es', title }: PropsPicker<T>) => {
+export const CalendarModalContent = <T extends object>({ dialog, onChenge, locale = 'es', title }: PropsPicker<T>) => {
     const [date, setDate] = useState<formatDate>(getDate());
     const [isCustomDate, setIsCustomDate] = useState<boolean>(false);
     const [isSelectYear, setIsSelectYear] = useState<boolean>(false);
@@ -38,9 +40,9 @@ export const CalendarModalContent = <T extends Object>({ dialog, reference, onCh
         [dialog],
     );
     const close = () => {
-        reference.current?.classList.toggle('scale-down-center');
         setIsCustomDate(false);
         setIsSelectYear(false);
+        dialog.current?.close();
     }
 
     const DateOk = () => {
@@ -49,65 +51,40 @@ export const CalendarModalContent = <T extends Object>({ dialog, reference, onCh
     }
 
     return (
-        <div ref={reference} className="calendar-picker scale-up-center" onAnimationEnd={onAnimationEnd}>
+        <div className="p-4 rounded-xl bg-slate-100 shadow-lg" onAnimationEnd={onAnimationEnd}>
             <header>
-                <p>{title ?? 'Select date'}</p>
-                <div className="edit-date">
-                    {
-                        isCustomDate
-                            ? <p>Enter date</p>
-                            : <p translate="no">{dayName}, {monthShortName} {date.date.day}</p>
-                    }
-                    <button
-                        className='btn-icon'
-                        onClick={() => setIsCustomDate(!isCustomDate)}
-                    >
-                        {isCustomDate ? <CalendarStart /> : <Pencil />}
-                    </button>
+                <p className="text-sm font-medium">{title ?? 'Select date'}</p>
+                <div className="flex justify-between my-1">
+                    {isCustomDate ? <p className="text-lg uppercase font-semibold">Enter date</p> : <p className="text-xl uppercase font-semibold" translate="no">{dayName}, {monthShortName} {date.date.day}</p>}
+                    <IconBtn children={isCustomDate ? <CalendarStart /> : <Pencil />} onClick={() => setIsCustomDate(!isCustomDate)} />
                 </div>
             </header>
             <section>
                 {
                     isCustomDate
                         ?
-                        <div className="custom-date">
+                        <div className="py-4">
                             <DatePicker date={date} onChange={setDate} label="Select Date" locale="es" />
                         </div>
                         :
                         <>
-                            <span className='container-year'>
-                                <span className='select-year'>
+                            <span className='flex justify-between my-4'>
+                                <span className='flex gap-2'>
                                     <p>{monthName} {date.date.year}</p>
-                                    <button
-                                        className='btn-icon'
-                                        onClick={() => setIsSelectYear(!isSelectYear)}
-                                    >
-                                        <Caret classname={isSelectYear ? "rotate" : ''} />
-                                    </button>
+                                    <IconBtn className="bg-transparent" onClick={() => setIsSelectYear(!isSelectYear)} children={<Caret classname={`${isSelectYear ? "rotate-180" : ''} size-5`} />} />
                                 </span>
-                                <span className='arrows'>
-                                    <button
-                                        className='btn-icon'
-                                        onClick={() => setDate(modDate({ dateI: date.DATE, addMonth: -1 }))}
-                                    >
-                                        <CheveronLeft />
-                                    </button>
-                                    <button
-                                        className='btn-icon'
-                                        onClick={() => setDate(modDate({ dateI: date.DATE, addMonth: 1 }))}
-
-                                    >
-                                        <CheveronLeft classname='rotate' />
-                                    </button>
+                                <span className='flex gap-2'>
+                                    <IconBtn onClick={() => setDate(modDate({ dateI: date.DATE, addMonth: -1 }))} children={<CheveronLeft />} />
+                                    <IconBtn onClick={() => setDate(modDate({ dateI: date.DATE, addMonth: 1 }))} children={<CheveronLeft classname='rotate-180' />} />
                                 </span>
                             </span>
                             <Calendar date={date} onChange={setDate} isSelectYear={isSelectYear} />
                         </>
                 }
             </section>
-            <footer>
-                <button className="button-small" onClick={close}>Cancel</button>
-                <button className="button-small" onClick={DateOk}>OK</button>
+            <footer className="flex items-center justify-end gap-4">
+                <Button className="text-sm h-[35px]" typeBtn="error" onClick={close} children="Cancel" />
+                <Button className="text-sm h-[35px]" onClick={DateOk} children="OK" />
             </footer>
 
         </div>

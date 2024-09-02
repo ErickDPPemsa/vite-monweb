@@ -5,10 +5,12 @@ import { Event, Operator, formatDate } from "../../interfaces";
 import { useQuery } from "@tanstack/react-query";
 import { ReportService } from "../../services";
 import { useHandleError } from "../../hooks";
-import { CloudDownload, Spinner } from "../icons/icons";
+import { CloudDownload } from "../icons/icons";
 import { Text } from "../components/Text";
-import { Loader } from "../components/Loader";
 import { utils, writeFile } from "xlsx";
+import { Button } from "../components/Button";
+import { Loader } from "../components/Loader";
+import { IconBtn } from "../components/IconBtn";
 
 export const HomePage = () => {
     const { showError } = useHandleError();
@@ -17,6 +19,7 @@ export const HomePage = () => {
 
     const { data, refetch, isFetching, isLoading, error } = useQuery({
         queryKey: ['attention'],
+        refetchOnWindowFocus: true,
         queryFn: () => ReportService.attentionOperator({ start: `${start.date.date} ${start.time.time.slice(0, 5)}`, end: `${end.date.date} ${end.time.time.slice(0, 5)}` }),
     });
 
@@ -27,7 +30,7 @@ export const HomePage = () => {
         refetch()
     }
 
-    const download = useCallback(
+    const download =
         ({ events, keys, title, percentaje }: { events: Array<Event<string>>, keys: Array<keyof Event<string>>, title: string, percentaje: number }) => () => {
             const sanityData = events.map(element => keys.map(key => key).reduce((acc, current) => ({ ...acc, [current]: element[current] }), {}));
             const wb = utils.book_new();
@@ -36,10 +39,8 @@ export const HomePage = () => {
             utils.sheet_add_aoa(ws, [["Operator", "#Events", "Percentaje"], [title, events.length, percentaje]], { origin: `${String.fromCharCode(65 + keys.length + 2)}1` });
 
             utils.book_append_sheet(wb, ws, title);
-            writeFile(wb, `${title}.xlsx`);
-        },
-        [],
-    );
+            writeFile(wb, `${title}dd.xlsx`);
+        }
 
     const RenderOperator = useCallback(
         ({ name, events }: Operator) => {
@@ -48,54 +49,49 @@ export const HomePage = () => {
             const keys: Array<keyof Event<string>> = ['FechaOriginal', 'Hora', 'FechaPrimeraToma', 'HoraPrimeraToma', 'CodigoCte', 'Minutes', 'CodigoAlarma', 'CodigoEvento'];
             const percentaje: number = data?.totalEvents ? +Math.ceil((events.length * 100) / data.totalEvents) : 0;
             return (
-                <div className="operator">
-                    <div className="top">
-                        <h3>{name === '' ? 'Pendings events...' : name}</h3>
-                        <span className="actions">
+                <div className="shadow-md bg-slate-200 dark:bg-slate-600 dark:shadow-slate-950 p-4 rounded-2xl">
+                    <div className="flex gap-4 justify-between items-center ">
+                        <h3 className="text-xl font-semibold">{name === '' ? 'Pendings events...' : name}</h3>
+                        <span className="flex items-center gap-4">
                             <h4>Events: {events.length}</h4>
-                            <button className="btn-icon" onClick={download({ events, keys, title: name, percentaje })}>
-                                <CloudDownload />
-                            </button>
+                            <IconBtn className="size-9 flex justify-center items-center" onClick={download({ events, keys, title: name, percentaje })} children={<CloudDownload />} />
                         </span>
                     </div>
-                    <div>
-                        <Text>Percentaje: {percentaje}%</Text>
-                    </div>
-                    <div className="alarms">
-                        {entries.map(value => <p className="value" key={`${name}-${value[0]}`}>{value[0]}: {value[1]}</p>)}
+                    <Text variant="text-base">Percentaje: {percentaje}%</Text>
+                    <div className="flex flex-wrap gap-3 p-1 text-sm font-semibold mt-3">
+                        {entries.map(value => <p className="shadow-md dark:bg-slate-800 px-3 py-1 rounded-xl dark:shadow-slate-900" key={`${name}-${value[0]}`}>{value[0]}: {value[1]}</p>)}
                     </div>
                 </div>
             )
         },
-        [data],
+        [data?.totalEvents, download],
     )
 
 
     return (
-        <article className="">
+        <>
             <header className="flex w-full m-1 h-16 items-center justify-between">
-                <h1>Dashboard</h1>
+                <h1 className="text-4xl font-semibold" >Dashboard</h1>
                 <span className="flex gap-4 items-center justify-center h-full">
                     <div className="flex gap-4">
                         <DatePicker type="datetime-local" showIcon date={start} onChange={setStart} label="Start" />
                         <DatePicker type="datetime-local" showIcon date={end} onChange={setEnd} label="End" />
                     </div>
-                    <button className="min-w-[100px] h-11 bg-slate-600 dark:bg-slate-500 text-slate-200 px-[1rem] py-[.5rem] rounded-lg text-lg font-semibold shadow-sm flex items-center justify-center" onClick={consult}>
-                        {(isFetching) ? <Spinner classname="animate-spin" /> : 'Consult'}
-                    </button>
+                    <Button full={false} loading={isFetching} children="Consult" onClick={consult} />
                 </span>
             </header>
-            {
-                isLoading
-                    ? <Loader text="Loading" />
-                    :
-                    <section className="bg-blue-400">
-                        {/* <h2>Total Events: {data?.totalEvents}</h2>
-                        <div className="container-operators">
-                            {(data && data.operators) && data.operators.map((props) => <RenderOperator key={`Name:${props.name}`} {...props} />)}
-                        </div> */}
-                    </section>
-            }
-        </article >
+            <section className="flex-1 overflow-auto">
+                {
+                    isLoading ? <Loader text="Loading" />
+                        :
+                        <>
+                            <h2 className="text-xl">Total Events: {data?.totalEvents}</h2>
+                            <div className="grid grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+                                {(data && data.operators) && data.operators.map((props) => <RenderOperator key={`Name:${props.name}`} {...props} />)}
+                            </div>
+                        </>
+                }
+            </section>
+        </>
     )
 }

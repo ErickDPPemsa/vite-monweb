@@ -12,7 +12,6 @@ export interface Props extends PropsSelect {
 
 const Select = ({ error, styleContent, styleField, leading, ...props }: Props) => {
     const { onBlur, onFocus } = useFieldChanges({});
-
     return (
         <div style={styleContent} className="input-container">
             <label style={styleField} className={`field-container`}>

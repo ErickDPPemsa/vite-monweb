@@ -8,7 +8,7 @@ export const App = () => {
   useSetColors();
   const { isLoading, isFetching } = useCheckAuth();
   return (
-    <section className="bg-slate-100 dark:bg-slate-800 h-screen w-screen transition-colors">
+    <section className="bg-slate-100 dark:bg-slate-800 h-screen w-screen transition-colors duration-100">
       {(isLoading || isFetching) ? <Loader text="Checking..." /> : <RouterProvider router={router} />}
     </section>
   )

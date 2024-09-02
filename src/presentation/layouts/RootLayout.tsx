@@ -19,7 +19,7 @@ export const RootLayout = () => {
         <>
             <NavBar />
             <SideBar />
-            <main className="p-4 md:ml-64 h-auto pt-20">
+            <main className="p-4 lg:ml-64 pt-20 h-full flex-1 flex flex-col text-slate-700 dark:text-slate-300">
                 <Outlet />
             </main>
         </>

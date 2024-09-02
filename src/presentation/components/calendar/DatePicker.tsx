@@ -4,6 +4,9 @@ import Input from "../Input"
 import { modDate } from "../../../helper/functions";
 import { Calendar } from "./Calendar";
 import { formatDate } from '../../../interfaces';
+import { Button } from '../Button';
+import { Text } from '../Text';
+import { IconBtn } from '../IconBtn';
 
 interface Select {
     label: string | number;
@@ -78,13 +81,13 @@ export const DatePicker = ({ date, label = 'Date', onChange, locale = 'es', type
     const Select = useCallback(
         ({ label, onClick, isShow, next, previous }: Select) => {
             return (
-                <div className="select">
-                    <button className='btn-icon' onClick={previous} children={<CheveronLeft />} />
-                    <span>
-                        <p>{label}</p>
-                        <button className='btn-icon dropdown' onClick={onClick} children={<Caret classname={isShow ? "rotate" : ''} />} />
+                <div className="flex gap-2 items-center ">
+                    <IconBtn children={<CheveronLeft classname='size-7' />} onClick={previous} />
+                    <span className='flex gap-1'>
+                        <p className='font-semibold'>{label}</p>
+                        <IconBtn className='' onClick={onClick} children={<Caret classname={`size-5 ${isShow ? "rotate-180" : ''}`} />} />
                     </span>
-                    <button className='btn-icon' onClick={next} children={<CheveronLeft classname='rotate' />} />
+                    <IconBtn children={<CheveronLeft classname='size-7 rotate-180' />} onClick={next} />
                 </div>
             )
         },
@@ -94,10 +97,10 @@ export const DatePicker = ({ date, label = 'Date', onChange, locale = 'es', type
     const Digit = useCallback(
         ({ minus, plus, value }: Digit) => {
             return (
-                <div className='digit'>
-                    <button onClick={plus} className="btn-icon up"><CheveronLeft /></button>
-                    <span>{`${value}`.padStart(2, '0')}</span>
-                    <button onClick={minus} className="btn-icon down"><CheveronLeft /></button>
+                <div className='flex flex-col items-center'>
+                    <IconBtn onClick={plus} className="rotate-90"><CheveronLeft classname='size-7' /></IconBtn>
+                    <p className='text-4xl font-semibold'>{`${value}`.padStart(2, '0')}</p>
+                    <IconBtn onClick={minus} className="-rotate-90"><CheveronLeft classname='size-7' /></IconBtn>
                 </div>
             )
         },
@@ -105,7 +108,7 @@ export const DatePicker = ({ date, label = 'Date', onChange, locale = 'es', type
     );
 
     return (
-        <div className="input-date-picker">
+        <div className='relative transition-all duration-150'>
             <Input
                 reference={InputRef}
                 labelText={label}
@@ -117,10 +120,10 @@ export const DatePicker = ({ date, label = 'Date', onChange, locale = 'es', type
             />
             {
                 isView &&
-                <div className='content'>
-                    <section className='top'>
-                        <div className="container-date">
-                            <nav className='navigation'>
+                <div className='bg-slate-200 dark:bg-slate-950 absolute top-14 left-0 p-4 rounded-2xl overflow-auto flex flex-col  items-end shadow-lg dark:shadow-slate-700 z-20'>
+                    <section className='flex flex-col items-center'>
+                        <div className="">
+                            <nav className='flex justify-around gap-2 mb-2'>
                                 <Select
                                     next={onChangeMonth(1)}
                                     previous={onChangeMonth(-1)}
@@ -139,15 +142,15 @@ export const DatePicker = ({ date, label = 'Date', onChange, locale = 'es', type
                         </div>
                         {
                             type === 'datetime-local' &&
-                            <div className='container-time'>
+                            <div className='flex items-center gap-2'>
                                 <Digit value={date.time.hour} plus={onChangeTime(1, 'hour')} minus={onChangeTime(-1, 'hour')} />
-                                <span>:</span>
+                                <Text variant='text-3xl'>:</Text>
                                 <Digit value={date.time.minute} plus={onChangeTime(1, 'minute')} minus={onChangeTime(-1, 'minute')} />
                             </div>
                         }
                     </section>
                     <section className='bottom'>
-                        <button className="button-small" onClick={close}>Ok</button>
+                        <Button onClick={close} children="Ok" className='text-sm h-9 font-medium' />
                     </section>
                 </div>
             }

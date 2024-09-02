@@ -13,7 +13,7 @@ export const NavBar = () => {
 
     const ToggleTheme = useCallback(
         () =>
-            <span className='mx-4 flex'>
+            <span className='flex'>
                 {
                     mode === ThemeMode.light
                         ?
@@ -72,11 +72,11 @@ export const NavBar = () => {
                     <img src={logo} className="dark:grayscale dark:invert h-9 drop-shadow-lg rounded-full" alt="Logo" />
                     <span className="self-center text-2xl font-semibold whitespace-nowrap text-slate-600 dark:text-slate-300">PEMSA Monitoreo</span>
                 </a>
-                <div className="relative flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
+                <div className="relative flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse gap-3">
                     <ToggleTheme />
                     <Avatar />
                     <UserDropdown />
-                    <button className='md:hidden text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 p-1 rounded-lg' onClick={() => document.querySelector("#menu-sidebar")?.classList.toggle("-translate-x-0")}>
+                    <button className='lg:hidden text-slate-600 dark:text-slate-300 hover:bg-slate-300 dark:hover:bg-slate-700 p-1 rounded-lg' onClick={() => document.querySelector("#menu-sidebar")?.classList.toggle("-translate-x-full")}>
                         <Menu />
                     </button>
                 </div>

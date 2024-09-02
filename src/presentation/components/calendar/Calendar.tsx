@@ -21,7 +21,7 @@ export const Calendar = ({ date, onChange, isSelectYear, isSelectMonth, locale =
             }
             const isCurrentDay = currentDate.getDate() === day;
             const selected = date.date.day === day;
-            return (<li translate='no' style={start ? { gridColumnStart: start } : {}} className={`Day ${isCurrentDay ? 'today' : ''} ${selected ? 'selected' : ''}`} onClick={onClick(day)}>{String(day).padStart(2, '0')}</li>)
+            return (<li translate='no' style={start ? { gridColumnStart: start } : {}} className={`w-8 h-8 flex justify-center items-center rounded-full ${isCurrentDay ? 'border-2 border-slate-700 dark:border-slate-400 font-medium' : ''} ${selected ? 'bg-slate-600 text-slate-200 dark:bg-slate-400 dark:text-slate-950 font-medium' : ''}`} onClick={onClick(day)}>{String(day).padStart(2, '0')}</li>)
         },
         [currentDate, date.DATE, date.date.day, onChange],
     );
@@ -35,7 +35,7 @@ export const Calendar = ({ date, onChange, isSelectYear, isSelectMonth, locale =
                 </>
             )
         },
-        [date, days],
+        [Day, date.startDay, days],
     );
 
     const RenderYear = useCallback(
@@ -64,17 +64,17 @@ export const Calendar = ({ date, onChange, isSelectYear, isSelectMonth, locale =
 
     const RenderYears = useCallback(
         () => new Array(15).fill('').map((_, idx) => <RenderYear key={currentDate.getFullYear() + 3 - idx} year={currentDate.getFullYear() + 3 - idx} />).reverse(),
-        [isSelectYear],
+        [RenderYear, currentDate],
     )
 
     const RenderMonths = useCallback(
         () => new Array(12).fill('').map((_, idx) => <RenderMonth key={`month-${idx}`} month={idx} />),
-        [isSelectMonth],
+        [RenderMonth],
     );
 
     if (isSelectYear) return (
-        <div className="container-calendar">
-            <ol className='year'>
+        <div className="m-4">
+            <ol className='grid grid-cols-3'>
                 <RenderYears />
             </ol>
         </div>
@@ -89,15 +89,15 @@ export const Calendar = ({ date, onChange, isSelectYear, isSelectMonth, locale =
     );
 
     return (
-        <div className="bg-red-200 ">
-            <ol className="grid">
-                <li translate='no' className="day-name">S</li>
-                <li translate='no' className="day-name">M</li>
-                <li translate='no' className="day-name">T</li>
-                <li translate='no' className="day-name">W</li>
-                <li translate='no' className="day-name">T</li>
-                <li translate='no' className="day-name">F</li>
-                <li translate='no' className="day-name">S</li>
+        <div className="w-[300px] h-[250px]">
+            <ol className="grid grid-cols-7 gap-1 text-center">
+                <li translate='no' className="font-semibold">S</li>
+                <li translate='no' className="font-semibold">M</li>
+                <li translate='no' className="font-semibold">T</li>
+                <li translate='no' className="font-semibold">W</li>
+                <li translate='no' className="font-semibold">T</li>
+                <li translate='no' className="font-semibold">F</li>
+                <li translate='no' className="font-semibold">S</li>
                 <RenderDays />
             </ol>
         </div >

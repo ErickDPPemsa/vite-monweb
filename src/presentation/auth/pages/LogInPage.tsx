@@ -27,7 +27,7 @@ export const LogInPage = () => {
     });
 
   return (
-    <article className="w-max h-max min-w-[400px] bg-slate-50 dark:bg-slate-900 p-[2rem] rounded-3xl flex flex-col gap-3 shadow-md dark:shadow-slate-700">
+    <article className="w-max h-max min-w-[400px] bg-slate-50 dark:bg-slate-900 p-[2rem] rounded-xl flex flex-col gap-3 shadow-md dark:shadow-slate-700">
       <h1 className={'text-3xl font-semibold text-slate-600 dark:text-slate-300'}>Sign in</h1>
       <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
         <TextField
