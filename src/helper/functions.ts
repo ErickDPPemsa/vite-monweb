@@ -18,20 +18,18 @@ interface ModDate {
 export const getDate = (dateIn?: Date): formatDate => {
     try {
         const newDate = dateIn ?? new Date();
-        let date = newDate.toLocaleDateString();
-        let time = newDate.toTimeString().slice(0, 8);
-        const [day, month, year]: Array<number> = date.split('/').map(value => +value);
-        date = `${year}-${`${month}`.padStart(2, '0')}-${`${day}`.padStart(2, '0')}`;
-        const [hour, minute, second]: Array<number> = time.split(':').map(value => +value);
-        time = `${`${hour}`.padStart(2, '0')}:${`${minute}`.padStart(2, '0')}:${`${second}`.padStart(2, '0')}`;
-        const daysInMonth = new Date(year, month, 0).getDate();
+        const date = new Intl.DateTimeFormat("es-MX").format(newDate);
+        const time = newDate.toTimeString().slice(0, 8);
+        const Adate = date.split('/').map(value => +value);
+        const Atime = time.split(':').map(value => +value);
+        const daysInMonth = new Date(Adate[2], Adate[1], 0).getDate();
         const startDay = new Date(newDate.getFullYear(), newDate.getMonth(), 1).getDay();
         return {
             DATE: newDate,
             daysInMonth,
             startDay,
-            date: { date, day, month, year },
-            time: { time, hour, minute, second },
+            date: { date, day: Adate[0], month: Adate[1], year: Adate[2] },
+            time: { time, hour: Atime[0], minute: Atime[1], second: Atime[2] },
         };
     } catch (error) {
         return getDate();

@@ -1,16 +1,16 @@
 interface date {
-    date: string;
+    date:string;
     day: number;
     month: number;
     year: number;
-};
+}
 
 interface time {
-    time: string;
+    time:string;
     hour: number;
     minute: number;
     second: number;
-};
+}
 
 export interface formatDate {
     DATE: Date;

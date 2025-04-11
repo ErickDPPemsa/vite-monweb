@@ -3,10 +3,10 @@ import { useHandleError } from "../../../hooks";
 import { ReportService } from "../../../services";
 import { Loader } from "../../components/Loader";
 import { Account } from "../../../interfaces";
-import { Button } from "../../components/Button";
 import { ColumnDef } from "@tanstack/react-table";
 import { useMemo } from "react";
 import { Table } from "../../components/Table";
+import { Button } from "flowbite-react";
 
 export const InstallSystemPage = () => {
     const { showError } = useHandleError();
@@ -29,7 +29,7 @@ export const InstallSystemPage = () => {
         <article className="container-is px-4 overflow-auto">
             <header className="flex justify-between">
                 <h1 className="text-4xl font-semibold" >Installed systems</h1>
-                <Button loading={isFetching} children="Refresh" onClick={() => refetch()} />
+                <Button isProcessing={isFetching} children="Refresh" onClick={() => refetch()} color="info"/>
             </header>
             {
                 (isLoading)

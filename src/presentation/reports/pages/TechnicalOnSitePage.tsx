@@ -1,8 +1,5 @@
-import { useMemo, useRef, useState } from "react";
+import { useMemo, useState } from "react";
 import { DatePicker } from "../../components/calendar/DatePicker";
-import { Portal } from "../../components/modals";
-import { CalendarModalContent } from "../../components/modals/CalendarModalContent";
-import { CalendarStart, Spinner } from "../../icons/icons";
 import { getDate } from "../../../helper/functions";
 import { useQuery } from "@tanstack/react-query";
 import { ReportService } from "../../../services";
@@ -11,13 +8,12 @@ import { useHandleError } from "../../../hooks";
 import { Loader } from "../../components/Loader";
 import { ColumnDef } from "@tanstack/react-table";
 import { Table } from "../../components/Table";
+import { Button } from "flowbite-react";
 
 export const TechnicalOnSitePage = () => {
 
     const [start, setStart] = useState(getDate());
     const [end, setEnd] = useState(getDate());
-    const dialog = useRef<HTMLDialogElement>(null);
-    const CalendarPicker = useRef<HTMLDivElement>(null);
     const { showError } = useHandleError();
 
     const columns = useMemo<ColumnDef<Event<AlarmTechnicalOnSite>>[]>(() => [
@@ -30,7 +26,7 @@ export const TechnicalOnSitePage = () => {
 
     const { data, refetch, isFetching, isLoading, error } = useQuery({
         queryKey: ['TessTese'],
-        queryFn: () => ReportService.technicalObSite({ start: start.date.date, end: end.date.date }),
+        queryFn: () => ReportService.technicalObSite({ start: `${start.date.year}-${String(start.date.month).padStart(2, '0')}-${String(start.date.day).padStart(2, '0')}`, end: `${end.date.year}-${String(end.date.month).padStart(2, '0')}-${String(end.date.day).padStart(2, '0')}` }),
     });
 
     if (!isFetching && !isLoading && error) showError({ responseError: error, exit: true });
@@ -39,25 +35,15 @@ export const TechnicalOnSitePage = () => {
     return (
         <article className="container-page-report">
             <header>
-                <div className="top">
-                    <h1>Technical on site</h1>
-                    <span className="container-buttons">
-                        <div className="pickers">
-                            <DatePicker showIcon date={start} onChange={setStart} label="Start" />
-                            <DatePicker showIcon date={end} onChange={setEnd} label="End" />
+                <div className="flex justify-between px-4">
+                    <h1 className="text-4xl font-semibold">Technical on site</h1>
+                    <span className="flex gap-2 items-center">
+                        <div className="flex gap-2">
+                            <DatePicker date={start} onChange={setStart} label="Start" />
+                            <DatePicker date={end} onChange={setEnd} label="End" />
                         </div>
-                        <div className="buttons" >
-                            <button className="button-small" onClick={() => refetch()}>
-                                {(isFetching) ? <Spinner classname="icon-spin" /> : 'Consult'}
-                            </button>
-                            <button className="btn-icon" onClick={() => dialog.current?.show()}>
-                                <CalendarStart />
-                                <Portal className="blur-1" refElement={dialog}
-                                    onClosed={(close) => close && CalendarPicker.current?.classList.toggle('scale-down-center')}
-                                >
-                                    <CalendarModalContent dialog={dialog} onChenge={date => console.log(date)} />
-                                </Portal>
-                            </button>
+                        <div className="flex gap-2 items-center" >
+                            <Button isProcessing={isFetching} onClick={() => refetch()} children="Refresh" />
                         </div>
                     </span>
                 </div>

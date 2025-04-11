@@ -71,16 +71,12 @@ export const UserModalContent = <T extends object>({ dialog, reference, rect }: 
                     control={control}
                     name="newPassword"
                     labelText="New password"
-                    autoComplete="current-password"
-                    autoCapitalize="none"
                     type="password"
                 />
                 <TextField
                     control={control}
                     name="confirm"
                     labelText="Confirm password"
-                    autoComplete="current-password"
-                    autoCapitalize="none"
                     type="password"
                 />
                 <div className="buttons">

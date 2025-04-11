@@ -2,25 +2,23 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { TypeUser, UsersRespose } from "../../interfaces";
 import { useAuthStore } from "../../stores";
-import { AddUser, CheveronLeft, Delete, Search } from "../icons/icons";
+import { CheveronLeft, Delete } from "../icons/icons";
 import { UserService } from "../../services";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import Input from "../components/Input";
 import { Text } from "../components/Text";
 import { useHandleError } from "../../hooks";
 import { CreateUserModalContent, Portal } from "../components/modals";
 import { toast } from "sonner";
 import { SimpleSelect } from "../components/SimpleSelect";
-import { Button } from "../components/Button";
 import { ColumnDef, PaginationState, Row } from "@tanstack/react-table";
 import { IconBtn } from '../components/IconBtn';
 import { Table } from "../components/Table";
 import { PropsSelect } from "../interfaces/interfaces";
 import { AlertModalContent } from "../components/modals/AlertModalContent";
+import { Button, FloatingLabel } from "flowbite-react";
 
 
 const Rows: Array<PropsSelect<number>> = [
-    { label: '5', value: 5 },
     { label: '10', value: 10 },
     { label: '15', value: 15 },
     { label: '100', value: 100 },
@@ -105,24 +103,19 @@ export const UsersPage = () => {
                 close && dialogAlert.current?.close();
                 setValue(undefined);
             }}>
-                <AlertModalContent dialog={dialogAlert} btnlabelCanel="No, cancel" btnlabelConfirm="Yes, I'm sure" type="error" label="Are you sure you want to delete this user?" Icon={<Delete classname="mx-auto mb-4 w-12 h-12 mt-10" />} onSuccess={onDelete} />
+                <AlertModalContent dialog={dialogAlert} btnlabelCanel="No, cancel" btnlabelConfirm="Yes, I'm sure" label="Are you sure you want to delete this user?" Icon={<Delete classname="mx-auto mb-4 w-12 h-12 mt-10" />} onSuccess={onDelete} />
             </Portal>
             <header className="flex w-full m-1 h-16 items-center justify-between">
                 <h1 className="text-4xl font-semibold" >Users</h1>
-                <Button className="flex gap-2 items-center" onClick={() => dialog.current?.show()}>
-                    <AddUser />
-                    Add user
-                </Button>
+                <Button type="button" color="info" children="Add user" onClick={() => dialog.current?.show()} />
             </header>
             <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                <div className="flex items-center justify-end flex-column flex-wra md:space-y-0 p-3 bg-slate-50 dark:bg-slate-900">
-                    <Input
-                        classNameContent='scale-up-horizontal-right'
-                        styleField={{ height: '35px' }}
-                        leading={<Search />}
-                        autoComplete="none"
-                        name="filter"
-                        placeholder="Search user"
+                <div className="p-1 w-[30rem] ml-auto">
+                    <FloatingLabel
+                        className='bg-slate-50 border-slate-400 dark:bg-slate-700'
+                        label='Filter'
+                        variant='outlined'
+                        sizing='sm'
                         onChange={({ target: { value } }) => {
                             if (value.length > 0)
                                 setFilter(data?.filter(user => user.fullName.toLowerCase().includes(value)))

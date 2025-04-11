@@ -1,17 +1,9 @@
-import { useEffect, useRef } from "react";
 import { Clock1, Home, InOut, Panel, Ticket, Users } from '../presentation/icons/icons';
 import { useAuthStore } from "../stores";
 import { TypeUser } from '../interfaces/enums/auth-user-role';
 
 export function useNavs() {
     const user = useAuthStore(state => state.user);
-    const AsideRef = useRef<HTMLElement>(null);
-
-    useEffect(() => {
-        AsideRef.current?.addEventListener('click', () => {
-            AsideRef.current?.classList.remove('-translate-x-0');
-        })
-    }, []);
 
     const Navs: Array<{
         path: string;
@@ -27,6 +19,6 @@ export function useNavs() {
             { validate: true, icon: Clock1(), title: 'Attention', path: '/reports/attention' },
         ];
 
-    return { AsideRef, Navs, user }
+    return { Navs, user }
 
 }

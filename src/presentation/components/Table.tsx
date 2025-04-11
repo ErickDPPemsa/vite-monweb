@@ -1,10 +1,10 @@
 import { ColumnDef, PaginationState, Row, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { useCallback, useEffect, useState } from 'react';
 import { IconBtn } from './IconBtn';
-import { CloudDownload, Search, X } from '../icons/icons';
-import Input from './Input';
+import { CloudDownload} from '../icons/icons';
 import { Text } from './Text';
-
+import { FloatingLabel } from 'flowbite-react';
+import { utils, writeFile } from 'xlsx';
 
 interface PropsTable<T> {
     data: Array<T>;
@@ -23,7 +23,6 @@ interface PropsTable<T> {
 export const Table = <T extends object>({ data, columns, useInternalPagination, selectRow, header, maxHeight, shadow, onValue, renderSubComponent }: PropsTable<T>) => {
 
     const [Columns, setColumns] = useState<ColumnDef<T>[]>(columns);
-    const [isSearch, setIsSearch] = useState<boolean>(false);
     const [globalFilter, setGlobalFilter] = useState('');
 
     const [pagination, setPagination] = useState<PaginationState>({
@@ -54,17 +53,13 @@ export const Table = <T extends object>({ data, columns, useInternalPagination, 
             // const sanityData = (filter ?? data).slice().map(element => keys.map(({ key }) => key).flatMap(a => a).reduce((acc, current) => ({
             //     ...acc, [current]: typeof element[current] === 'object' ? getElemnt(element[current]) : element[current]
             // }), {}));
-            // const ws = utils.json_to_sheet(sanityData);
-            // const wb = utils.book_new();
-            // utils.book_append_sheet(wb, ws, "Data");
-            // writeFile(wb, `${title}.xlsx`);
+            const ws = utils.json_to_sheet(data);
+            const wb = utils.book_new();
+            utils.book_append_sheet(wb, ws, "Data");
+            writeFile(wb, `download${1}.xlsx`);
         },
         [],
     );
-    const clear = () => {
-        setIsSearch(false);
-        setGlobalFilter("");
-    }
 
     useEffect(() => {
         if (selectRow === true) setColumns(columns.filter(f => f.header !== 'action'));
@@ -73,28 +68,19 @@ export const Table = <T extends object>({ data, columns, useInternalPagination, 
     return (
         <div className={`flex flex-col rounded-lg ${shadow ? "shadow-md" : ""} dark:text-slate-300`}>
             {header &&
-                <section className={`flex justify-between items-center text-gray-700 bg-slate-300 dark:bg-slate-950  py-2 px-4 rounded-t-lg`}>
-                    <div>
-                        {
-                            isSearch
-                                ?
-                                <DebouncedInput
-                                    value={globalFilter ?? ''}
-                                    onChange={value => setGlobalFilter(String(value))}
-                                    placeholder="Search all columns..."
-                                />
-                                : <Text className='font-semibold text-xl'>{header.title}</Text>
-                        }
+                <section className={`flex justify-between items-center text-slate-700 bg-slate-200 dark:bg-slate-950 dark:text-slate-300  py-2 px-4 rounded-t-lg`}>
+                    <div className='flex justify-between w-full items-start gap-5 pr-5'>
+                        <Text className='font-semibold text-xl'>{header.title}</Text>
+                        <FloatingLabel className='bg-slate-200 border-slate-400 dark:bg-slate-950 self-end' label='Search all columns...' variant='outlined' value={globalFilter ?? ''} onChange={value => setGlobalFilter(String(value.currentTarget.value))} sizing='sm'/>
                     </div>
                     <div className='flex gap-2'>
-                        {!isSearch && <IconBtn children={<Search />} onClick={() => setIsSearch(true)} />}
                         <IconBtn children={<CloudDownload />} onClick={download} />
                     </div>
                 </section>
             }
             <div style={{ maxHeight: maxHeight ?? undefined }} className={`overflow-auto flex-1`}>
                 <table className="w-full h-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border-collapse text-balance">
-                    <thead className="text-xs text-gray-700 uppercase bg-slate-300 dark:bg-slate-950 dark:text-slate-300 sticky top-0">
+                    <thead className="text-xs text-gray-700 uppercase bg-slate-200 dark:bg-slate-950 dark:text-slate-300 sticky top-0">
                         {table.getHeaderGroups().map(headerGroup => (
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map(header => {
@@ -147,7 +133,7 @@ export const Table = <T extends object>({ data, columns, useInternalPagination, 
                 </table>
             </div>
             {useInternalPagination &&
-                <div className="flex justify-end items-center p-2 gap-3 text-gray-700 bg-slate-300 dark:bg-slate-950 dark:text-slate-300 rounded-b-lg">
+                <div className="flex justify-end items-center p-2 gap-3 text-gray-700 bg-slate-200 dark:bg-slate-950 dark:text-slate-300 rounded-b-lg">
                     <IconBtn className='px-1' children='<<' disabled={!table.getCanPreviousPage()} onClick={() => table.firstPage()} />
                     <IconBtn className='px-2' children='<' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} />
                     <IconBtn className='px-2' children='>' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} />
@@ -173,7 +159,7 @@ export const Table = <T extends object>({ data, columns, useInternalPagination, 
                         />
                     </span> */}
                     <select
-                        className=''
+                        className='rounded-xl'
                         style={{ backgroundColor: 'transparent' }}
                         value={table.getState().pagination.pageSize}
                         onChange={e => {
@@ -190,44 +176,5 @@ export const Table = <T extends object>({ data, columns, useInternalPagination, 
             }
         </div>
     )
-
-    function DebouncedInput({
-        value: initialValue,
-        onChange,
-        debounce = 500,
-        ...props
-    }: {
-        value: string | number
-        onChange: (value: string | number) => void
-        debounce?: number
-    } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'onChange'>) {
-        const [value, setValue] = useState(initialValue)
-
-        useEffect(() => {
-            setValue(initialValue)
-        }, [initialValue])
-
-        useEffect(() => {
-            const timeout = setTimeout(() => {
-                onChange(value)
-            }, debounce)
-
-            return () => clearTimeout(timeout)
-        }, [value])
-
-        return (
-            <Input
-                {...props}
-                classNameContent='scale-up-horizontal-right'
-                autoFocus
-                placeholder='Search'
-                styleField={{ height: '35px' }}
-                leading={<Search />}
-                trailing={<X classname='icon-btn' onClick={clear} />}
-                value={value}
-                onChange={e => setValue(e.target.value)}
-            />
-        )
-    }
 }
 

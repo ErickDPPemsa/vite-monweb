@@ -1,19 +1,18 @@
 import { ReactNode } from "react";
 import { X } from "../../icons/icons";
 import { ModalContent } from "../../interfaces/interfaces";
-import { Button } from "../Button";
 import { IconBtn } from "../IconBtn";
+import { Button } from "flowbite-react";
 
 interface PropsModal<T> extends ModalContent<T> {
     label: string;
     onlyOk?: boolean;
-    type?: "error" | "alert" | "success" | "normal";
     Icon?: ReactNode;
     btnlabelConfirm?: string;
     btnlabelCanel?: string;
 }
 
-export const AlertModalContent = <T extends object>({ dialog, onSuccess, label, Icon, type = "normal", btnlabelCanel, btnlabelConfirm, onlyOk }: PropsModal<T>) => {
+export const AlertModalContent = <T extends object>({ dialog, onSuccess, label, Icon, btnlabelCanel, btnlabelConfirm, onlyOk }: PropsModal<T>) => {
 
     const Success = (exit: boolean) => () => {
         onSuccess && onSuccess({ exit });
@@ -33,7 +32,7 @@ export const AlertModalContent = <T extends object>({ dialog, onSuccess, label, 
                         ? <Button onClick={Success(false)} children="Ok" />
                         :
                         <>
-                            <Button onClick={Success(true)} typeBtn={type} children={btnlabelConfirm ?? "Yes"} />
+                            <Button onClick={Success(true)} children={btnlabelConfirm ?? "Yes"} />
                             <Button onClick={Success(false)} className="ms-3" children={btnlabelCanel ?? "No"} />
                         </>
                     }

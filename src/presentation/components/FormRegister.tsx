@@ -6,7 +6,7 @@ import { SelectField } from "./SelectField";
 import { useHandleError, useNewUser } from "../../hooks";
 import { PropsForm } from "../interfaces/interfaces";
 import { toast } from "sonner";
-import { Button } from "./Button";
+import { Button } from "flowbite-react";
 
 type Inputs = {
     fullName: string,
@@ -56,13 +56,11 @@ export const FormUserRegister = <T extends object>({ onSuccess }: PropsForm<T>) 
                 control={control}
                 name="fullName"
                 labelText="Full name"
-                autoCapitalize="none"
             />
             <span className="flex  items-center gap-3">
                 <TextField
                     control={control}
                     name="userName"
-                    autoComplete="username"
                     labelText="User"
                 />
                 {
@@ -80,16 +78,12 @@ export const FormUserRegister = <T extends object>({ onSuccess }: PropsForm<T>) 
                     control={control}
                     name="password"
                     labelText="Password"
-                    autoComplete="current-password"
-                    autoCapitalize="none"
                     type="password"
                 />
                 <TextField
                     control={control}
                     name="validPassword"
-                    autoCapitalize="none"
                     labelText="Confirm password"
-                    autoComplete="new-password"
                     type="password"
                 />
             </span>
@@ -98,14 +92,12 @@ export const FormUserRegister = <T extends object>({ onSuccess }: PropsForm<T>) 
                 <TextField
                     control={control}
                     name="token"
-                    autoCapitalize="none"
                     labelText="Access token"
-                    autoComplete="xxxx-xxxx-xxxx-xxxx"
                     type="text"
                 />
             }
             <div className="flex justify-center">
-                <Button className="px-6" full={false} loading={isPending} children={user ? 'Add user' : 'Create your account'} />
+                <Button isProcessing={isPending} children={user ? 'Add user' : 'Create your account'} type="submit" />
             </div>
         </form>
     )
