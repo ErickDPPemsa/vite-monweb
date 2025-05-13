@@ -1,7 +1,7 @@
 import { ColumnDef, PaginationState, Row, flexRender, getCoreRowModel, getFilteredRowModel, getPaginationRowModel, getSortedRowModel, useReactTable } from '@tanstack/react-table';
 import { useCallback, useEffect, useState } from 'react';
 import { IconBtn } from './IconBtn';
-import { CloudDownload} from '../icons/icons';
+import { CloudDownload } from '../icons/icons';
 import { Text } from './Text';
 import { FloatingLabel } from 'flowbite-react';
 import { utils, writeFile } from 'xlsx';
@@ -71,14 +71,14 @@ export const Table = <T extends object>({ data, columns, useInternalPagination, 
                 <section className={`flex justify-between items-center text-slate-700 bg-slate-200 dark:bg-slate-950 dark:text-slate-300  py-2 px-4 rounded-t-lg`}>
                     <div className='flex justify-between w-full items-start gap-5 pr-5'>
                         <Text className='font-semibold text-xl'>{header.title}</Text>
-                        <FloatingLabel className='bg-slate-200 border-slate-400 dark:bg-slate-950 self-end' label='Search all columns...' variant='outlined' value={globalFilter ?? ''} onChange={value => setGlobalFilter(String(value.currentTarget.value))} sizing='sm'/>
+                        <FloatingLabel className='bg-slate-200 border-slate-400 dark:bg-slate-950 self-end' label='Search all columns...' variant='outlined' value={globalFilter ?? ''} onChange={value => setGlobalFilter(String(value.currentTarget.value))} sizing='sm' />
                     </div>
                     <div className='flex gap-2'>
                         <IconBtn children={<CloudDownload />} onClick={download} />
                     </div>
                 </section>
             }
-            <div style={{ maxHeight: maxHeight ?? undefined, minHeight:maxHeight }} className={`overflow-auto flex-1 bg-slate-100 border-b dark:bg-gray-900 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-800`}>
+            <div style={{ maxHeight: maxHeight ?? undefined, minHeight: maxHeight }} className={`overflow-auto flex-1 bg-slate-100 border-b dark:bg-gray-900 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-800`}>
                 <table className="w-full h-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border-collapse text-balance">
                     <thead className="text-xs text-gray-700 uppercase bg-slate-200 dark:bg-slate-950 dark:text-slate-300 sticky top-0">
                         {table.getHeaderGroups().map(headerGroup => (
@@ -134,44 +134,35 @@ export const Table = <T extends object>({ data, columns, useInternalPagination, 
             </div>
             {useInternalPagination &&
                 <div className="flex justify-end items-center p-2 gap-3 text-gray-700 bg-slate-200 dark:bg-slate-950 dark:text-slate-300 rounded-b-lg">
-                    <IconBtn className='px-1' children='<<' disabled={!table.getCanPreviousPage()} onClick={() => table.firstPage()} />
-                    <IconBtn className='px-2' children='<' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} />
-                    <IconBtn className='px-2' children='>' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} />
-                    <IconBtn className='px-1' children='>>' onClick={() => table.lastPage()} disabled={!table.getCanNextPage()} />
+                    <span className="flex items-center gap-1">
+                        Rows per page:
+                        <select
+                            className='rounded-xl'
+                            style={{ backgroundColor: 'transparent' }}
+                            value={table.getState().pagination.pageSize}
+                            onChange={e => {
+                                table.setPageSize(Number(e.target.value))
+                            }}
+                        >
+                            {[10, 30, 50, 100, data.length].map(pageSize => (
+                                <option key={pageSize} value={pageSize}>
+                                    {pageSize === data.length ? "All " + pageSize : + pageSize}
+                                </option>
+                            ))}
+                        </select>
+                    </span>
                     <span className="flex items-center gap-1">
                         <div>Page</div>
                         <strong>
-                            {table.getState().pagination.pageIndex + 1} of{' '}
-                            {table.getPageCount().toLocaleString()}
+                            {table.getState().pagination.pageIndex + 1} -{' '}
+                            {table.getPageCount().toLocaleString()} {' '}
+                            of {data.length}
                         </strong>
                     </span>
-                    {/* <span className="flex items-center gap-1">
-                        | Go to page:
-                        <Input
-                            classNameContent='scale-up-horizontal-right'
-                            type="number"
-                            defaultValue={table.getState().pagination.pageIndex + 1}
-                            styleField={{ height: '35px', width: '80px' }}
-                            onChange={e => {
-                                const page = e.target.value ? Number(e.target.value) - 1 : 0
-                                table.setPageIndex(page)
-                            }}
-                        />
-                    </span> */}
-                    <select
-                        className='rounded-xl'
-                        style={{ backgroundColor: 'transparent' }}
-                        value={table.getState().pagination.pageSize}
-                        onChange={e => {
-                            table.setPageSize(Number(e.target.value))
-                        }}
-                    >
-                        {[10, 30, 50, 100, data.length].map(pageSize => (
-                            <option key={pageSize} value={pageSize}>
-                                {pageSize === data.length ? "All " + pageSize : "Show " + pageSize}
-                            </option>
-                        ))}
-                    </select>
+                    {/* <IconBtn className='px-1' children='<<' disabled={!table.getCanPreviousPage()} onClick={() => table.firstPage()} /> */}
+                    <IconBtn className='px-2' children='<' onClick={() => table.previousPage()} disabled={!table.getCanPreviousPage()} />
+                    <IconBtn className='px-2' children='>' onClick={() => table.nextPage()} disabled={!table.getCanNextPage()} />
+                    {/* <IconBtn className='px-1' children='>>' onClick={() => table.lastPage()} disabled={!table.getCanNextPage()} /> */}
                 </div>
             }
         </div>
