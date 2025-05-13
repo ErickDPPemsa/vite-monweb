@@ -129,7 +129,7 @@ export const UsersPage = () => {
                 <Table {...{
                     key: "user-table",
                     columns,
-                    data: filter ?? data ?? [],
+                    data: filter?.filter(f=>f.id!==user?.id) ?? data?.filter(f=>f.id!==user?.id) ?? [],
                     onValue: setValue,
                     renderSubComponent: actions,
                 }} />

@@ -1,25 +1,28 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useHandleError } from "../../../hooks";
-// import { DataTable } from "../../components/DataTable";
 import { DatePicker } from "../../components/calendar/DatePicker";
-// import { CalendarModalContent } from "../../components/modals/CalendarModalContent";
 import { getDate } from "../../../helper/functions";
 import { ReportService } from "../../../services";
 import { useQuery } from "@tanstack/react-query";
 import { Loader } from "../../components/Loader";
 import { Button } from "flowbite-react";
-
-// const Keys: Array<Key<Event<string>>> = [
-//     { wildcard: '--', key: 'DescripcionAlarm', title: 'Alarm description', style: { textAlign: 'center' } },
-//     { wildcard: '--', key: 'CodigoCte', title: 'Client', style: { textAlign: 'center' } },
-//     { wildcard: '--', key: 'CodigoAlarma', title: 'Alarm', style: { textAlign: 'center' } },
-//     { wildcard: '--', key: ['FechaOriginal', 'Hora'], title: 'Date Hour', style: { textAlign: 'center', minWidth: '170px' } },
-//     { wildcard: '--', key: ['FechaPrimeraToma', 'HoraPrimeraToma'], title: 'Firts take', style: { textAlign: 'center', minWidth: '170px' } },
-//     { wildcard: '--', key: 'Minutes', title: 'Minutes', style: { textAlign: 'center', minWidth: '170px' } },
-//     { wildcard: '--', key: 'ClaveMonitorista', title: 'Operator', style: { textAlign: 'center', minWidth: '170px' } },
-// ];
+import { Table } from "../../components/Table";
+import { ColumnDef } from "@tanstack/react-table";
+import { Event } from "../../../interfaces";
 
 export const AttentionPage = () => {
+
+    const columns = useMemo<ColumnDef<Event<string>>[]>(() => [
+        { accessorKey: 'DescripcionAlarm', header: 'Alarm description' },
+        { accessorKey: 'CodigoCte', header: 'Client' },
+        { accessorKey: 'CodigoAlarma', header: 'Alarm' },
+        { accessorKey: 'FechaOriginal', header: 'Date' },
+        { accessorKey: 'Hora', header: 'Hour' },
+        { accessorKey: 'FechaPrimeraToma', header: 'Firts date take' },
+        { accessorKey: 'HoraPrimeraToma', header: 'Firts hour take' },
+        { accessorKey: 'Minutes', header: 'Minutes' },
+        { accessorKey: 'ClaveMonitorista', header: 'Operator' },
+    ], []);
 
     const { showError } = useHandleError();
     const [start, setStart] = useState(getDate());
@@ -53,12 +56,17 @@ export const AttentionPage = () => {
                     ? <Loader text="Loading ..." />
                     :
                     <section className="content-data" style={{ display: 'flex', gap: '1rem', padding: '1rem 0' }}>
-                        {/* <DataTable
-                            title="Alarm attention"
-                            data={data?.events ?? []}
-                            id='CodigoCte'
-                            keys={Keys}
-                        /> */}
+                        <div className="flex-1">
+                            <Table {...{
+                                key: "attention",
+                                columns,
+                                maxHeight: 500,
+                                shadow: true,
+                                data: data?.events ?? [],
+                                useInternalPagination: true,
+                                header: { title: "Alarm attention" }
+                            }} />
+                        </div>
                     </section>
             }
 

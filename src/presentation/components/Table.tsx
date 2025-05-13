@@ -58,7 +58,7 @@ export const Table = <T extends object>({ data, columns, useInternalPagination, 
             utils.book_append_sheet(wb, ws, "Data");
             writeFile(wb, `download${1}.xlsx`);
         },
-        [],
+        [data],
     );
 
     useEffect(() => {
@@ -78,7 +78,7 @@ export const Table = <T extends object>({ data, columns, useInternalPagination, 
                     </div>
                 </section>
             }
-            <div style={{ maxHeight: maxHeight ?? undefined }} className={`overflow-auto flex-1`}>
+            <div style={{ maxHeight: maxHeight ?? undefined, minHeight:maxHeight }} className={`overflow-auto flex-1 bg-slate-100 border-b dark:bg-gray-900 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-800`}>
                 <table className="w-full h-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border-collapse text-balance">
                     <thead className="text-xs text-gray-700 uppercase bg-slate-200 dark:bg-slate-950 dark:text-slate-300 sticky top-0">
                         {table.getHeaderGroups().map(headerGroup => (
